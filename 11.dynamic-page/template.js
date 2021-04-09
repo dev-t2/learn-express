@@ -11,7 +11,7 @@ const template = title => `
 
   <body>
     <h1>
-      <a href="index.html">WEB</a>
+      <a href="/">WEB</a>
     </h1>
 
     <ul>
