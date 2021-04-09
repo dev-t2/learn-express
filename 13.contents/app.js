@@ -14,6 +14,7 @@ const app = http.createServer(async (req, res) => {
     const description = await fs.readFile(`./data/${title.toLowerCase()}.txt`, {
       encoding: 'utf-8',
     });
+
     const data = template({ title, description });
 
     res.writeHead(200);
