@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs').promises;
+const path = require('path');
 
 const template = require('./template');
 
@@ -12,29 +13,26 @@ const app = http.createServer(async (req, res) => {
 
   try {
     if (pathname === '/') {
-      let title = url.searchParams.get('id');
-      let description = '';
-
-      if (title === null) {
-        title = 'Welcome';
-        description = 'Hello, Node.js';
-      } else {
-        description = await fs.readFile(`./data/${title.toLowerCase()}.txt`, {
-          encoding: 'utf-8',
-        });
-      }
+      const title = url.searchParams.get('id') ?? 'Welcome';
+      const filePath = path.join(
+        __dirname,
+        'data',
+        `${title.toLowerCase()}.txt`
+      );
+      const description = await fs.readFile(filePath, {
+        encoding: 'utf-8',
+      });
+      const data = template({ title, description });
 
       res.writeHead(200);
-      res.end(template({ title, description }));
+      res.end(data);
     } else {
       res.writeHead(404);
       res.end('Not Found');
     }
   } catch (err) {
-    console.error(err);
-
-    res.writeHead(500);
-    res.end('Internal Server Error');
+    res.writeHead(404);
+    res.end('Not Found');
   }
 });
 
