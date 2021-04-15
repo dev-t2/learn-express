@@ -11,7 +11,7 @@ exports.templateHtml = ({ title, list, contents }) => `
 
   <body>
     <h1>
-      <a href="/">Running Node.js using PM2</a>
+      <a href="/">WEB</a>
     </h1>
 
     ${list}
