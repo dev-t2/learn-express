@@ -2,9 +2,9 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs').promises;
 
+const { createList } = require('./lib');
 const {
   templateHtml,
-  templateList,
   templateDescription,
   templateForm,
 } = require('./template');
@@ -18,9 +18,7 @@ const app = http.createServer(async (req, res) => {
 
   try {
     if (pathName === '/') {
-      const folderPath = path.join(__dirname, 'data');
-      const fileList = await fs.readdir(folderPath);
-      const list = templateList({ fileList });
+      const { folderPath, list } = await createList();
 
       let title = url.searchParams.get('id');
       let description = '';
@@ -40,9 +38,7 @@ const app = http.createServer(async (req, res) => {
       res.writeHead(200);
       res.end(data);
     } else if (pathName === '/create') {
-      const folderPath = path.join(__dirname, 'data');
-      const fileList = await fs.readdir(folderPath);
-      const list = templateList({ fileList });
+      const { list } = await createList();
 
       const title = 'WEB - Create';
       const contents = templateForm();
