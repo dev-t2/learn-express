@@ -1,66 +1,77 @@
-exports.templateHtml = ({ title, list, contents }) => `
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+const path = require('path');
+const fs = require('fs').promises;
 
-    <title>${title}</title>
-  </head>
+const templateList = async () => {
+  const folderPath = path.join(__dirname, '..', 'data');
+  const fileList = await fs.readdir(folderPath);
+  const list = fileList.map(file => {
+    const name = file.split('.')[0];
 
-  <body>
-    <h1>
-      <a href="/">WEB</a>
-    </h1>
+    return `
+      <li>
+        <a href="/?id=${name}">${name}</a>
+      </li>
+    `;
+  });
 
-    ${list}
+  return `
+    <ul>
+      ${list.join('')}
+    </ul>
+  `;
+};
 
-    <div>
-      <a href="/create">CREATE</a>
-    </div>
+exports.templateHtml = async ({ title, contents }) => {
+  const list = await templateList();
 
-    ${contents}
-  </body>
-</html>
-`;
+  return `
+    <!DOCTYPE html>
+    <html lang="ko">
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-exports.templateList = ({ fileList }) => `
-<ul>
-  ${fileList
-    .map(file => {
-      const name = file.split('.')[0];
+        <title>${title}</title>
+      </head>
 
-      return `
-        <li>
-          <a href="/?id=${name}">${name}</a>
-        </li>
-      `;
-    })
-    .join('')}
-</ul>
-`;
+      <body>
+        <h1>
+          <a href="/">WEB</a>
+        </h1>
+
+        ${list}
+
+        <div>
+          <a href="/create">CREATE</a>
+        </div>
+
+        ${contents}
+      </body>
+    </html>
+  `;
+};
 
 exports.templateDescription = ({ title, description }) => `
-<h2>${title}</h2>
+  <h2>${title}</h2>
 
-<p>
-  ${description}
-</p>
+  <p>
+    ${description}
+  </p>
 `;
 
 exports.templateForm = () => `
-<form method="POST" action="http://localhost:3000/create-process">
-  <div>
-    <input type="text" name="title" placeholder="Title"/>
-  </div>
+  <form method="POST" action="http://localhost:3000/create-process">
+    <div>
+      <input type="text" name="title" placeholder="Title"/>
+    </div>
 
-  <div>
-    <textarea name="description" placeholder="Description"></textarea>
-  </div>
+    <div>
+      <textarea name="description" placeholder="Description"></textarea>
+    </div>
 
-  <div>
-    <button type="submit">Submit</button>
-  </div>
-</form>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
 `;

@@ -2,7 +2,6 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs').promises;
 
-const { createList } = require('./lib');
 const {
   templateHtml,
   templateDescription,
@@ -18,13 +17,11 @@ const app = http.createServer(async (req, res) => {
 
   try {
     if (pathName === '/') {
-      const { folderPath, list } = await createList();
-
       let title = url.searchParams.get('id');
       let description = '';
 
       if (title) {
-        const file = path.join(folderPath, `${title.toLowerCase()}.txt`);
+        const file = path.join(__dirname, 'data', `${title.toLowerCase()}.txt`);
 
         description = await fs.readFile(file, { encoding: 'utf-8' });
       } else {
@@ -33,16 +30,14 @@ const app = http.createServer(async (req, res) => {
       }
 
       const contents = templateDescription({ title, description });
-      const data = templateHtml({ title, list, contents });
+      const data = await templateHtml({ title, contents });
 
       res.writeHead(200);
       res.end(data);
     } else if (pathName === '/create') {
-      const { list } = await createList();
-
       const title = 'WEB - Create';
       const contents = templateForm();
-      const data = templateHtml({ title, list, contents });
+      const data = await templateHtml({ title, contents });
 
       res.writeHead(200);
       res.end(data);
