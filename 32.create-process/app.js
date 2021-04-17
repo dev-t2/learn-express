@@ -75,8 +75,8 @@ const app = http.createServer(async (req, res) => {
   } catch (err) {
     console.error(err);
 
-    res.writeHead(404);
-    res.end('Not Found');
+    res.writeHead(500);
+    res.end('Internal Server Error');
   }
 });
 
