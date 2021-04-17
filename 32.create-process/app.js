@@ -67,13 +67,7 @@ const app = http.createServer(async (req, res) => {
 
         res.writeHead(200);
         res.end('Success');
-      } else {
-        res.writeHead(404);
-        res.end('Not Found');
       }
-    } else {
-      res.writeHead(404);
-      res.end('Not Found');
     }
   } catch (err) {
     console.error(err);
