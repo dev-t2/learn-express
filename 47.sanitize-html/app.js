@@ -48,7 +48,6 @@ const app = http.createServer(async (req, res) => {
         res.end(html);
       } else if (pathName === '/create') {
         const title = 'WEB - Create';
-
         const contents = template.form({ path: '/create-process' });
         const html = await template.html({ title, contents });
 
@@ -57,6 +56,7 @@ const app = http.createServer(async (req, res) => {
       } else if (pathName === '/update') {
         const title = url.searchParams.get('id');
         const filteredTitle = path.parse(title).base;
+
         const filePath = path.join(DATA_PATH, `${filteredTitle}.txt`);
         const description = await fs.readFile(filePath, { encoding: 'utf-8' });
 
@@ -86,7 +86,6 @@ const app = http.createServer(async (req, res) => {
           const sanitizedTitle = sanitizeHtml(title);
           const sanitizedDescription = sanitizeHtml(description);
 
-          console.log(sanitizedDescription);
           const filePath = path.join(DATA_PATH, `${sanitizedTitle}.txt`);
 
           await fs.writeFile(filePath, sanitizedDescription, {
@@ -108,6 +107,7 @@ const app = http.createServer(async (req, res) => {
           const sanitizedId = sanitizeHtml(id);
           const sanitizedTitle = sanitizeHtml(title);
           const sanitizedDescription = sanitizeHtml(description);
+
           const oldPath = path.join(DATA_PATH, `${sanitizedId}.txt`);
           const newPath = path.join(DATA_PATH, `${sanitizedTitle}.txt`);
 
@@ -129,6 +129,7 @@ const app = http.createServer(async (req, res) => {
         req.on('end', async () => {
           const { id } = qs.parse(body);
           const filteredId = path.parse(id).base;
+
           const filePath = path.join(DATA_PATH, `${filteredId}.txt`);
 
           await fs.unlink(filePath);
