@@ -2,12 +2,9 @@
   "name": "01_setup",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon src/server.ts"
   },
-  "keywords": [],
-  "author": "",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.10.3",
