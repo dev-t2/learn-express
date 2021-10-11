@@ -1,4 +1,5 @@
 # References
 
-- Node.js: https://nodejs.org/ko/
-- Visual Studio Code: https://code.visualstudio.com/
+- NodeJS: https://nodejs.org/ko/
+- VSCode: https://code.visualstudio.com/
+- TSNode: https://typestrong.org/ts-node/
