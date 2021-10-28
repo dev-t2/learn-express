@@ -8,4 +8,6 @@ console.log(a);
 
 const b = 20;
 
+// b = 30;
+
 console.log(b);
