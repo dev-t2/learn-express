@@ -4,12 +4,12 @@ if (a + 1 === 2) {
   console.log('a + 1은 2와 같다.');
 }
 
-const c = 10;
+const b = 10;
 
-if (c > 15) {
-  console.log('c가 15보다 크다.');
-} else if (c === 10) {
-  console.log('c는 10이다.');
+if (b > 15) {
+  console.log('b가 15보다 크다.');
+} else if (b === 10) {
+  console.log('b는 10이다.');
 } else {
-  console.log('c가 15보다 작다.');
+  console.log('b가 15보다 작다.');
 }
