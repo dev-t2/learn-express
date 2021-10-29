@@ -14,6 +14,10 @@ const add3 = (a: number, b: number) => a + b;
 
 console.log(add3(1, 2));
 
+const add4 = (a: number = 2) => a * a;
+
+console.log(add4());
+
 const func = (...args: number[]) => {
   console.log(args);
 };
