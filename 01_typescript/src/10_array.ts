@@ -1,12 +1,10 @@
-interface ICoffee {
-  name: string;
-}
+const coffee: string[] = [];
 
-const coffee: ICoffee[] = [];
-
-coffee.push({ name: 'americano' });
-coffee.push({ name: 'latte' });
+coffee.push('americano');
+coffee.push('latte');
 
 console.log(coffee);
 console.log(coffee[0]);
 console.log(coffee.length);
+
+console.log(coffee.indexOf('latte'));
