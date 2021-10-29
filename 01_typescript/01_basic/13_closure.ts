@@ -1,12 +1,12 @@
-function outer() {
+const outer = () => {
   const a = 10;
 
-  function inner() {
+  const inner = () => {
     console.log(a);
-  }
+  };
 
   return inner;
-}
+};
 
 const outerFunc = outer();
 
