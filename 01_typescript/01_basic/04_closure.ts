@@ -8,6 +8,6 @@ function outer() {
   return inner;
 }
 
-const outerFunction = outer();
+const outerFunc = outer();
 
-outerFunction();
+outerFunc();
