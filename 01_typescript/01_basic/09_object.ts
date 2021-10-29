@@ -4,3 +4,7 @@ const country = {
 };
 
 console.log(country);
+
+console.log(Object.entries(country));
+console.log(Object.keys(country));
+console.log(Object.values(country));
