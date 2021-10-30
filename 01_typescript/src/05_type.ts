@@ -1,19 +1,19 @@
-const a = 1;
+const num = 1;
 
-console.log(a);
+console.log(num);
 
-const b = 'hello';
+const str = 'hello';
 
-console.log(b);
+console.log(str);
 
-const c = false;
+const bool = false;
 
-console.log(c);
+console.log(bool);
 
-const d = undefined;
+const criminal = undefined;
 
-console.log(d);
+console.log(criminal);
 
-const e = null;
+const lover = null;
 
-console.log(e);
+console.log(lover);
