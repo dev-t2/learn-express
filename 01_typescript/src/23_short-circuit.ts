@@ -8,7 +8,7 @@ console.log(0 && 'hello');
 console.log(1 && 'hello');
 console.log(1 && 1);
 
-console.log('');
+console.log();
 
 console.log(true || 'hello');
 console.log(false || 'hello');

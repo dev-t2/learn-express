@@ -14,6 +14,8 @@ if (b > 15) {
   console.log('b가 15보다 작다.');
 }
 
+console.log();
+
 const array = [];
 
 array.length === 0
