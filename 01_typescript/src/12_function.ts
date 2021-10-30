@@ -1,25 +1,26 @@
-function add1(a: number, b: number) {
+function func1(a: number, b: number) {
   return a + b;
 }
 
-console.log(add1(1, 2));
+console.log(func1(1, 2));
 
-const add2 = (a: number, b: number) => {
+const func2 = (a: number, b: number) => {
   return a + b;
 };
 
-console.log(add2(1, 2));
+console.log(func2(1, 2));
 
-const add3 = (a: number, b: number) => a + b;
+const func3 = (a: number, b: number) => a + b;
 
-console.log(add3(1, 2));
+console.log(func3(1, 2));
 
-const add4 = (a: number = 2) => a * a;
+const func4 = (a: number = 2) => a * a;
 
-console.log(add4());
+console.log(func4(2));
+console.log(func4());
 
-const func = (...args: number[]) => {
+const func5 = (...args: number[]) => {
   console.log(args);
 };
 
-func(1, 2, 3, 4);
+func5(1, 2, 3, 4);
