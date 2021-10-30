@@ -10,3 +10,4 @@ console.log(coffee.length);
 console.log();
 
 console.log(coffee.indexOf('latte'));
+console.log(coffee.includes('americano'));
