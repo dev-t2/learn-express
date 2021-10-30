@@ -4,3 +4,5 @@
 - Visual Studio Code: https://code.visualstudio.com/
 - TSNode: https://typestrong.org/ts-node/
 - NPM: https://www.npmjs.com/
+- ESLint: https://eslint.org/
+- Nodemon: https://nodemon.io/
