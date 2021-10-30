@@ -1,5 +1,5 @@
 const country = {
-  name: 'korea',
+  name: '한국',
   population: '5178579',
 };
 

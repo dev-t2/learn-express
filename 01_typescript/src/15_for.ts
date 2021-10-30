@@ -1,4 +1,4 @@
-const names = ['dog', 'cat'];
+const names = ['개', '고양이'];
 
 for (let i = 0; i < names.length; i++) {
   console.log(names[i]);

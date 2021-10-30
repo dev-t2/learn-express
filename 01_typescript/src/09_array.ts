@@ -1,7 +1,7 @@
 const coffee: string[] = [];
 
-coffee.push('americano');
-coffee.push('latte');
+coffee.push('아메리카노');
+coffee.push('라떼');
 
 console.log(coffee);
 console.log(coffee[0]);
@@ -9,5 +9,5 @@ console.log(coffee.length);
 
 console.log();
 
-console.log(coffee.indexOf('latte'));
-console.log(coffee.includes('americano'));
+console.log(coffee.indexOf('라떼'));
+console.log(coffee.includes('아메리카노'));

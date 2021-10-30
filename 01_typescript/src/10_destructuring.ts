@@ -1,4 +1,4 @@
-const animal = ['dog', 'cat'];
+const animal = ['개', '고양이'];
 
 const [first, second] = animal;
 
