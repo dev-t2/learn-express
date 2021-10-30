@@ -8,6 +8,8 @@ console.log(a);
 
 console.log(a);
 
+console.log();
+
 let b = 10;
 
 console.log(b);
