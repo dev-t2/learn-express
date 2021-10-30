@@ -1,10 +1,7 @@
 const numbers = [1, 2, 3, 4, 5, 6, 7];
 const [one, ...rest] = numbers;
 
-console.log(one);
-console.log(rest);
-
-console.log();
+console.log({ one, rest });
 
 const greenCuteSlime = {
   name: '슬라임',
@@ -14,12 +11,8 @@ const greenCuteSlime = {
 
 const { color, ...cuteSlime } = greenCuteSlime;
 
-console.log(color);
-console.log(cuteSlime);
-
-console.log();
+console.log({ color, cuteSlime });
 
 const { attribute, ...slime } = cuteSlime;
 
-console.log(attribute);
-console.log(slime);
+console.log({ attribute, slime });

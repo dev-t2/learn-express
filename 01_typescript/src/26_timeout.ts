@@ -1,7 +1,7 @@
 setTimeout(() => {
-  console.log('todo: First Work');
+  console.log('setTimeout 1');
 }, 3000);
 
 setTimeout(() => {
-  console.log('todo: Second Work');
+  console.log('setTimeout 2');
 }, 2000);

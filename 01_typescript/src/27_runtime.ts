@@ -1,7 +1,7 @@
-console.log(0);
+console.log('start');
 
 setTimeout(() => {
-  console.log(1);
+  console.log('setTimeout');
 }, 0);
 
-console.log(2);
+console.log('end');

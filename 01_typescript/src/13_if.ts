@@ -14,10 +14,9 @@ if (b > 15) {
   console.log('b가 15보다 작다.');
 }
 
-console.log();
-
 const array = [];
+const result = array.length
+  ? '배열이 비어 있지 않습니다.'
+  : '배열이 비어 있습니다.';
 
-array.length === 0
-  ? console.log('배열이 비어 있습니다.')
-  : console.log('배열이 비어 있지 않습니다.');
+console.log(result);

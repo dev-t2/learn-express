@@ -11,8 +11,6 @@ const index = todos.findIndex((todo) => {
 
 console.log(index);
 
-console.log();
-
 const todo = todos.find((todo) => {
   return todo.id === 3;
 });

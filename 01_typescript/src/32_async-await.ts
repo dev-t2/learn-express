@@ -10,15 +10,16 @@ const work = (ms: number) => {
   });
 };
 
-work(1000)
-  .then((date) => {
-    console.log(`첫 번째 작업: ${date}`);
+const workFunc = async () => {
+  try {
+    const date1 = await work(1000);
+    const date2 = await work(1000);
 
-    return work(1000);
-  })
-  .then((date) => {
-    console.log(`두 번째 작업: ${date}`);
-  })
-  .catch((e: Error) => {
-    console.error(e.message);
-  });
+    console.log(`첫 번째 작업: ${date1}`);
+    console.log(`두 번째 작업: ${date2}`);
+  } catch (e) {
+    console.error((e as Error).message);
+  }
+};
+
+workFunc();

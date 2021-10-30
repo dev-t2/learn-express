@@ -6,8 +6,8 @@ console.log(updatedAnimals);
 
 console.log();
 
-const numbers = [1, 2, 3, 4, 5];
-const updatedNumbers = [...numbers, 1000, ...numbers];
+const numbers = [1, 2];
+const updatedNumbers = [...numbers, 10, ...numbers];
 
 console.log(numbers);
 console.log(updatedNumbers);

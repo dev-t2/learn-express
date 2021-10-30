@@ -1,5 +1,5 @@
-const sum = (...rest: number[]) => {
-  return rest.reduce((sum, number) => {
+const sum = (...numbers: number[]) => {
+  return numbers.reduce((sum, number) => {
     return sum + number;
   }, 0);
 };
