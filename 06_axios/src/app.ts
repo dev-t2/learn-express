@@ -10,8 +10,6 @@ const app = express();
 const { NODE_ENV, PORT, SERVICE_KEY } = process.env;
 
 app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
@@ -21,8 +19,9 @@ app.get('/air/:location', async (req, res, next) => {
   const { location } = req.params;
 
   const endPoint = `http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=${SERVICE_KEY}`;
-  const encodedLocation = encodeURI(location);
-  const url = `${endPoint}&returnType=json&numOfRows=1&pageNo=1&stationName=${encodedLocation}&dataTerm=DAILY&ver=1.3`;
+  const url = `${endPoint}&returnType=json&numOfRows=1&pageNo=1&stationName=${encodeURI(
+    location
+  )}&dataTerm=DAILY&ver=1.3`;
 
   try {
     const { data } = await axios.get(url);
