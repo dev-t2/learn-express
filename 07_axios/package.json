@@ -1,5 +1,5 @@
 {
-  "name": "06_axios",
+  "name": "07_axios",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
