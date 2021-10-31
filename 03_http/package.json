@@ -1,5 +1,5 @@
 {
-  "name": "http",
+  "name": "03_http",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
