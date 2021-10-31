@@ -2,13 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 
 const app = express();
 
-app.set('port', 8080);
-
-app.use((req, res, next) => {
-  console.log('middleware');
-
-  next();
-});
+app.set('port', process.env.PORT || 8080);
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
