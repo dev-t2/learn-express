@@ -4,9 +4,7 @@ const app = express();
 const port = 8080;
 
 app.get('/', (req, res) => {
-  // res.send('Hello NodeJS');
-
-  res.sendFile(`${__dirname}/public/index.html`);
+  res.send('Hello NodeJS');
 });
 
 app.listen(port, () => {
