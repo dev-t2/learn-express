@@ -8,4 +8,6 @@
 - Nodemon: https://nodemon.io/
 - Express: https://expressjs.com/ko/
 - Morgan: https://github.com/expressjs/morgan
+- Public Data: https://www.data.go.kr/
 - Axios: https://axios-http.com/
+- Dotenv: https://github.com/motdotla/dotenv
