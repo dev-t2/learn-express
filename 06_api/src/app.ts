@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
 app.get('/air/:location', async (req, res, next) => {
   const { location } = req.params;
 
-  const encodedLocation = encodeURI(location);
   const endPoint = `http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=${SERVICE_KEY}`;
+  const encodedLocation = encodeURI(location);
   const url = `${endPoint}&returnType=json&numOfRows=1&pageNo=1&stationName=${encodedLocation}&dataTerm=DAILY&ver=1.3`;
 
   try {
