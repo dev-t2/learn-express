@@ -10,7 +10,7 @@
 - Morgan: https://github.com/expressjs/morgan
 - Redis: https://redis.io/
   - Windows: https://github.com/microsoftarchive/redis
-  - npm: https://www.npmjs.com/package/redis
+  - NPM: https://www.npmjs.com/package/redis
 - Public Data: https://www.data.go.kr/
 - Axios: https://axios-http.com/
 - Dotenv: https://github.com/motdotla/dotenv
