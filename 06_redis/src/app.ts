@@ -8,4 +8,6 @@ client.on('error', (error: Error) => {
 
 client.get('key', (err, value) => {
   console.log(value);
+
+  client.expire('key', 10);
 });
