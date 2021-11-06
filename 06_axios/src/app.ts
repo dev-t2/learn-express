@@ -1,13 +1,11 @@
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import morgan from 'morgan';
 import axios from 'axios';
 
-dotenv.config();
+const { NODE_ENV, SERVICE_KEY, END_POINT } = process.env;
 
 const app = express();
-
-const { NODE_ENV, SERVICE_KEY, END_POINT } = process.env;
 
 app.set('port', 8080);
 
