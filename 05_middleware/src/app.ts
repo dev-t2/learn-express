@@ -1,11 +1,14 @@
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+
+const { NODE_ENV } = process.env;
 
 const app = express();
 
 app.set('port', 8080);
 
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
