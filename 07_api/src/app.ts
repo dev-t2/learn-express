@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 
 const app = express();
 
@@ -16,6 +17,7 @@ let boards: Board[] = [];
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
