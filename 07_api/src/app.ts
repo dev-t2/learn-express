@@ -60,6 +60,18 @@ app.delete('/board/:id', (req, res) => {
   res.redirect('/board');
 });
 
+app.get('/board/:keyword', (req, res) => {
+  const { keyword } = req.params;
+
+  const result = boards.filter((board) => {
+    const { title, content } = board;
+
+    return title.includes(keyword) || content.includes(keyword);
+  });
+
+  res.send(result);
+});
+
 app.use((req, res) => {
   res.status(404).send('Not Found');
 });
