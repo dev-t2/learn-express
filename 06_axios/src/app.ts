@@ -3,13 +3,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import axios from 'axios';
 
-const { NODE_ENV, SERVICE_KEY, END_POINT } = process.env;
-
 const app = express();
 
 app.set('port', 8080);
 
-app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
@@ -18,9 +16,9 @@ app.get('/', (req, res) => {
 app.get('/air/:location', async (req, res, next) => {
   const { location } = req.params;
 
-  const serviceKey = `serviceKey=${SERVICE_KEY}`;
+  const serviceKey = `serviceKey=${process.env.SERVICE_KEY}`;
   const stationName = `stationName=${encodeURI(location)}`;
-  const url = `${END_POINT}?${serviceKey}&returnType=json&numOfRows=1&pageNo=1&${stationName}&dataTerm=DAILY&ver=1.3`;
+  const url = `${process.env.END_POINT}?${serviceKey}&returnType=json&numOfRows=1&pageNo=1&${stationName}&dataTerm=DAILY&ver=1.3`;
 
   try {
     const { data } = await axios.get(url);
