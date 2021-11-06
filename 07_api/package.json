@@ -1,7 +1,9 @@
 {
   "name": "07_api",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "dev": "nodemon src/app.ts"
+  },
   "license": "MIT",
   "dependencies": {
     "dotenv": "^10.0.0",
