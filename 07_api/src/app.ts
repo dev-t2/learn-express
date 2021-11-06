@@ -6,10 +6,58 @@ const app = express();
 
 app.set('port', 8080);
 
+type Board = {
+  id: number;
+  title: string;
+  content: string;
+};
+
+let boards: Board[] = [];
+
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
+});
+
+app.get('/board', (req, res) => {
+  res.send(boards);
+});
+
+app.post('/board', (req, res) => {
+  const { title, content } = req.body;
+
+  const id = (boards[boards.length - 1]?.id ?? 0) + 1;
+
+  boards = [...boards, { id, title, content }];
+
+  res.redirect('/board');
+});
+
+app.put('/board/:id', (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+
+  boards = boards.map((board) => {
+    if (board.id === parseInt(id)) {
+      return { id: parseInt(id), title, content };
+    }
+
+    return board;
+  });
+
+  res.redirect('/board');
+});
+
+app.delete('/board/:id', (req, res) => {
+  const { id } = req.params;
+
+  boards = boards.filter((board) => {
+    return board.id !== parseInt(id, 10);
+  });
+
+  res.redirect('/board');
 });
 
 app.use((req, res) => {
