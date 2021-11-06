@@ -10,3 +10,4 @@
 - Morgan: https://github.com/expressjs/morgan
 - Dotenv: https://github.com/motdotla/dotenv
 - Axios: https://axios-http.com/
+- CORS: https://github.com/expressjs/cors
