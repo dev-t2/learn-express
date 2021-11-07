@@ -15,9 +15,13 @@ const server = http.createServer((req, res) => {
 
       res.end('Not Found');
     }
+  } else {
+    res.statusCode = 500;
+
+    res.end('Internal Server Error');
   }
 });
 
 server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server running at http://localhost:${port}`);
 });
