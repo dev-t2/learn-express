@@ -3,7 +3,7 @@ import morgan from 'morgan';
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+app.set('port', process.env.PORT || 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
@@ -22,6 +22,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(app.get('port'), () => {
+  console.log(`Server running at http://localhost:${app.get('port')}`);
 });
