@@ -1,15 +1,13 @@
 import http from 'http';
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
   const { method, url } = req;
 
   if (method === 'GET') {
     if (url === '/') {
-      res.end('Home');
-    } else if (url === '/about') {
-      res.end('About');
+      res.end('Hello NodeJS');
     } else {
       res.statusCode = 404;
 
