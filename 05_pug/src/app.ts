@@ -16,20 +16,14 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).render('index', {
-    title: '404 - Not Fount',
-    content: 'Not Found',
-  });
+  res.status(404).render('404');
 });
 
 // eslint-disable-next-line no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
-  res.status(500).render('index', {
-    title: '500 - Internal Server Error',
-    content: 'Internal Server Error',
-  });
+  res.status(500).render('500');
 });
 
 app.listen(app.get('port'), () => {
