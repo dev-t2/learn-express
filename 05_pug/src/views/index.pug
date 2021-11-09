@@ -1,12 +1,7 @@
-doctype html
-html(lang="ko")
-  head
-    meta(charset="UTF-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    
-    link(rel="stylesheet", href="/style/reset.css")
+extends ./layouts/container
 
-    title NodeJS
-  body
-    h1 #{title}
+block title
+  title #{title} 
+
+block content
+  h1 #{content}
