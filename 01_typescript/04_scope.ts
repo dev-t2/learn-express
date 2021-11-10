@@ -8,12 +8,12 @@ console.log(a);
 
 console.log(a);
 
-let b = 10;
+let b = 30;
 
 console.log(b);
 
 {
-  let b = 20;
+  let b = 40;
 }
 
 console.log(b);
