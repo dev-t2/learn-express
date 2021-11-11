@@ -6,12 +6,12 @@ a = 10;
 
 console.log(a);
 
-const c = 30;
+const b = 30;
 
-// c = 40;
+// b = 40;
 
-console.log(c);
+console.log(b);
 
-var _b = 20;
+var _c = 20;
 
-console.log(_b);
+console.log(_c);
