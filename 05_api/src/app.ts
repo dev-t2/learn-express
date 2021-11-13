@@ -1,10 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
-import cors from 'cors';
 
 const app = express();
 
-app.set('port', 8080);
+app.set('port', process.env.PORT || 3000);
 
 type Board = {
   id: number;
@@ -16,7 +15,6 @@ let boards: Board[] = [];
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
-app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello NodeJS');
@@ -85,5 +83,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(app.get('port'), () => {
-  console.log(`Server running at http://localhost:${app.get('port')}/`);
+  console.log(`Server running at http://localhost:${app.get('port')}`);
 });
