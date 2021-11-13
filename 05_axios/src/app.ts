@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const app = express();
 
-app.set('port', 8080);
+app.set('port', process.env.PORT || 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
