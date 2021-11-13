@@ -1,5 +1,5 @@
 {
-  "name": "04_express",
+  "name": "05_middleware",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
