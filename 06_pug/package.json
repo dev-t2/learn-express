@@ -1,5 +1,5 @@
 {
-  "name": "05_pug",
+  "name": "06_pug",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts --ignore src/public/**/*",
