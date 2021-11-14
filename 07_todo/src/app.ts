@@ -2,6 +2,14 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import morgan from 'morgan';
 
+type Todo = {
+  id: number;
+  text: string;
+  isDone: boolean;
+};
+
+const todos: Todo[] = [];
+
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
@@ -12,7 +20,7 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { todos });
 });
 
 app.use((req, res) => {

@@ -7,9 +7,13 @@ html(lang="ko")
 
     link(rel="stylesheet", href="https://unpkg.com/mvp.css")
 
-    title Home
+    title Todo
 
-  body 
-    h1 Hello NodeJS
+  body
+    header 
+      h1 Todo
 
-    script(src="/dist/index.js") 
+    main
+      ul
+        each todo in todos
+          li #{todo.text}
