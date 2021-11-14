@@ -4,6 +4,7 @@ console.log('===== Read and Search Element =====');
 console.log(array);
 console.log(array[1]);
 console.log(array.length);
+console.log(array.slice(1, 2));
 console.log(array.indexOf(20));
 console.log(array.includes(30));
 console.log();
@@ -23,8 +24,6 @@ console.log(array);
 console.log();
 
 console.log('===== Delete Element =====');
-console.log(array.slice(1, 2));
-console.log(array);
 console.log(array.splice(1, 1));
 console.log(array);
 console.log();
