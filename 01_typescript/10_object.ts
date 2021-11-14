@@ -1,4 +1,4 @@
-const country = { name: '한국', population: '5178579' };
+const country = { name: '한국', population: '51785790' };
 
 console.log(country);
 
