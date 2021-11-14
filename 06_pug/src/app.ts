@@ -12,7 +12,7 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.render('index', { title: 'home', content: 'Hello NodeJS' });
+  res.render('index', { content: 'Hello NodeJS' });
 });
 
 app.use((req, res) => {
