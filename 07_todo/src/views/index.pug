@@ -5,8 +5,6 @@ html(lang="ko")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
-    link(rel="stylesheet", href="https://unpkg.com/mvp.css")
-
     title Todo
 
   body
@@ -14,6 +12,10 @@ html(lang="ko")
       h1 Todo
 
     main
+      form
+        input(value='Please enter what to do')
+        button Submit
+        
       ul
         each todo in todos
           li #{todo.text}
