@@ -23,8 +23,10 @@ console.log(array.pop());
 console.log(array);
 console.log();
 
-console.log('===== Delete Element =====');
-console.log(array.splice(1, 1));
+console.log('===== Insert and Delete =====');
+console.log(array.splice(2, 0, 25));
+console.log(array);
+console.log(array.splice(2, 1));
 console.log(array);
 console.log();
 
