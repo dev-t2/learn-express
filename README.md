@@ -9,5 +9,4 @@
 - Express: https://expressjs.com/ko
 - Morgan: https://github.com/expressjs/morgan
 - Pug: https://pugjs.org/api/getting-started.html
-- Axios: https://axios-http.com
-- Dotenv: https://github.com/motdotla/dotenv
+- MVP: https://andybrewer.github.io/mvp
