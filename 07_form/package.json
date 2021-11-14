@@ -2,7 +2,8 @@
   "name": "07_form",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon src/app.ts --ignore src/public/**/*",
+    "build:script": "tsc"
   },
   "license": "MIT",
   "dependencies": {
