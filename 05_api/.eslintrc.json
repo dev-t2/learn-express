@@ -12,9 +12,6 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "linebreak-style": "off",
-    "no-console": "off",
-    "no-shadow": "off",
-    "arrow-body-style": "off",
-    "radix": "off"
+    "no-console": "off"
   }
 }

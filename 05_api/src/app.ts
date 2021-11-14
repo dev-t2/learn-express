@@ -1,17 +1,17 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 
+type Todo = {
+  id: number;
+  text: string;
+  isDone: boolean;
+};
+
+const todos: Todo[] = [];
+
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
-
-type Board = {
-  id: number;
-  title: string;
-  content: string;
-};
-
-let boards: Board[] = [];
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
@@ -20,55 +20,50 @@ app.get('/', (req, res) => {
   res.send('Hello NodeJS');
 });
 
-app.get('/board', (req, res) => {
-  res.send(boards);
+app.get('/todos', (req, res) => {
+  res.json({ isSuccess: true, todos });
 });
 
-app.post('/board', (req, res) => {
-  const { title, content } = req.body;
+app.post('/todos', (req, res) => {
+  const { text } = req.body;
 
-  const id = (boards[boards.length - 1]?.id ?? 0) + 1;
+  const id = (todos[todos.length - 1]?.id ?? 0) + 1;
+  const todo = { id, text, isDone: false };
 
-  boards = [...boards, { id, title, content }];
+  todos.push(todo);
 
-  res.redirect('/board');
+  res.json({ isSuccess: true, todo });
 });
 
-app.put('/board/:id', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const { id } = req.params;
-  const { title, content } = req.body;
+  const { text, isDone } = req.body;
 
-  boards = boards.map((board) => {
-    if (board.id === parseInt(id)) {
-      return { id: parseInt(id), title, content };
-    }
+  const index = todos.findIndex((todo) => todo.id === parseInt(id, 10));
 
-    return board;
-  });
+  if (index >= 0) {
+    const todo = { id: parseInt(id, 10), text, isDone };
 
-  res.redirect('/board');
+    todos.splice(index, 1, todo);
+
+    res.json({ isSuccess: true });
+  } else {
+    res.json({ isSuccess: false });
+  }
 });
 
-app.delete('/board/:id', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const { id } = req.params;
 
-  boards = boards.filter((board) => {
-    return board.id !== parseInt(id, 10);
-  });
+  const index = todos.findIndex((todo) => todo.id === parseInt(id, 10));
 
-  res.redirect('/board');
-});
+  if (index >= 0) {
+    todos.splice(index, 1);
 
-app.get('/board/:keyword', (req, res) => {
-  const { keyword } = req.params;
-
-  const result = boards.filter((board) => {
-    const { title, content } = board;
-
-    return title.includes(keyword) || content.includes(keyword);
-  });
-
-  res.send(result);
+    res.json({ isSuccess: true });
+  } else {
+    res.json({ isSuccess: false });
+  }
 });
 
 app.use((req, res) => {
