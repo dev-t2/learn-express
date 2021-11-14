@@ -5,6 +5,18 @@ const todos = [
   { id: 4, text: 'Express', isDone: false },
 ];
 
+const isAll = todos.every((todo) => {
+  return todo.isDone;
+});
+
+console.log(isAll);
+
+const isTrue = todos.some((todo) => {
+  return todo.isDone;
+});
+
+console.log(isTrue);
+
 const index = todos.findIndex((todo) => {
   return todo.id === 3;
 });
