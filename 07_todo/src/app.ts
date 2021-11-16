@@ -15,12 +15,22 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.json());
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   res.render('index', { todos });
+});
+
+app.post('/todos', (req, res) => {
+  console.log('123456789');
+
+  // const { text } = req.body;
+  // const id = (todos[todos.length - 1].id ?? 0) + 1;
+
+  res.json({});
 });
 
 app.use((req, res) => {

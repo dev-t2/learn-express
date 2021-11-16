@@ -4,10 +4,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "target": "ES6",
-    "outDir": "./src/public/dist",
+    "target": "ES2017",
+    "outDir": "src/public/script",
     "moduleResolution": "Node",
-    "lib": ["DOM", "DOM.Iterable", "ES6", "ScriptHost"],
     "noImplicitAny": true,
     "strict": true,
     "strictNullChecks": true,
@@ -17,6 +16,6 @@
     "noImplicitThis": true,
     "alwaysStrict": true
   },
-  "include": ["./src/public/script/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/script/**/*"],
+  "exclude": ["node_modules"]
 }
