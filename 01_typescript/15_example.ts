@@ -1,13 +1,13 @@
-const sum = (numbers: number[]) => {
+const sum = (...numbers: number[]) => {
   let result = 0;
 
-  for (let i = 0; i < numbers.length; i++) {
-    result += numbers[i];
-  }
+  numbers.forEach((number) => {
+    result += number;
+  });
 
   return result;
 };
 
-const result = sum([1, 2, 3, 4, 5]);
+const result = sum(1, 2, 3, 4, 5);
 
 console.log(result);
