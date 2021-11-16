@@ -16,8 +16,8 @@ console.log(func3(1, 2));
 
 const func4 = (a: number = 2) => a * a;
 
-console.log(func4(2));
 console.log(func4());
+console.log(func4(2));
 
 const func5 = (...args: number[]) => {
   console.log(args);
