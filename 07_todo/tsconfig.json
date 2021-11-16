@@ -7,7 +7,7 @@
     "target": "ES6",
     "outDir": "./src/public/dist",
     "moduleResolution": "Node",
-    "lib": ["ES2015", "DOM", "DOM.Iterable"],
+    "lib": ["DOM", "DOM.Iterable", "ES6", "ScriptHost"],
     "noImplicitAny": true,
     "strict": true,
     "strictNullChecks": true,

@@ -13,9 +13,11 @@ html(lang="ko")
 
     main
       form
-        input(value='Please enter what to do')
+        input(placeholder='Please enter what to do')
         button Submit
         
       ul
         each todo in todos
           li #{todo.text}
+
+    script(src="/dist/index.js") 
