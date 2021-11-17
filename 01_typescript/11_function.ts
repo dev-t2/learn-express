@@ -20,7 +20,7 @@ console.log(func4());
 console.log(func4(2));
 
 const func5 = (...args: number[]) => {
-  console.log(args);
+  return args;
 };
 
-func5(1, 2, 3, 4);
+console.log(func5(1, 2, 3, 4));
