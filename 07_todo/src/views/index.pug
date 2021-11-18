@@ -18,7 +18,9 @@ html(lang="ko")
         
       ul
         each todo in todos
-          li #{todo.text}
+          li
+            span #{todo.text}
+            button Delete
 
     script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
     script(src="/script/index.js") 

@@ -24,6 +24,17 @@ app.get('/', (req, res) => {
   res.render('index', { todos });
 });
 
+app.post('/api/todos', (req, res) => {
+  const { text } = req.body;
+
+  const id = (todos[todos.length - 1]?.id ?? 0) + 1;
+  const todo: Todo = { id, text, isDone: false };
+
+  todos.push(todo);
+
+  res.json({ isSuccess: true, todo });
+});
+
 app.use((req, res) => {
   res.status(404).render('404');
 });
