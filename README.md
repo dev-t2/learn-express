@@ -8,4 +8,3 @@
 - Nodemon: https://nodemon.io
 - Express: https://expressjs.com/ko
 - Morgan: https://github.com/expressjs/morgan
-- Pug: https://pugjs.org/api/getting-started.html
