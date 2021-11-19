@@ -1,5 +1,5 @@
 {
-  "name": "05_todo",
+  "name": "06_todo",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
