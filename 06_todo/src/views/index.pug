@@ -8,19 +8,13 @@ html(lang="ko")
     title Home
 
   body
-    header 
-      h1 Todo
+    h1 Todo
 
-    main
-      form
-        input(placeholder='Please enter what to do')
-        button Submit
-        
-      ul
-        each todo in todos
-          li
-            span #{todo.text}
-            button.delete Delete
+    form
+      input(placeholder='Please enter what to do')
+      button Submit
+      
+    ul
 
     script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
     script(src="/script/index.js") 

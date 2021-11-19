@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.render('index', { todos });
+  res.render('index');
 });
 
 app.post('/api/todos', (req, res) => {
