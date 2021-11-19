@@ -22,7 +22,6 @@ const createTodo = (todo) => {
   const deleteButton = document.createElement('button');
 
   span.innerText = todo.text;
-
   updateButton.innerText = 'Update';
   deleteButton.innerText = 'Delete';
 
@@ -41,7 +40,6 @@ const createTodo = (todo) => {
   li.appendChild(span);
   li.appendChild(updateButton);
   li.appendChild(deleteButton);
-
   ul.appendChild(li);
 };
 
