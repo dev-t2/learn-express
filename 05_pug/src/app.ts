@@ -2,14 +2,6 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import morgan from 'morgan';
 
-type Todo = {
-  id: number;
-  text: string;
-  isDone: boolean;
-};
-
-const todos: Todo[] = [];
-
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
@@ -18,21 +10,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.render('index', { todos });
-});
-
-app.post('/api/todos', (req, res) => {
-  const { text } = req.body;
-
-  const id = (todos[todos.length - 1]?.id ?? 0) + 1;
-  const todo: Todo = { id, text, isDone: false };
-
-  todos.push(todo);
-
-  res.json({ isSuccess: true, todo });
+  res.render('index');
 });
 
 app.use((req, res) => {
