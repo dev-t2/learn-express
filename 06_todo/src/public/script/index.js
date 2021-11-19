@@ -1,42 +1,61 @@
 /* eslint-disable no-undef */
 
-const form = document.querySelector('form');
-const ul = document.querySelector('ul');
-
 const todos = [];
 
-ul.childNodes.forEach((li) => {
-  const button = li.querySelector('.delete');
+const createTodo = (todo) => {
+  todos.push(todo);
 
-  button.addEventListener('click', async () => {
-    await axios.delete('/todos');
-  });
-});
-
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const input = document.querySelector('input');
-
-  const { data } = await axios.post('/api/todos', { text: input.value });
-
-  todos.push(data.todo);
+  const ul = document.querySelector('ul');
 
   const li = document.createElement('li');
   const span = document.createElement('span');
-  const button = document.createElement('button');
+  const deleteButton = document.createElement('button');
 
-  span.innerText = data.todo.text;
-  button.className = 'delete';
-  button.innerText = 'Delete';
+  span.innerText = todo.text;
 
-  button.addEventListener('click', () => {
-    console.log('delete');
+  deleteButton.className = 'delete';
+  deleteButton.innerText = 'Delete';
+
+  deleteButton.addEventListener('click', async () => {
+    const { data } = await axios.delete(`/api/todos/${todo.id}`);
+
+    if (data.isSuccess) {
+      const index = todos.findIndex(({ id }) => id === todo.id);
+
+      todos.splice(index, 1);
+
+      ul.removeChild(li);
+    }
   });
 
   li.appendChild(span);
-  li.appendChild(button);
-  ul.appendChild(li);
+  li.appendChild(deleteButton);
 
-  input.value = '';
+  ul.appendChild(li);
+};
+
+window.addEventListener('load', async () => {
+  const form = document.querySelector('form');
+
+  const { data } = await axios.get('/api/todos');
+
+  if (data.isSuccess) {
+    data.todos.forEach((todo) => {
+      createTodo(todo);
+    });
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const input = document.querySelector('input');
+
+    const { data } = await axios.post('/api/todos', { text: input.value });
+
+    if (data.isSuccess) {
+      createTodo(data.todo);
+
+      input.value = '';
+    }
+  });
 });

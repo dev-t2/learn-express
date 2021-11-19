@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/api/todos', (req, res) => {
+  res.json({ isSuccess: true, todos });
+});
+
 app.post('/api/todos', (req, res) => {
   const { text } = req.body;
 
@@ -33,6 +37,20 @@ app.post('/api/todos', (req, res) => {
   todos.push(todo);
 
   res.json({ isSuccess: true, todo });
+});
+
+app.delete('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+
+  const index = todos.findIndex((todo) => todo.id === parseInt(id, 10));
+
+  if (index >= 0) {
+    todos.splice(index, 1);
+
+    res.json({ isSuccess: true });
+  } else {
+    res.json({ isSuccess: false });
+  }
 });
 
 app.use((req, res) => {
