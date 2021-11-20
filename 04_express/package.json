@@ -2,10 +2,11 @@
   "name": "04_express",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon src/app.ts"
+    "dev": "cross-env NODE_ENV=development nodemon src/app.ts"
   },
   "license": "MIT",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "morgan": "^1.10.0"
   },
