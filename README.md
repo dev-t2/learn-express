@@ -12,3 +12,4 @@
 - Pug: https://pugjs.org/api/getting-started.html
 - CSV Parse: https://csv.js.org/parse/
 - XLSX: https://www.npmjs.com/package/xlsx
+- CheerIO: https://cheerio.js.org/
