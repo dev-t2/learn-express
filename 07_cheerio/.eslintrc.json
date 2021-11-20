@@ -12,7 +12,6 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "linebreak-style": "off",
-    "no-console": "off",
-    "comma-dangle": "off"
+    "no-console": "off"
   }
 }
