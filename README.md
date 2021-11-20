@@ -11,5 +11,4 @@
 - Cross Env: https://github.com/kentcdodds/cross-env
 - Pug: https://pugjs.org/api/getting-started.html
 - Axios: https://axios-http.com/
-- Excel: https://www.npmjs.com/package/xlsx
 - CheerIO: https://cheerio.js.org/
