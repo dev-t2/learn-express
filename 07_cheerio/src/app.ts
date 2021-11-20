@@ -12,14 +12,22 @@ const app = async () => {
   const sheet = workbook.Sheets['영화 목록'];
   const items: Item[] = xlsx.utils.sheet_to_json(sheet);
 
+  const getScore = async (item: Item) => {
+    const { data } = await axios.get(item['링크']);
+
+    const $ = cheerio.load(data);
+    const score = $('.score.score_left > .star_score').text().trim();
+
+    console.log(`영화: ${item['영화']}, 평점: ${score}`);
+  };
+
+  // items.forEach(async (item) => {
+  //   await getScore(item);
+  // });
+
   await Promise.all(
     items.map(async (item) => {
-      const { data } = await axios.get(item['링크']);
-
-      const $ = cheerio.load(data);
-      const score = $('.score.score_left > .star_score').text().trim();
-
-      console.log(`영화: ${item['영화']}, 평점: ${score}`);
+      await getScore(item);
     })
   );
 };
