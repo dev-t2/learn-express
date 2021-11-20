@@ -1,10 +1,9 @@
 {
-  "name": "07_parse",
+  "name": "07_cheerio",
   "version": "1.0.0",
   "scripts": {},
   "license": "MIT",
   "dependencies": {
-    "csv-parse": "^5.0.3",
     "xlsx": "^0.17.4"
   },
   "devDependencies": {
