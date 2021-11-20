@@ -24,11 +24,23 @@ const movies = [
   },
 ];
 
-movies.forEach(async (movie) => {
-  const { data } = await axios.get(movie.link);
+const app = async () => {
+  console.time('dt');
 
-  const $ = cheerio.load(data);
-  const score = $('.score.score_left > .star_score').text().trim();
+  const promises = movies.map(async (movie) => {
+    const { data } = await axios.get(movie.link);
 
-  console.log(`영화: ${movie.title} / 평점: ${score}`);
-});
+    const $ = cheerio.load(data);
+    const score = $('.score.score_left > .star_score').text().trim();
+
+    return { title: movie.title, score };
+  });
+
+  const result = await Promise.all(promises);
+
+  console.log(result);
+  console.log();
+  console.timeEnd('dt');
+};
+
+app();
