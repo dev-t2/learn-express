@@ -5,10 +5,10 @@ const todos = [];
 const createTodo = (ul, todo) => {
   todos.push(todo);
 
-  const li = document.createElement('li');
   const checkbox = document.createElement('input');
   const span = document.createElement('span');
   const button = document.createElement('button');
+  const li = document.createElement('li');
 
   checkbox.type = 'checkbox';
   checkbox.checked = todo.isDone;
@@ -60,11 +60,9 @@ window.addEventListener('load', async () => {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const input = document.querySelector('input');
+    const input = form.querySelector('input');
 
-    const { data } = await axios.post('/api/todos', {
-      text: input.value.trim(),
-    });
+    const { data } = await axios.post('/api/todos', { text: input.value });
 
     if (data.isSuccess) {
       createTodo(ul, data.todo);
