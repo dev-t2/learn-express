@@ -1,56 +1,59 @@
 /* eslint-disable no-undef */
-const ul = document.querySelector('ul');
 
 const todos = [];
 
-const deleteTodo = (id, li) => {
-  const index = todos.findIndex((todo) => todo.id === id);
-
-  if (index >= 0) {
-    todos.splice(index, 1);
-
-    ul.removeChild(li);
-  }
-};
-
-const createTodo = (todo) => {
+const createTodo = (ul, todo) => {
   todos.push(todo);
 
   const li = document.createElement('li');
+  const checkbox = document.createElement('input');
   const span = document.createElement('span');
-  const updateButton = document.createElement('button');
-  const deleteButton = document.createElement('button');
+  const button = document.createElement('button');
 
+  checkbox.type = 'checkbox';
+  checkbox.checked = todo.isDone;
   span.innerText = todo.text;
-  updateButton.innerText = 'Update';
-  deleteButton.innerText = 'Delete';
+  button.innerText = 'Delete';
 
-  updateButton.addEventListener('click', () => {
-    console.log('update');
-  });
+  checkbox.addEventListener('click', async (event) => {
+    const isDone = event.target.checked;
 
-  deleteButton.addEventListener('click', async () => {
-    const { data } = await axios.delete(`/api/todos/${todo.id}`);
+    const { data } = await axios.put(`/api/todos/${todo.id}`, { isDone });
 
     if (data.isSuccess) {
-      deleteTodo(todo.id, li);
+      const index = todos.findIndex(({ id }) => id === todo.id);
+
+      todos[index].isDone = isDone;
     }
   });
 
+  button.addEventListener('click', async () => {
+    const { data } = await axios.delete(`/api/todos/${todo.id}`);
+
+    if (data.isSuccess) {
+      const index = todos.findIndex(({ id }) => id === todo.id);
+
+      todos.splice(index, 1);
+
+      ul.removeChild(li);
+    }
+  });
+
+  li.appendChild(checkbox);
   li.appendChild(span);
-  li.appendChild(updateButton);
-  li.appendChild(deleteButton);
+  li.appendChild(button);
   ul.appendChild(li);
 };
 
 window.addEventListener('load', async () => {
   const form = document.querySelector('form');
+  const ul = document.querySelector('ul');
 
   const { data } = await axios.get('/api/todos');
 
   if (data.isSuccess) {
     data.todos.forEach((todo) => {
-      createTodo(todo);
+      createTodo(ul, todo);
     });
   }
 
@@ -64,7 +67,7 @@ window.addEventListener('load', async () => {
     });
 
     if (data.isSuccess) {
-      createTodo(data.todo);
+      createTodo(ul, data.todo);
 
       input.value = '';
     }

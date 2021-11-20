@@ -39,6 +39,21 @@ app.post('/api/todos', (req, res) => {
   res.json({ isSuccess: true, todo });
 });
 
+app.put('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+  const { isDone } = req.body;
+
+  const index = todos.findIndex((todo) => todo.id === parseInt(id, 10));
+
+  if (index >= 0) {
+    todos[index].isDone = isDone;
+
+    res.json({ isSuccess: true });
+  } else {
+    res.json({ isSuccess: false });
+  }
+});
+
 app.delete('/api/todos/:id', (req, res) => {
   const { id } = req.params;
 
