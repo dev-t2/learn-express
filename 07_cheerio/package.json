@@ -1,7 +1,9 @@
 {
   "name": "07_cheerio",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "dev": "ts-node src/app.ts"
+  },
   "license": "MIT",
   "dependencies": {
     "axios": "^0.24.0",
