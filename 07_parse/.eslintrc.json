@@ -10,5 +10,9 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint"],
-  "rules": {}
+  "rules": {
+    "linebreak-style": "off",
+    "no-console": "off",
+    "import/no-unresolved": "off"
+  }
 }
