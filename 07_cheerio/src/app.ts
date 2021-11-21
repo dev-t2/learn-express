@@ -33,7 +33,7 @@ const app = async () => {
     const $ = cheerio.load(data);
     const score = $('.score.score_left > .star_score').text().trim();
 
-    return { title: movie.title, score };
+    return { title: movie.title, score: parseFloat(score) };
   });
 
   const result = await Promise.all(promises);
