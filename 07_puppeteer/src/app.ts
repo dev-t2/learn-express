@@ -1,4 +1,9 @@
+import path from 'path';
+import fs from 'fs/promises';
 import puppeteer from 'puppeteer';
+
+const POSTER_PATH = path.join(__dirname, 'poster');
+const SCREENSHOT_PATH = path.join(__dirname, 'screenshot');
 
 interface IMovie {
   title: string;
@@ -30,6 +35,14 @@ const movies: IMovie[] = [
 ];
 
 const app = async () => {
+  await fs.readdir(POSTER_PATH).catch(async () => {
+    await fs.mkdir(POSTER_PATH);
+  });
+
+  await fs.readdir(SCREENSHOT_PATH).catch(async () => {
+    await fs.mkdir(SCREENSHOT_PATH);
+  });
+
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === 'production',
   });
