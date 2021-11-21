@@ -5,20 +5,20 @@ import axios from 'axios';
 
 import movies from './data';
 
-const POSTER_PATH = path.join(__dirname, 'poster');
 const SCREENSHOT_PATH = path.join(__dirname, 'screenshot');
+const POSTER_PATH = path.join(__dirname, 'poster');
 
 const app = async () => {
-  try {
-    await fs.readdir(POSTER_PATH);
-  } catch (err) {
-    await fs.mkdir(POSTER_PATH);
-  }
-
   try {
     await fs.readdir(SCREENSHOT_PATH);
   } catch (err) {
     await fs.mkdir(SCREENSHOT_PATH);
+  }
+
+  try {
+    await fs.readdir(POSTER_PATH);
+  } catch (err) {
+    await fs.mkdir(POSTER_PATH);
   }
 
   const browser = await puppeteer.launch({
@@ -36,6 +36,11 @@ const app = async () => {
   for (let i = 0; i < movies.length; i++) {
     await page.goto(movies[i].link);
 
+    await page.screenshot({
+      path: `${path.join(SCREENSHOT_PATH, movies[i].title)}.png`,
+      fullPage: true,
+    });
+
     const result = await page.evaluate(() => {
       const score = document.querySelector<HTMLElement>(
         '.score.score_left > .star_score'
@@ -52,9 +57,9 @@ const app = async () => {
       responseType: 'arraybuffer',
     });
 
-    const file = `${path.join(POSTER_PATH, movies[i].title)}.jpg`;
+    const poster = `${path.join(POSTER_PATH, movies[i].title)}.jpg`;
 
-    await fs.writeFile(file, data);
+    await fs.writeFile(poster, data);
 
     movies[i] = { ...movies[i], score: result.score };
 
