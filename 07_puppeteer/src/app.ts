@@ -9,6 +9,7 @@ interface IMovie {
   title: string;
   link: string;
   score?: number;
+  poster?: string;
 }
 
 const movies: IMovie[] = [
@@ -56,17 +57,14 @@ const app = async () => {
   for (let i = 0; i < movies.length; i++) {
     await page.goto(movies[i].link);
 
-    const userAgent = await page.evaluate('navigator.userAgent');
-
-    console.log(`userAgent: ${userAgent}`);
-
     const result = await page.evaluate(() => {
       const score = document.querySelector('.score.score_left > .star_score');
+      const poster = document.querySelector<HTMLImageElement>('.poster img');
 
-      return { score: parseFloat(score.textContent) };
+      return { score: parseFloat(score.textContent), poster: poster.src };
     });
 
-    movies[i] = { ...movies[i], score: result.score };
+    movies[i] = { ...movies[i], score: result.score, poster: result.poster };
 
     console.log(movies[i]);
 
