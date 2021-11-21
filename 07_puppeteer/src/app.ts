@@ -36,10 +36,9 @@ const app = async () => {
   for (let i = 0; i < movies.length; i++) {
     await page.goto(movies[i].link);
 
-    await page.screenshot({
-      path: `${path.join(SCREENSHOT_PATH, movies[i].title)}.png`,
-      fullPage: true,
-    });
+    const screenshotPath = `${path.join(SCREENSHOT_PATH, movies[i].title)}.png`;
+
+    await page.screenshot({ path: screenshotPath, fullPage: true });
 
     const result = await page.evaluate(() => {
       const score = document.querySelector<HTMLElement>(
@@ -57,9 +56,9 @@ const app = async () => {
       responseType: 'arraybuffer',
     });
 
-    const poster = `${path.join(POSTER_PATH, movies[i].title)}.jpg`;
+    const posterPath = `${path.join(POSTER_PATH, movies[i].title)}.jpg`;
 
-    await fs.writeFile(poster, data);
+    await fs.writeFile(posterPath, data);
 
     movies[i] = { ...movies[i], score: result.score };
 
