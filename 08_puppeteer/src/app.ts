@@ -1,6 +1,12 @@
 import puppeteer from 'puppeteer';
 
-const movies = [
+interface IMovie {
+  title: string;
+  link: string;
+  score?: number;
+}
+
+const movies: IMovie[] = [
   {
     title: '장르만 로맨스',
     link: 'https://movie.naver.com/movie/bi/mi/basic.naver?code=185264',
@@ -24,36 +30,38 @@ const movies = [
 ];
 
 const app = async () => {
-  console.time('dt');
-
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === 'production',
   });
 
-  const promises = movies.map(async (movie) => {
-    const page = await browser.newPage();
+  const page = await browser.newPage();
 
-    await page.goto(movie.link);
+  await page.setUserAgent(
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
+  );
+
+  for (let i = 0; i < movies.length; i++) {
+    await page.goto(movies[i].link);
+
+    const userAgent = await page.evaluate('navigator.userAgent');
+
+    console.log(userAgent);
 
     const result = await page.evaluate(() => {
       const score = document.querySelector('.score.score_left > .star_score');
 
-      return { score: score.textContent };
+      return { score: parseFloat(score.textContent) };
     });
 
+    movies[i] = { ...movies[i], score: result.score };
+
+    console.log(movies[i]);
+
     await page.waitForTimeout(5000);
-    await page.close();
+  }
 
-    return { title: movie.title, score: parseFloat(result.score) };
-  });
-
-  const result = await Promise.all(promises);
-
+  await page.close();
   await browser.close();
-
-  console.log(result);
-  console.log();
-  console.timeEnd('dt');
 };
 
 app();
