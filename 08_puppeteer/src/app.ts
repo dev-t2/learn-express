@@ -45,7 +45,7 @@ const app = async () => {
 
     const userAgent = await page.evaluate('navigator.userAgent');
 
-    console.log(userAgent);
+    console.log(`userAgent: ${userAgent}`);
 
     const result = await page.evaluate(() => {
       const score = document.querySelector('.score.score_left > .star_score');
@@ -57,7 +57,7 @@ const app = async () => {
 
     console.log(movies[i]);
 
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(1000);
   }
 
   await page.close();
