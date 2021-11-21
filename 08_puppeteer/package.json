@@ -1,7 +1,9 @@
 {
   "name": "08_puppeteer",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "dev": "ts-node src/app.ts"
+  },
   "license": "MIT",
   "dependencies": {
     "puppeteer": "^11.0.0"
