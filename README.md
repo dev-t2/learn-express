@@ -10,5 +10,4 @@
 - CrossEnv: https://github.com/kentcdodds/cross-env
 - Pug: https://pugjs.org/api/getting-started.html
 - Axios: https://axios-http.com/
-- CheerIO: https://cheerio.js.org/
 - Puppeteer: https://github.com/puppeteer/puppeteer
