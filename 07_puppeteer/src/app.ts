@@ -36,13 +36,17 @@ const movies: IMovie[] = [
 ];
 
 const app = async () => {
-  await fs.readdir(POSTER_PATH).catch(async () => {
+  try {
+    await fs.readdir(POSTER_PATH);
+  } catch (err) {
     await fs.mkdir(POSTER_PATH);
-  });
+  }
 
-  await fs.readdir(SCREENSHOT_PATH).catch(async () => {
+  try {
+    await fs.readdir(SCREENSHOT_PATH);
+  } catch (err) {
     await fs.mkdir(SCREENSHOT_PATH);
-  });
+  }
 
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === 'production',
