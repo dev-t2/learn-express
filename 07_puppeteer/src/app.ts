@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs/promises';
 import puppeteer from 'puppeteer';
+import axios from 'axios';
 
 import movies from './data';
 
@@ -34,13 +35,26 @@ const app = async () => {
     await page.goto(movies[i].link);
 
     const result = await page.evaluate(() => {
-      const score = document.querySelector('.score.score_left > .star_score');
+      const score = document.querySelector<HTMLElement>(
+        '.score.score_left > .star_score'
+      );
       const poster = document.querySelector<HTMLImageElement>('.poster img');
 
-      return { score: parseFloat(score.textContent), poster: poster.src };
+      return {
+        score: parseFloat(score.innerText),
+        poster: poster.src.replace(/\?.*$/, ''),
+      };
     });
 
-    movies[i] = { ...movies[i], score: result.score, poster: result.poster };
+    const { data } = await axios.get(result.poster, {
+      responseType: 'arraybuffer',
+    });
+
+    const file = `${path.join(POSTER_PATH, movies[i].title)}.jpg`;
+
+    await fs.writeFile(file, data);
+
+    movies[i] = { ...movies[i], score: result.score };
 
     console.log(movies[i]);
 
