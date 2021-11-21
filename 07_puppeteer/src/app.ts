@@ -23,6 +23,8 @@ const app = async () => {
 
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === 'production',
+    args: ['--start-maximized'],
+    defaultViewport: null,
   });
 
   const page = await browser.newPage();
