@@ -35,13 +35,16 @@ const app = async () => {
 
     await page.goto(movie.link);
 
-    const handle = await page.$('.score.score_left > .star_score');
-    const score = await page.evaluate((element) => element.innerText, handle);
+    const result = await page.evaluate(() => {
+      const score = document.querySelector('.score.score_left > .star_score');
+
+      return { score: score.textContent };
+    });
 
     await page.waitForTimeout(5000);
     await page.close();
 
-    return { title: movie.title, score: parseFloat(score) };
+    return { title: movie.title, score: parseFloat(result.score) };
   });
 
   const result = await Promise.all(promises);
