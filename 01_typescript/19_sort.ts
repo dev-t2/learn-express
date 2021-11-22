@@ -1,7 +1,7 @@
 const todos = [
-  { id: 3, text: 'TypeScript', isDone: true },
-  { id: 2, text: 'NodeJS', isDone: true },
+  { id: 2, text: 'TypeScript', isDone: true },
   { id: 4, text: 'Express', isDone: false },
+  { id: 3, text: 'NodeJS', isDone: false },
   { id: 1, text: 'JavaScript', isDone: true },
 ];
 
