@@ -5,6 +5,8 @@ const todos = [
   { id: 1, text: 'JavaScript', isDone: true },
 ];
 
-const sortedTodos = todos.sort((a, b) => a.id - b.id);
+console.log(todos);
 
-console.log(sortedTodos);
+todos.sort((a, b) => a.id - b.id);
+
+console.log(todos);
