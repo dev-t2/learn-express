@@ -1,9 +1,14 @@
-const sum = (...numbers: number[]) => {
-  return numbers.reduce((sum, number) => {
-    return sum + number;
-  }, 0);
+const todos = [
+  { id: 1, text: 'JavaScript', isDone: true },
+  { id: 2, text: 'TypeScript', isDone: true },
+  { id: 3, text: 'NodeJS', isDone: false },
+  { id: 4, text: 'Express', isDone: false },
+];
+
+const deleteTodo = (id: number) => {
+  return todos.filter((todo) => todo.id !== id);
 };
 
-const result = sum(1, 2, 3, 4, 5);
+const deletedTodos = deleteTodo(1);
 
-console.log(result);
+console.log(deletedTodos);
