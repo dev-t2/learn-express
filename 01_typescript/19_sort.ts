@@ -7,6 +7,11 @@ const todos = [
 
 console.log(todos);
 
-todos.sort((a, b) => a.id - b.id);
+// todos.sort((a, b) => a.id - b.id);
+
+// console.log(todos);
+
+const sortedTodos = [...todos].sort((a, b) => a.id - b.id);
 
 console.log(todos);
+console.log(sortedTodos);
