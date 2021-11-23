@@ -5,6 +5,10 @@ const todos = [
   { id: 4, text: 'Express', isDone: false },
 ];
 
-const isDone = todos.some((todo) => todo.isDone);
+const isDone = todos.some((todo) => {
+  console.log(todo);
+
+  return todo.isDone;
+});
 
 console.log(isDone);
