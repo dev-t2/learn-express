@@ -5,6 +5,10 @@ const todos = [
   { id: 4, text: 'Express', isDone: false },
 ];
 
-const isAllDone = todos.every((todo) => todo.isDone);
+const isAllDone = todos.every((todo) => {
+  console.log(todo);
+
+  return todo.isDone;
+});
 
 console.log(isAllDone);
