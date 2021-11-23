@@ -6,12 +6,16 @@ const todos = [
 ];
 
 const index = todos.findIndex((todo) => {
+  console.log(todo);
+
   return todo.id === 3;
 });
 
 console.log(index);
 
 const todo = todos.find((todo) => {
+  console.log(todo);
+
   return todo.id === 3;
 });
 
