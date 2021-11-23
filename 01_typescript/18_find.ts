@@ -19,5 +19,5 @@ const todo = todos.find((todo) => {
   return todo.id === 3;
 });
 
-console.log(todos);
+console.log();
 console.log(todo);
