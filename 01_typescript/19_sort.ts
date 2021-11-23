@@ -8,8 +8,6 @@ const todos = [
 console.log(todos);
 
 // todos.sort((a, b) => {
-//   console.log({ a, b });
-
 //   return a.id - b.id;
 // });
 
