@@ -4,6 +4,7 @@ const sum = numbers.reduce((sum, number) => {
   return sum + number;
 }, 0);
 
+console.log(numbers);
 console.log(sum);
 
 const average = numbers.reduce((sum, number, index) => {
@@ -14,4 +15,5 @@ const average = numbers.reduce((sum, number, index) => {
   return sum + number;
 }, 0);
 
+console.log(numbers);
 console.log(average);
