@@ -31,12 +31,12 @@ const todos = [
   { id: 4, text: 'Express', isDone: false },
 ];
 
-const filteredTodos = todos.reduce((todos, todo) => {
+const filteredTodos = todos.reduce((result, todo) => {
   if (todo.isDone) {
-    return todos;
+    return result;
   }
 
-  return [...todos, todo];
+  return [...result, todo];
 }, [] as any);
 
 console.log(filteredTodos);
