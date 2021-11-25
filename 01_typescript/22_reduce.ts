@@ -19,3 +19,10 @@ const average = numbers.reduce((result, number, index, { length }) => {
 
 console.log(numbers);
 console.log(average);
+
+const result = numbers.reduce((result, number) => {
+  return [...result, number];
+}, [] as number[]);
+
+console.log(numbers);
+console.log(result);
