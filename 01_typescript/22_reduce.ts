@@ -24,7 +24,13 @@ const result = numbers.reduce((result, number) => {
 
 console.log(result);
 
-const todos = [
+interface ITodo {
+  id: number;
+  text: string;
+  isDone: boolean;
+}
+
+const todos: ITodo[] = [
   { id: 1, text: 'JavaScript', isDone: true },
   { id: 2, text: 'TypeScript', isDone: true },
   { id: 3, text: 'NodeJS', isDone: false },
@@ -37,6 +43,6 @@ const filteredTodos = todos.reduce((result, todo) => {
   }
 
   return [...result, todo];
-}, [] as any);
+}, [] as ITodo[]);
 
 console.log(filteredTodos);
