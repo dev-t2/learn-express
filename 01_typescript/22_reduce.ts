@@ -9,11 +9,11 @@ console.log(sum);
 const average = numbers.reduce((result, number, index, { length }) => {
   const sum = result + number;
 
-  if (index !== length - 1) {
-    return sum;
+  if (index === length - 1) {
+    return sum / length;
   }
 
-  return sum / length;
+  return sum;
 }, 0);
 
 console.log(average);
@@ -38,11 +38,11 @@ const todos: ITodo[] = [
 ];
 
 const filteredTodos = todos.reduce((result, todo) => {
-  if (todo.isDone) {
-    return result;
+  if (!todo.isDone) {
+    return [...result, todo];
   }
 
-  return [...result, todo];
+  return result;
 }, [] as ITodo[]);
 
 console.log(filteredTodos);
