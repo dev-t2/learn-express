@@ -1,21 +1,28 @@
-console.log(true && 'hello');
-console.log(false && 'hello');
-console.log('hello' && 'bye');
-console.log(null && 'hello');
-console.log(undefined && 'hello');
-console.log('' && 'hello');
-console.log(0 && 'hello');
-console.log(1 && 'hello');
-console.log(1 && 1);
+console.log(undefined && 'TypeScript');
+console.log(null && 'TypeScript');
+console.log(1 && 'TypeScript');
+console.log(0 && 'TypeScript');
+console.log('TypeScript' && 'JavaScript');
+console.log('' && 'TypeScript');
+console.log(true && 'TypeScript');
+console.log(false && 'TypeScript');
 
 console.log();
 
-console.log(true || 'hello');
-console.log(false || 'hello');
-console.log('hello' || 'bye');
-console.log(null || 'hello');
-console.log(undefined || 'hello');
-console.log('' || 'hello');
-console.log(0 || 'hello');
-console.log(1 || 'hello');
-console.log(1 || 1);
+console.log(undefined || 'TypeScript');
+console.log(null || 'TypeScript');
+console.log(1 || 'TypeScript');
+console.log(0 || 'TypeScript');
+console.log('TypeScript' || 'JavaScript');
+console.log('' || 'TypeScript');
+console.log(true || 'TypeScript');
+console.log(false || 'TypeScript');
+
+console.log();
+
+console.log(undefined ?? 'TypeScript');
+console.log(null ?? 'TypeScript');
+console.log(0 ?? 'TypeScript');
+console.log('' ?? 'TypeScript');
+console.log(false ?? 'TypeScript');
+console.log(NaN ?? 'TypeScript');
