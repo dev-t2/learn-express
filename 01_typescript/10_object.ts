@@ -1,8 +1,3 @@
-interface ICountry {
-  name: string;
-  population: number;
-}
-
 const country = { name: '한국', population: 5178 };
 
 console.log(country);
