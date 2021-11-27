@@ -3,9 +3,11 @@ type Reject = (error: Error) => void;
 
 const work = (ms: number) => {
   return new Promise((resolve: Resolve, reject: Reject) => {
+    const date = new Date().toISOString();
+
     setTimeout(() => {
-      resolve(new Date().toISOString());
-      // reject(new Error('Error Message'));
+      resolve(date);
+      // reject(new Error(`에러 발생: ${date}`));
     }, ms);
   });
 };
