@@ -1,5 +1,5 @@
 {
-  "name": "07_puppeteer",
+  "name": "10_puppeteer",
   "version": "1.0.0",
   "scripts": {
     "dev": "ts-node src/app.ts"
