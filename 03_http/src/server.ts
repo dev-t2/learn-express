@@ -1,25 +1,28 @@
 import http from 'http';
-
-const port = process.env.PORT || 3000;
+import url from 'url';
 
 const server = http.createServer((req, res) => {
-  const { method, url } = req;
+  try {
+    const { pathname, query } = url.parse(req.url ?? '', true);
 
-  if (method === 'GET') {
-    if (url === '/') {
+    if (pathname === '/' && req.method === 'GET') {
+      console.log(query);
+
       res.end('Hello NodeJS');
     } else {
       res.statusCode = 404;
 
       res.end('Not Found');
     }
-  } else {
+  } catch (err) {
+    console.error(err);
+
     res.statusCode = 500;
 
     res.end('Internal Server Error');
   }
 });
 
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+server.listen(3000, () => {
+  console.log('Server running at http://localhost:3000');
 });
