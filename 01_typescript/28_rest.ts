@@ -1,6 +1,7 @@
-const numbers = [1, 2, 3, 4, 5, 6, 7];
+const numbers = [1, 2, 3, 4, 5];
 const [one, ...rest] = numbers;
 
+console.log(numbers);
 console.log({ one, rest });
 
 const greenCuteSlime = {
@@ -8,6 +9,8 @@ const greenCuteSlime = {
   attribute: 'cute',
   color: 'green',
 };
+
+console.log(greenCuteSlime);
 
 const { color, ...cuteSlime } = greenCuteSlime;
 
