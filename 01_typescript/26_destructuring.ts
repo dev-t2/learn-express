@@ -3,7 +3,15 @@ const [a, b, c = 3] = array;
 
 console.log({ a, b, c });
 
-const object = { d: 4, e: 5, f: 6 };
-const { d, e = 7, f: g } = object;
+let [d, e] = array;
 
-console.log({ d, e, g });
+console.log({ d, e });
+
+[e, d] = [d, e];
+
+console.log({ d, e });
+
+const object = { f: 4, g: undefined, h: 6 };
+const { f, g = 5, h: i } = object;
+
+console.log({ f, g, i });
