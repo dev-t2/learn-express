@@ -17,7 +17,9 @@ console.log();
 const slime = { name: '슬라임' };
 const cuteSlime = { ...slime, attribute: '귀여움' };
 const greenCuteSlime = { ...cuteSlime, color: '초록색' };
+const redCuteSlime = { ...greenCuteSlime, color: '빨간색' };
 
 console.log(slime);
 console.log(cuteSlime);
 console.log(greenCuteSlime);
+console.log(redCuteSlime);
