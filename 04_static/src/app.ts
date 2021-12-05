@@ -10,14 +10,14 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+  res.status(404).send('Not Found');
 });
 
 // eslint-disable-next-line no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
-  res.status(500).sendFile(path.join(__dirname, 'public', '500.html'));
+  res.status(500).send('Internal Server Error');
 });
 
 app.listen(app.get('port'), () => {
