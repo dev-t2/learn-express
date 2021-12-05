@@ -1,7 +1,7 @@
+const handler = () => console.log('setTimeout');
+
 console.log('start');
 
-setTimeout(() => {
-  console.log('setTimeout');
-}, 0);
+setTimeout(handler, 0);
 
 console.log('end');
