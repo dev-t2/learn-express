@@ -6,9 +6,14 @@ const app = express();
 app.set('port', 3000);
 
 app.use(morgan('dev'));
+app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Hello NodeJS');
+  res.send('Hello Express');
+});
+
+app.post('/', (req, res) => {
+  res.json(req.body);
 });
 
 app.use((req, res) => {
