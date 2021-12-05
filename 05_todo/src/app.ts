@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import path from 'path';
 import morgan from 'morgan';
+import path from 'path';
 
 type Todo = {
   id: number;
@@ -12,17 +12,11 @@ const todos: Todo[] = [];
 
 const app = express();
 
-app.set('port', process.env.PORT || 3000);
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('port', 3000);
 
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.render('index');
-});
 
 app.get('/api/todos', (req, res) => {
   res.json({ isSuccess: true, todos });
@@ -69,14 +63,14 @@ app.delete('/api/todos/:id', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).render('404');
+  res.status(404).send('Not Found');
 });
 
 // eslint-disable-next-line no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
-  res.status(500).render('500');
+  res.status(500).send('Internal Server Error');
 });
 
 app.listen(app.get('port'), () => {
