@@ -3,9 +3,9 @@ type Reject = (error: Error) => void;
 
 const work = (ms: number) => {
   return new Promise((resolve: Resolve, reject: Reject) => {
-    const now = Date();
-
     setTimeout(() => {
+      const now = Date();
+
       resolve(now);
       // reject(new Error('Error Message'));
     }, ms);
