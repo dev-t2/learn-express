@@ -1,10 +1,10 @@
 type Callback = (date: string) => void;
 
 const work = (callback: Callback, ms: number) => {
-  const date = new Date().toISOString();
+  const now = Date();
 
   setTimeout(() => {
-    callback(date);
+    callback(now);
   }, ms);
 };
 
