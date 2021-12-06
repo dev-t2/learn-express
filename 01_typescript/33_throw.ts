@@ -1,7 +1,7 @@
 const inner = () => {
   console.log('Inner Function Start');
 
-  throw new Error('Error Message');
+  // throw new Error('Error Message');
 
   console.log('Inner Function End');
 };
@@ -11,8 +11,8 @@ const outer = () => {
 
   try {
     inner();
-  } catch (e) {
-    console.error((e as Error).message);
+  } catch (err) {
+    console.error(err);
   }
 
   console.log('Outer Function End');
