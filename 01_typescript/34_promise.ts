@@ -3,11 +3,11 @@ type Reject = (error: Error) => void;
 
 const work = (ms: number) => {
   return new Promise((resolve: Resolve, reject: Reject) => {
-    const date = new Date().toISOString();
+    const now = Date();
 
     setTimeout(() => {
-      resolve(date);
-      // reject(new Error(`에러 발생: ${date}`));
+      // resolve(now);
+      reject(new Error('Error Message'));
     }, ms);
   });
 };
@@ -21,6 +21,6 @@ work(1000)
   .then((date) => {
     console.log(`두 번째 작업: ${date}`);
   })
-  .catch((e: Error) => {
-    console.error(e.message);
+  .catch((err) => {
+    console.error(err);
   });
