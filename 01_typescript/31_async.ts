@@ -1,9 +1,9 @@
 type Callback = (date: string) => void;
 
 const work = (callback: Callback, ms: number) => {
-  const now = Date();
-
   setTimeout(() => {
+    const now = Date();
+
     callback(now);
   }, ms);
 };

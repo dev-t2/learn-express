@@ -6,8 +6,8 @@ const work = (ms: number) => {
     const now = Date();
 
     setTimeout(() => {
-      // resolve(now);
-      reject(new Error('Error Message'));
+      resolve(now);
+      // reject(new Error('Error Message'));
     }, ms);
   });
 };
