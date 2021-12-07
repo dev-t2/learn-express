@@ -2,7 +2,7 @@ type Callback = (date: string) => void;
 
 const work = (callback: Callback, ms: number) => {
   setTimeout(() => {
-    const now = Date();
+    const now = new Date().toISOString();
 
     callback(now);
   }, ms);
