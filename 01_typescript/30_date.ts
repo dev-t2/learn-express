@@ -23,4 +23,4 @@ const date4 = new Date('2021-12-06T14:56:42.054Z');
 
 console.log(date3);
 console.log(date4);
-console.log(date3.getTime() - date4.getTime());
+console.log((date3.getTime() - date4.getTime()) / 1000 / 60);
