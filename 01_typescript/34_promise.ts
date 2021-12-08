@@ -4,7 +4,7 @@ type Reject = (error: Error) => void;
 const work = (ms: number) => {
   return new Promise((resolve: Resolve, reject: Reject) => {
     setTimeout(() => {
-      const now = Date();
+      const now = new Date().toISOString();
 
       resolve(now);
       // reject(new Error('Error Message'));
