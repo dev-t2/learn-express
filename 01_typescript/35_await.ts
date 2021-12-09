@@ -1,4 +1,4 @@
-type Resolve = (value: string) => void;
+type Resolve = (date: string) => void;
 type Reject = (error: Error) => void;
 
 const work = (ms: number) => {
