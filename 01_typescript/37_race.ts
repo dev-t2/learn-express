@@ -21,8 +21,8 @@ const main = async () => {
   const date = await Promise.race([work(1000), work(2000)]);
 
   console.log(`완료된 작업: ${date}`);
-
   console.log();
+
   console.timeEnd('걸린 시간');
 };
 
