@@ -22,8 +22,8 @@ const main = async () => {
 
   console.log(`첫 번째 작업: ${date1}`);
   console.log(`두 번째 작업: ${date2}`);
-
   console.log();
+
   console.timeEnd('걸린 시간');
 };
 
