@@ -1,7 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import morgan from 'morgan';
 
 const app = express();
+
+mongoose.connect(process.env.URI);
 
 app.set('port', 3000);
 
