@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 
-import user from './router/user';
+import user from './route/user';
 
 const app = express();
 
