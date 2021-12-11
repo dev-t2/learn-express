@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 
-import { IUser, User } from './model/user';
+import user from './router/user';
 
 const app = express();
 
@@ -16,80 +16,7 @@ app.get('/', (req, res) => {
   res.send('Hello Express');
 });
 
-app.get('/user', async (req, res) => {
-  try {
-    const users = await User.find();
-
-    res.json({ isSuccess: true, users });
-  } catch (err) {
-    console.error(err);
-
-    res.json({ isSuccess: false });
-  }
-});
-
-app.get('/user/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const user = await User.findById(id);
-
-    if (user) {
-      res.json({ isSuccess: true, user });
-    } else {
-      res.json({ isSuccess: false });
-    }
-  } catch (err) {
-    console.error(err);
-
-    res.json({ isSuccess: false });
-  }
-});
-
-app.post('/user', async (req, res) => {
-  try {
-    const { email, username } = req.body as IUser;
-
-    const user = new User({ email, username });
-
-    await user.save();
-
-    res.json({ isSuccess: true, user });
-  } catch (err) {
-    console.error(err);
-
-    res.json({ isSuccess: false });
-  }
-});
-
-app.put('/user/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { email, username } = req.body as IUser;
-
-    await User.findByIdAndUpdate(id, { $set: { email, username } });
-
-    res.json({ isSuccess: true });
-  } catch (err) {
-    console.error(err);
-
-    res.json({ isSuccess: false });
-  }
-});
-
-app.delete('/user/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    await User.findByIdAndDelete(id);
-
-    res.json({ isSuccess: true });
-  } catch (err) {
-    console.error(err);
-
-    res.json({ isSuccess: false });
-  }
-});
+app.use('/user', user);
 
 app.use((req, res) => {
   res.status(404).send('Not Found');
