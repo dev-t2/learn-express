@@ -20,6 +20,18 @@ const main = async () => {
       res.send('Hello Express');
     });
 
+    app.get('/users', async (req, res) => {
+      try {
+        const users = await User.find();
+
+        res.json({ isSuccess: true, users });
+      } catch (err) {
+        console.error(err);
+
+        res.json({ isSuccess: false });
+      }
+    });
+
     app.post('/users', async (req, res) => {
       const { email, username } = req.body as IUser;
 
@@ -30,6 +42,8 @@ const main = async () => {
 
         res.json({ isSuccess: true, user });
       } catch (err) {
+        console.error(err);
+
         res.json({ isSuccess: false });
       }
     });
