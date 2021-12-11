@@ -32,9 +32,13 @@ app.get('/user/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findOne({ _id: id });
+    const user = await User.findById(id);
 
-    res.json({ isSuccess: true, user });
+    if (user) {
+      res.json({ isSuccess: true, user });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 
@@ -58,11 +62,26 @@ app.post('/user', async (req, res) => {
   }
 });
 
+app.put('/user/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email, username } = req.body as IUser;
+
+    await User.findByIdAndUpdate(id, { $set: { email, username } });
+
+    res.json({ isSuccess: true });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
+
 app.delete('/user/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    await User.deleteOne({ _id: id });
+    await User.findByIdAndDelete(id);
 
     res.json({ isSuccess: true });
   } catch (err) {
