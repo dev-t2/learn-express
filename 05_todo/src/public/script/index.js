@@ -18,7 +18,7 @@ const createTodo = (ul, todo) => {
   checkbox.addEventListener('click', async (event) => {
     const isDone = event.target.checked;
 
-    const { data } = await axios.put(`/api/todos/${todo.id}`, { isDone });
+    const { data } = await axios.put(`/api/todo/${todo.id}`, { isDone });
 
     if (data.isSuccess) {
       const index = todos.findIndex(({ id }) => id === todo.id);
@@ -28,7 +28,7 @@ const createTodo = (ul, todo) => {
   });
 
   button.addEventListener('click', async () => {
-    const { data } = await axios.delete(`/api/todos/${todo.id}`);
+    const { data } = await axios.delete(`/api/todo/${todo.id}`);
 
     if (data.isSuccess) {
       const index = todos.findIndex(({ id }) => id === todo.id);
@@ -49,7 +49,7 @@ window.addEventListener('load', async () => {
   const form = document.querySelector('form');
   const ul = document.querySelector('ul');
 
-  const { data } = await axios.get('/api/todos');
+  const { data } = await axios.get('/api/todo');
 
   if (data.isSuccess) {
     data.todos.forEach((todo) => {
@@ -62,7 +62,7 @@ window.addEventListener('load', async () => {
 
     const input = form.querySelector('input');
 
-    const { data } = await axios.post('/api/todos', { text: input.value });
+    const { data } = await axios.post('/api/todo', { text: input.value });
 
     if (data.isSuccess) {
       createTodo(ul, data.todo);
