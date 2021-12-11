@@ -58,6 +58,20 @@ app.post('/user', async (req, res) => {
   }
 });
 
+app.delete('/user/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await User.deleteOne({ _id: id });
+
+    res.json({ isSuccess: true });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
+
 app.use((req, res) => {
   res.status(404).send('Not Found');
 });
