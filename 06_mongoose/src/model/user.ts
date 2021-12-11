@@ -7,8 +7,8 @@ export interface IUser {
 
 const schema = new Schema<IUser>(
   {
-    email: { type: String, required: true },
-    username: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
   },
   { timestamps: true }
 );
