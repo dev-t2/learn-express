@@ -55,14 +55,10 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { email, username } = req.body as IUser;
 
-    const user = await User.findByIdAndUpdate(
-      id,
-      { email, username },
-      { new: true }
-    );
+    const user = await User.findByIdAndUpdate(id, { email, username });
 
     if (user) {
-      res.json({ isSuccess: true, user });
+      res.json({ isSuccess: true });
     } else {
       res.json({ isSuccess: false });
     }
@@ -77,13 +73,9 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findByIdAndDelete(id);
+    await User.findByIdAndDelete(id);
 
-    if (user) {
-      res.json({ isSuccess: true });
-    } else {
-      res.json({ isSuccess: false });
-    }
+    res.json({ isSuccess: true });
   } catch (err) {
     console.error(err);
 

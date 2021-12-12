@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { User } from '../model/user';
-import { IBlog, Blog } from '../model/blog';
+import { Blog, IBlog } from '../model/blog';
 
 const router = Router();
 
@@ -62,14 +62,10 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { title, content } = req.body as IBlog;
 
-    const blog = await Blog.findByIdAndUpdate(
-      id,
-      { title, content },
-      { new: true }
-    );
+    const blog = await Blog.findByIdAndUpdate(id, { title, content });
 
     if (blog) {
-      res.json({ isSuccess: true, blog });
+      res.json({ isSuccess: true });
     } else {
       res.json({ isSuccess: false });
     }
@@ -84,13 +80,9 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const blog = await Blog.findByIdAndDelete(id);
+    await Blog.findByIdAndDelete(id);
 
-    if (blog) {
-      res.json({ isSuccess: true });
-    } else {
-      res.json({ isSuccess: false });
-    }
+    res.json({ isSuccess: true });
   } catch (err) {
     console.error(err);
 
