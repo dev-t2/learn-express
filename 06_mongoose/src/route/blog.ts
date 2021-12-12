@@ -1,18 +1,15 @@
 import { Router } from 'express';
 
-import { User } from '../model/user';
-import { Blog, IBlog } from '../model/blog';
+import { Blog, User } from '../model';
 
 const router = Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { userId, title, content } = req.body as IBlog;
-
-    const user = await User.findById(userId);
+    const user = await User.findById(req.body.userId);
 
     if (user) {
-      const blog = new Blog({ userId, title, content });
+      const blog = new Blog(req.body);
 
       await blog.save();
 
@@ -60,9 +57,8 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, content } = req.body as IBlog;
 
-    const blog = await Blog.findByIdAndUpdate(id, { title, content });
+    const blog = await Blog.findByIdAndUpdate(id, req.body);
 
     if (blog) {
       res.json({ isSuccess: true });

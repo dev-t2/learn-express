@@ -1,14 +1,12 @@
 import { Router } from 'express';
 
-import { IUser, User } from '../model/user';
+import { User } from '../model';
 
 const router = Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { email, username } = req.body as IUser;
-
-    const user = new User({ email, username });
+    const user = new User(req.body);
 
     await user.save();
 
@@ -53,9 +51,8 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { email, username } = req.body as IUser;
 
-    const user = await User.findByIdAndUpdate(id, { email, username });
+    const user = await User.findByIdAndUpdate(id, req.body);
 
     if (user) {
       res.json({ isSuccess: true });

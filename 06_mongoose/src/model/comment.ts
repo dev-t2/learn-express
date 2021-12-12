@@ -1,6 +1,6 @@
 import { Document, model, Schema, Types } from 'mongoose';
 
-export interface IComment extends Document {
+interface IComment extends Document {
   blogId: Types.ObjectId;
   userId: Types.ObjectId;
   content: string;
@@ -15,4 +15,4 @@ const schema = new Schema<IComment>(
   { timestamps: true }
 );
 
-export const Comment = model<IComment>('comment', schema);
+export default model<IComment>('comment', schema);
