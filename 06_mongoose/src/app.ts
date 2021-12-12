@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 
-import user from './route/user';
+import { user, blog } from './route';
 
 const app = express();
 
@@ -12,11 +12,8 @@ app.set('port', process.env.PORT ?? 3000);
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello Express');
-});
-
 app.use('/user', user);
+app.use('/blog', blog);
 
 app.use((req, res) => {
   res.status(404).send('Not Found');

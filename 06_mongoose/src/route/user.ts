@@ -4,6 +4,22 @@ import { IUser, User } from '../model/user';
 
 const router = Router();
 
+router.post('/', async (req, res) => {
+  try {
+    const { email, username } = req.body as IUser;
+
+    const user = new User({ email, username });
+
+    await user.save();
+
+    res.json({ isSuccess: true, user });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const users = await User.find();
@@ -27,22 +43,6 @@ router.get('/:id', async (req, res) => {
     } else {
       res.json({ isSuccess: false });
     }
-  } catch (err) {
-    console.error(err);
-
-    res.json({ isSuccess: false });
-  }
-});
-
-router.post('/', async (req, res) => {
-  try {
-    const { email, username } = req.body as IUser;
-
-    const user = new User({ email, username });
-
-    await user.save();
-
-    res.json({ isSuccess: true, user });
   } catch (err) {
     console.error(err);
 
