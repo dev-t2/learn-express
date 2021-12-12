@@ -45,9 +45,7 @@ router.get('/', async (req: Request, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const comment = await Comment.findByIdAndUpdate(id, req.body);
+    const comment = await Comment.findByIdAndUpdate(req.params.id, req.body);
 
     if (comment) {
       res.json({ isSuccess: true });
@@ -63,11 +61,13 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
+    const comment = await Comment.findByIdAndDelete(req.params.id);
 
-    await Comment.findByIdAndDelete(id);
-
-    res.json({ isSuccess: true });
+    if (comment) {
+      res.json({ isSuccess: true });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 

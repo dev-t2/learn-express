@@ -32,9 +32,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const user = await User.findById(id);
+    const user = await User.findById(req.params.id);
 
     if (user) {
       res.json({ isSuccess: true, user });
@@ -50,9 +48,7 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const user = await User.findByIdAndUpdate(id, req.body);
+    const user = await User.findByIdAndUpdate(req.params.id, req.body);
 
     if (user) {
       res.json({ isSuccess: true });
@@ -68,11 +64,13 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
+    const user = await User.findByIdAndDelete(req.params.id);
 
-    await User.findByIdAndDelete(id);
-
-    res.json({ isSuccess: true });
+    if (user) {
+      res.json({ isSuccess: true });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 

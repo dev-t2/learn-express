@@ -38,9 +38,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const blog = await Blog.findById(id);
+    const blog = await Blog.findById(req.params.id);
 
     if (blog) {
       res.json({ isSuccess: true, blog });
@@ -56,9 +54,7 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const blog = await Blog.findByIdAndUpdate(id, req.body);
+    const blog = await Blog.findByIdAndUpdate(req.params.id, req.body);
 
     if (blog) {
       res.json({ isSuccess: true });
@@ -74,11 +70,13 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
+    const blog = await Blog.findByIdAndDelete(req.params.id);
 
-    await Blog.findByIdAndDelete(id);
-
-    res.json({ isSuccess: true });
+    if (blog) {
+      res.json({ isSuccess: true });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 
