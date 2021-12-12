@@ -1,18 +1,25 @@
 import { Router } from 'express';
 
-import { IUser, User } from '../model/user';
+import { User } from '../model/user';
+import { IBlog, Blog } from '../model/blog';
 
 const router = Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { email, username } = req.body as IUser;
+    const { userId, title, content } = req.body as IBlog;
 
-    const user = new User({ email, username });
+    const user = await User.findById(userId);
 
-    await user.save();
+    if (user) {
+      const blog = new Blog({ userId, title, content });
 
-    res.json({ isSuccess: true, user });
+      await blog.save();
+
+      res.json({ isSuccess: true, blog });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 
@@ -22,9 +29,9 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const blogs = await Blog.find();
 
-    res.json({ isSuccess: true, users });
+    res.json({ isSuccess: true, blogs });
   } catch (err) {
     console.error(err);
 
@@ -36,10 +43,10 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findById(id);
+    const blog = await Blog.findById(id);
 
-    if (user) {
-      res.json({ isSuccess: true, user });
+    if (blog) {
+      res.json({ isSuccess: true, blog });
     } else {
       res.json({ isSuccess: false });
     }
@@ -53,16 +60,16 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { email, username } = req.body as IUser;
+    const { title, content } = req.body as IBlog;
 
-    const user = await User.findByIdAndUpdate(
+    const blog = await Blog.findByIdAndUpdate(
       id,
-      { email, username },
+      { title, content },
       { new: true }
     );
 
-    if (user) {
-      res.json({ isSuccess: true, user });
+    if (blog) {
+      res.json({ isSuccess: true, blog });
     } else {
       res.json({ isSuccess: false });
     }
@@ -77,9 +84,9 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findByIdAndDelete(id);
+    const blog = await Blog.findByIdAndDelete(id);
 
-    if (user) {
+    if (blog) {
       res.json({ isSuccess: true });
     } else {
       res.json({ isSuccess: false });
