@@ -6,9 +6,10 @@
 - ESLint: https://eslint.org
 - Express: https://expressjs.com/ko
 - Nodemon: https://nodemon.io
-- Morgan: https://github.com/expressjs/morgan
+- Morgan: https://www.npmjs.com/package/morgan
 - Axios: https://axios-http.com/
 - MongoDB: https://www.mongodb.com/kr
 - Mongoose: https://mongoosejs.com/
-- Dotenv: https://github.com/motdotla/dotenv
+- Dotenv: https://www.npmjs.com/package/dotenv
+- Faker: https://www.npmjs.com/package/faker
 - Puppeteer: https://github.com/puppeteer/puppeteer
