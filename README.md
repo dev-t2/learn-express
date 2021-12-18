@@ -16,4 +16,4 @@
   - NPM: https://www.npmjs.com/package/mongoose
 - Dotenv: https://www.npmjs.com/package/dotenv
 - Faker: https://www.npmjs.com/package/faker
-- Puppeteer: https://github.com/puppeteer/puppeteer
+- Puppeteer: https://www.npmjs.com/package/puppeteer
