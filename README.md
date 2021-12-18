@@ -10,6 +10,7 @@
   - NPM: https://www.npmjs.com/package/nodemon
 - Morgan: https://www.npmjs.com/package/morgan
 - Axios: https://axios-http.com/
+  - NPM: https://www.npmjs.com/package/axios
 - MongoDB: https://www.mongodb.com/kr
 - Mongoose: https://mongoosejs.com/
   - NPM: https://www.npmjs.com/package/mongoose
