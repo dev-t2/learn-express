@@ -7,6 +7,7 @@
 - Express: https://expressjs.com/ko
   - NPM: https://www.npmjs.com/package/express
 - Nodemon: https://nodemon.io
+  - NPM: https://www.npmjs.com/package/nodemon
 - Morgan: https://www.npmjs.com/package/morgan
 - Axios: https://axios-http.com/
 - MongoDB: https://www.mongodb.com/kr
