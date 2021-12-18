@@ -3,9 +3,9 @@ import morgan from 'morgan';
 
 const app = express();
 
-app.set('port', 3000);
+app.set('port', process.env.NODE_ENV || 3000);
 
-app.use(morgan('dev'));
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.get('/', (req, res) => {
   res.send('Hello Express');
