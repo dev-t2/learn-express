@@ -9,7 +9,6 @@
 - Nodemon: https://nodemon.io
   - NPM: https://www.npmjs.com/package/nodemon
 - Morgan: https://www.npmjs.com/package/morgan
-- GoogleFonts: https://fonts.google.com/
 - Axios: https://axios-http.com/
   - NPM: https://www.npmjs.com/package/axios
 - MongoDB: https://www.mongodb.com/kr
