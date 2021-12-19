@@ -8,11 +8,11 @@ interface IBlog extends Document {
 
 const schema = new Schema<IBlog>(
   {
-    user: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
+    user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     title: { type: String, required: true },
     content: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-export default model<IBlog>('blog', schema);
+export default model<IBlog>('Blog', schema);

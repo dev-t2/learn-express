@@ -13,4 +13,13 @@ const schema = new Schema<IUser>(
   { timestamps: true }
 );
 
-export default model<IUser>('user', schema);
+schema.virtual('blogs', {
+  ref: 'Blog',
+  localField: '_id',
+  foreignField: 'user',
+});
+
+schema.set('toJSON', { virtuals: true });
+schema.set('toObject', { virtuals: true });
+
+export default model<IUser>('User', schema);

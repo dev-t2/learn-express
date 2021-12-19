@@ -8,11 +8,11 @@ interface IComment extends Document {
 
 const schema = new Schema<IComment>(
   {
-    blog: { type: Schema.Types.ObjectId, required: true, ref: 'blog' },
-    user: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
+    blog: { type: Schema.Types.ObjectId, required: true, ref: 'Blog' },
+    user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     content: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-export default model<IComment>('comment', schema);
+export default model<IComment>('Comment', schema);

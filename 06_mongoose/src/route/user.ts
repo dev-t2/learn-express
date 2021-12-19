@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate('blogs');
 
     res.json({ isSuccess: true, users });
   } catch (err) {
