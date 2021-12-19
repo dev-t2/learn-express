@@ -1,14 +1,14 @@
 import { Document, model, Schema, Types } from 'mongoose';
 
 interface IBlog extends Document {
-  userId: Types.ObjectId;
+  user: Types.ObjectId;
   title: string;
   content: string;
 }
 
 const schema = new Schema<IBlog>(
   {
-    userId: { ref: 'user', type: Schema.Types.ObjectId, required: true },
+    user: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
     title: { type: String, required: true },
     content: { type: String, required: true },
   },

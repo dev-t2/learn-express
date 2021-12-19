@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/', async (req, res) => {
   try {
-    const user = await User.findById(req.body.userId);
+    const user = await User.findById(req.body.user);
 
     if (user) {
       const blog = new Blog(req.body);
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().populate('user');
 
     res.json({ isSuccess: true, blogs });
   } catch (err) {
