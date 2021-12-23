@@ -3,7 +3,7 @@ import morgan from 'morgan';
 
 const app = express();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
