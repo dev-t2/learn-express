@@ -1,1 +1,3 @@
-console.log('Hello Express');
+window.addEventListener('load', () => {
+  console.log('Hello Express');
+});
