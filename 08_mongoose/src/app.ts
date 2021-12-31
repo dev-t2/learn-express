@@ -30,7 +30,11 @@ app.get('/users/:id', async (req, res) => {
 
     const user = await User.findById(id);
 
-    res.json({ isSuccess: true, user });
+    if (user) {
+      res.json({ isSuccess: true, user });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 
@@ -75,9 +79,13 @@ app.put('/users/:id', async (req: IUpdateUserRequest, res) => {
     const { id } = req.params;
     const { nickname } = req.body;
 
-    await User.findByIdAndUpdate(id, { nickname });
+    const user = await User.findByIdAndUpdate(id, { nickname });
 
-    res.json({ isSuccess: true });
+    if (user) {
+      res.json({ isSuccess: true });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 
@@ -89,9 +97,13 @@ app.delete('/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id);
 
-    res.json({ isSuccess: true });
+    if (user) {
+      res.json({ isSuccess: true });
+    } else {
+      res.json({ isSuccess: false });
+    }
   } catch (err) {
     console.error(err);
 
