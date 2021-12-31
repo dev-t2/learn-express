@@ -23,7 +23,13 @@ app.get('/api/todos', (req, res) => {
   res.json({ isSuccess: true, todos });
 });
 
-app.post('/api/todos', (req, res) => {
+interface ICreateTodoRequest extends Request {
+  body: {
+    content: string;
+  };
+}
+
+app.post('/api/todos', (req: ICreateTodoRequest, res) => {
   const { content } = req.body;
 
   const todo: ITodo = { id: nanoid(), content, isComplete: false };
@@ -33,7 +39,16 @@ app.post('/api/todos', (req, res) => {
   res.json({ isSuccess: true, todo });
 });
 
-app.put('/api/todos/:id', (req, res) => {
+interface IUpdateTodoRequest extends Request {
+  params: {
+    id: string;
+  };
+  body: {
+    isComplete: boolean;
+  };
+}
+
+app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   const { id } = req.params;
   const { isComplete } = req.body;
 

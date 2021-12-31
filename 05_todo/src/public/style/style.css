@@ -1,0 +1,23 @@
+body {
+  padding: 20px;
+}
+
+form {
+  margin-top: 10px;
+}
+
+ul {
+  margin-top: 10px;
+}
+
+ul > li {
+  margin-top: 5px;
+}
+
+li > span {
+  margin-left: 5px;
+}
+
+li > button {
+  margin-left: 5px;
+}
