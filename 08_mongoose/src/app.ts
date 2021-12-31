@@ -26,7 +26,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 const main = async () => {
   try {
-    await mongoose.connect(process.env.DB_URI);
+    await mongoose.connect(process.env.DB_URI!);
 
     app.listen(app.get('port'), () => {
       console.log(`Server running at http://localhost:${app.get('port')}`);
