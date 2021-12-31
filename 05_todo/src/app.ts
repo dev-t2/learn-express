@@ -1,8 +1,15 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import path from 'path';
+import { nanoid } from 'nanoid';
 
-import todo from './route/todo';
+interface ITodo {
+  id: string;
+  content: string;
+  isComplete: boolean;
+}
+
+const todos: ITodo[] = [];
 
 const app = express();
 
@@ -12,7 +19,48 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.use('/api/todo', todo);
+app.get('/api/todos', (req, res) => {
+  res.json({ isSuccess: true, todos });
+});
+
+app.post('/api/todos', (req, res) => {
+  const { content } = req.body;
+
+  const todo: ITodo = { id: nanoid(), content, isComplete: false };
+
+  todos.push(todo);
+
+  res.json({ isSuccess: true, todo });
+});
+
+app.put('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+  const { isComplete } = req.body;
+
+  const index = todos.findIndex((todo) => todo.id === id);
+
+  if (index >= 0) {
+    todos[index].isComplete = isComplete;
+
+    res.json({ isSuccess: true });
+  } else {
+    res.json({ isSuccess: false });
+  }
+});
+
+app.delete('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+
+  const index = todos.findIndex((todo) => todo.id === id);
+
+  if (index >= 0) {
+    todos.splice(index, 1);
+
+    res.json({ isSuccess: true });
+  } else {
+    res.json({ isSuccess: false });
+  }
+});
 
 app.use((req, res) => {
   res.status(404).send('Not Found');
