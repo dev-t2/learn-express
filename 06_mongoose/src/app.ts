@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+import mongoose from 'mongoose';
 
 const app = express();
 
@@ -22,6 +24,16 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
-app.listen(app.get('port'), () => {
-  console.log(`Server running at http://localhost:${app.get('port')}`);
-});
+const main = async () => {
+  try {
+    await mongoose.connect(process.env.DB_URI);
+
+    app.listen(app.get('port'), () => {
+      console.log(`Server running at http://localhost:${app.get('port')}`);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+main();
