@@ -38,7 +38,7 @@ postsRouter.get('/:id', async (req, res) => {
 
 postsRouter.post('/', async (req, res) => {
   try {
-    const post = await createPost(req.body);
+    const post = await createPost(req.body.userId, req.body);
 
     res.json({ isSuccess: true, post });
   } catch (err) {

@@ -1,14 +1,15 @@
+import { getUser } from '../users/users.service';
 import { IPost } from './posts.interface';
 import Post from './posts.schema';
 
 export const getPosts = async () => {
-  const posts = await Post.find();
+  const posts = await Post.find().populate('user');
 
   return posts;
 };
 
 export const getPost = async (id: string) => {
-  const post = await Post.findById(id);
+  const post = await Post.findById(id).populate('user');
 
   if (!post) {
     throw new Error('Post Not Found');
@@ -17,7 +18,13 @@ export const getPost = async (id: string) => {
   return post;
 };
 
-export const createPost = async ({ user, title }: IPost) => {
+export const createPost = async (userId: string, { title }: IPost) => {
+  const user = await getUser(userId);
+
+  if (!user) {
+    throw new Error('User Not Found');
+  }
+
   const post = new Post({ user, title });
 
   await post.save();
