@@ -40,6 +40,10 @@ export const updatePost = async (id: string, { title }: IPost) => {
   }
 };
 
+export const deletePosts = async (userId: string) => {
+  await Post.deleteMany({ user: userId });
+};
+
 export const deletePost = async (id: string) => {
   const post = await Post.findByIdAndDelete(id);
 
