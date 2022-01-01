@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 
 import usersRouter from './users/users.controller';
+import postsRouter from './posts/posts.controller';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
 
 app.use((req, res) => {
   res.status(404).send('Not Found');
