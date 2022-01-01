@@ -12,6 +12,10 @@ app.set('port', 3000);
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Hello Express');
+});
+
 app.use('/users', usersRouter);
 
 app.use((req, res) => {

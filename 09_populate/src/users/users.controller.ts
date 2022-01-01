@@ -10,14 +10,70 @@ import {
 
 const usersRouter = Router();
 
-usersRouter.get('/', getUsers);
+usersRouter.get('/', async (req, res) => {
+  try {
+    const users = await getUsers();
 
-usersRouter.get('/:id', getUser);
+    res.json({ isSuccess: true, users });
+  } catch (err) {
+    console.error(err);
 
-usersRouter.post('/', createUser);
+    res.json({ isSuccess: false });
+  }
+});
 
-usersRouter.put('/:id', updateUser);
+usersRouter.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
 
-usersRouter.delete('/:id', deleteUser);
+    const user = await getUser(id);
+
+    res.json({ isSuccess: true, user });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
+
+usersRouter.post('/', async (req, res) => {
+  try {
+    const user = await createUser(req.body);
+
+    res.json({ isSuccess: true, user });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
+
+usersRouter.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await updateUser(id, req.body);
+
+    res.json({ isSuccess: true });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
+
+usersRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await deleteUser(id);
+
+    res.json({ isSuccess: true });
+  } catch (err) {
+    console.error(err);
+
+    res.json({ isSuccess: false });
+  }
+});
 
 export default usersRouter;

@@ -1,17 +1,6 @@
-import { Request } from 'express';
+import { Document } from 'mongoose';
 
-export interface ICreateUserRequest extends Request {
-  body: {
-    email: string;
-    nickname: string;
-  };
-}
-
-export interface IUpdateUserRequest extends Request {
-  params: {
-    id: string;
-  };
-  body: {
-    nickname: string;
-  };
+export interface IUser extends Document {
+  email: string;
+  nickname: string;
 }

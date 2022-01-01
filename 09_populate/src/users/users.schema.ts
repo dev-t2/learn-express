@@ -1,9 +1,6 @@
-import { Document, model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
-interface IUser extends Document {
-  email: string;
-  nickname: string;
-}
+import { IUser } from './users.interface';
 
 const UserSchema = new Schema<IUser>(
   {
