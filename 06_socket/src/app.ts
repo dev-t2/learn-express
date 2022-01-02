@@ -24,8 +24,20 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
-io.on('connection', () => {
-  console.log('a user connected');
+io.on('connection', (socket) => {
+  console.log(`Connected User: ${socket.id}`);
+
+  socket.on('disconnect', () => {
+    console.log(`Disconnected User: ${socket.id}`);
+  });
+
+  socket.on('error', (err) => {
+    console.error(err);
+  });
+
+  socket.on('message', (message) => {
+    io.emit('message', message);
+  });
 });
 
 server.listen(app.get('port'), () => {
