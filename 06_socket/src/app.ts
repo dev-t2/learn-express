@@ -27,16 +27,16 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 io.on('connection', (socket) => {
   console.log(`Connected User: ${socket.id}`);
 
-  socket.on('disconnect', () => {
-    console.log(`Disconnected User: ${socket.id}`);
+  socket.on('message', (message) => {
+    io.emit('message', message);
   });
 
   socket.on('error', (err) => {
     console.error(err);
   });
 
-  socket.on('message', (message) => {
-    io.emit('message', message);
+  socket.on('disconnect', () => {
+    console.log(`Disconnected User: ${socket.id}`);
   });
 });
 
