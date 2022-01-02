@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
 const app = express();
 
@@ -22,6 +24,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
-app.listen(app.get('port'), () => {
+const server = createServer(app);
+const io = new Server(server);
+
+server.listen(app.get('port'), () => {
   console.log(`Server running at http://localhost:${app.get('port')}`);
 });
