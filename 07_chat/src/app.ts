@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import morgan from 'morgan';
 import path from 'path';
 
@@ -24,8 +24,22 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
-io.on('connection', (socket) => {
+interface ISocket extends Socket {
+  nickname?: string;
+}
+
+io.on('connection', (socket: ISocket) => {
   console.log(`Connected User: ${socket.id}`);
+
+  socket.on('enter', (nickname) => {
+    socket.nickname = nickname;
+
+    io.emit('enter', { nickname });
+  });
+
+  socket.on('message', (message) => {
+    io.emit('message', message);
+  });
 
   socket.on('disconnect', () => {
     console.log(`Disconnected User: ${socket.id}`);
@@ -33,10 +47,6 @@ io.on('connection', (socket) => {
 
   socket.on('error', (err) => {
     console.error(err);
-  });
-
-  socket.on('message', (message) => {
-    io.emit('message', message);
   });
 });
 
