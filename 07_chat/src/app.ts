@@ -41,12 +41,12 @@ io.on('connection', (socket: ISocket) => {
     io.emit('message', message);
   });
 
-  socket.on('disconnect', () => {
-    console.log(`Disconnected User: ${socket.id}`);
-  });
-
   socket.on('error', (err) => {
     console.error(err);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`Disconnected User: ${socket.id}`);
   });
 });
 
