@@ -13,6 +13,7 @@
 - Axios: https://axios-http.com
   - NPM: https://www.npmjs.com/package/axios
 - NanoID: https://www.npmjs.com/package/nanoid
+- SocketIO: https://www.npmjs.com/package/socket.io
 - MongoDB: https://www.mongodb.com/kr
 - Mongoose: https://mongoosejs.com
   - NPM: https://www.npmjs.com/package/mongoose
