@@ -25,16 +25,16 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 interface ISocket extends Socket {
-  nickname?: string;
+  name?: string;
 }
 
 io.on('connection', (socket: ISocket) => {
   console.log(`Connected User: ${socket.id}`);
 
-  socket.on('enter', (nickname) => {
-    socket.nickname = nickname;
+  socket.on('enter', (name) => {
+    socket.name = name;
 
-    io.emit('enter', { nickname });
+    io.emit('enter', { name });
   });
 
   socket.on('message', (message) => {
