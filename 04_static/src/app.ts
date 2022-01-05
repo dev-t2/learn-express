@@ -7,7 +7,9 @@ const app = express();
 app.set('port', 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
+);
 
 app.use((req, res) => {
   res.status(404).send('Not Found');
