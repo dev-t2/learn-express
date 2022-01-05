@@ -16,7 +16,9 @@ const app = express();
 app.set('port', 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
+);
 app.use(express.json());
 
 app.get('/api/todos', (req, res) => {
@@ -63,7 +65,13 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   }
 });
 
-app.delete('/api/todos/:id', (req, res) => {
+interface IDeleteTodoRequest extends Request {
+  params: {
+    id: string;
+  };
+}
+
+app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   const { id } = req.params;
 
   const index = todos.findIndex((todo) => todo.id === id);

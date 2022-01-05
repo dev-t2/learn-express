@@ -13,6 +13,7 @@
   "rules": {
     "linebreak-style": "off",
     "no-console": "off",
+    "comma-dangle": "off",
     "no-shadow": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off"
