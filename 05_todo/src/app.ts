@@ -22,7 +22,7 @@ app.use(
 app.use(express.json());
 
 app.get('/api/todos', (req, res) => {
-  res.json({ isSuccess: true, todos });
+  return res.json({ isSuccess: true, todos });
 });
 
 interface ICreateTodoRequest extends Request {
@@ -34,11 +34,15 @@ interface ICreateTodoRequest extends Request {
 app.post('/api/todos', (req: ICreateTodoRequest, res) => {
   const { content } = req.body;
 
+  if (!content) {
+    return res.json({ isSuccess: false });
+  }
+
   const todo: ITodo = { id: nanoid(), content, isComplete: false };
 
   todos.push(todo);
 
-  res.json({ isSuccess: true, todo });
+  return res.json({ isSuccess: true, todo });
 });
 
 interface IUpdateTodoRequest extends Request {
@@ -54,15 +58,19 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   const { id } = req.params;
   const { isComplete } = req.body;
 
+  if (!id || !isComplete) {
+    return res.json({ isSuccess: false });
+  }
+
   const index = todos.findIndex((todo) => todo.id === id);
 
-  if (index >= 0) {
-    todos[index].isComplete = isComplete;
-
-    res.json({ isSuccess: true });
-  } else {
-    res.json({ isSuccess: false });
+  if (index === -1) {
+    return res.json({ isSuccess: false });
   }
+
+  todos[index].isComplete = isComplete;
+
+  return res.json({ isSuccess: true });
 });
 
 interface IDeleteTodoRequest extends Request {
@@ -74,26 +82,30 @@ interface IDeleteTodoRequest extends Request {
 app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   const { id } = req.params;
 
+  if (!id) {
+    return res.json({ isSuccess: false });
+  }
+
   const index = todos.findIndex((todo) => todo.id === id);
 
-  if (index >= 0) {
-    todos.splice(index, 1);
-
-    res.json({ isSuccess: true });
-  } else {
-    res.json({ isSuccess: false });
+  if (index === -1) {
+    return res.json({ isSuccess: false });
   }
+
+  todos.splice(index, 1);
+
+  return res.json({ isSuccess: true });
 });
 
 app.use((req, res) => {
-  res.status(404).send('Not Found');
+  return res.status(404).send('Not Found');
 });
 
 // eslint-disable-next-line no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
-  res.status(500).send('Internal Server Error');
+  return res.status(500).send('Internal Server Error');
 });
 
 app.listen(app.get('port'), () => {

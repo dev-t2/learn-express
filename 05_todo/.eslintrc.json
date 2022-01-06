@@ -15,7 +15,6 @@
     "no-console": "off",
     "comma-dangle": "off",
     "no-shadow": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "arrow-body-style": "off"
   }
 }
