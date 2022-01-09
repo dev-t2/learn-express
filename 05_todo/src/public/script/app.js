@@ -20,26 +20,34 @@ const createTodo = (todo) => {
   button.innerText = 'Delete';
 
   input.addEventListener('click', async (event) => {
-    const isComplete = event.target.checked;
+    try {
+      const isComplete = event.target.checked;
 
-    const { data } = await axios.put(`/api/todos/${todo.id}`, { isComplete });
+      const { data } = await axios.put(`/api/todos/${todo.id}`, { isComplete });
 
-    if (data.isSuccess) {
-      const index = todos.findIndex(({ id }) => id === todo.id);
+      if (data.isSuccess) {
+        const index = todos.findIndex(({ id }) => id === todo.id);
 
-      todos[index].isComplete = isComplete;
+        todos[index].isComplete = isComplete;
+      }
+    } catch (err) {
+      console.error(err);
     }
   });
 
   button.addEventListener('click', async () => {
-    const { data } = await axios.delete(`/api/todos/${todo.id}`);
+    try {
+      const { data } = await axios.delete(`/api/todos/${todo.id}`);
 
-    if (data.isSuccess) {
-      const index = todos.findIndex(({ id }) => id === todo.id);
+      if (data.isSuccess) {
+        const index = todos.findIndex(({ id }) => id === todo.id);
 
-      todos.splice(index, 1);
+        todos.splice(index, 1);
 
-      ul.removeChild(li);
+        ul.removeChild(li);
+      }
+    } catch (err) {
+      console.error(err);
     }
   });
 
@@ -50,24 +58,32 @@ const createTodo = (todo) => {
 };
 
 form.addEventListener('submit', async (event) => {
-  event.preventDefault();
+  try {
+    event.preventDefault();
 
-  const { data } = await axios.post('/api/todos', { content: input.value });
+    const { data } = await axios.post('/api/todos', { content: input.value });
 
-  if (data.isSuccess) {
-    createTodo(data.todo);
+    if (data.isSuccess) {
+      createTodo(data.todo);
 
-    input.value = '';
+      input.value = '';
+    }
+  } catch (err) {
+    console.error(err);
   }
 });
 
 const app = async () => {
-  const { data } = await axios.get('/api/todos');
+  try {
+    const { data } = await axios.get('/api/todos');
 
-  if (data.isSuccess) {
-    data.todos.forEach((todo) => {
-      createTodo(todo);
-    });
+    if (data.isSuccess) {
+      data.todos.forEach((todo) => {
+        createTodo(todo);
+      });
+    }
+  } catch (err) {
+    console.error(err);
   }
 };
 
