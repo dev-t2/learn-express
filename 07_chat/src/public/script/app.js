@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 
 const enterForm = document.querySelector('.enter-form');
-const messageForm = document.querySelector('.message-form');
 
 const createUserList = (users) => {
   const userList = document.querySelector('.user-list');
@@ -33,6 +32,7 @@ enterForm.addEventListener('submit', (event) => {
   const socket = io();
 
   const nickname = enterForm.querySelector('input');
+  const messageForm = document.querySelector('.message-form');
 
   socket.emit('enter', nickname.value);
 
