@@ -4,10 +4,11 @@ const todos = [];
 
 const form = document.querySelector('form');
 const input = form.querySelector('input');
-const ul = document.querySelector('ul');
 
 const createTodo = (todo) => {
   todos.push(todo);
+
+  const ul = document.querySelector('ul');
 
   const li = document.createElement('li');
   const input = document.createElement('input');
