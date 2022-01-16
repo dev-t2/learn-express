@@ -33,9 +33,21 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 io.on('connection', (socket) => {
   socket.on('enter', (nickname: string) => {
-    users.push({ id: socket.id, nickname });
+    if (nickname) {
+      users.push({ id: socket.id, nickname });
 
-    io.emit('enter', users);
+      io.emit('enter', users);
+    }
+  });
+
+  socket.on('disconnect', () => {
+    const index = users.findIndex((user) => user.id === socket.id);
+
+    if (index >= 0) {
+      users.splice(index, 1);
+
+      io.emit('leave', users);
+    }
   });
 
   socket.on('error', (err) => {

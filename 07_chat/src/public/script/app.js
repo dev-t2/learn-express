@@ -1,32 +1,39 @@
 /* eslint-disable no-undef */
 
-let users = [];
+const enterForm = document.querySelector('.enter-form');
 
-const loginForm = document.querySelector('.login-form');
-const nickname = loginForm.querySelector('input');
-const userList = document.querySelector('.user-list');
+const createUserList = (users) => {
+  const userList = document.querySelector('.user-list');
 
-loginForm.addEventListener('submit', (event) => {
+  userList.innerHTML = '';
+
+  users.forEach((user) => {
+    const li = document.createElement('li');
+
+    li.innerText = user.nickname;
+
+    userList.appendChild(li);
+  });
+};
+
+enterForm.addEventListener('submit', (event) => {
   event.preventDefault();
+
+  const nickname = enterForm.querySelector('input');
 
   if (nickname.value) {
     const socket = io();
 
     socket.emit('enter', nickname.value);
 
-    socket.on('enter', (enteredUsers) => {
-      users = enteredUsers;
+    socket.on('enter', (users) => {
+      enterForm.hidden = true;
 
-      loginForm.hidden = true;
-      nickname.value = '';
-      userList.innerHTML = '';
+      createUserList(users);
+    });
 
-      users.forEach((user) => {
-        const li = document.createElement('li');
-
-        li.innerText = user.nickname;
-        userList.appendChild(li);
-      });
+    socket.on('leave', (users) => {
+      createUserList(users);
     });
   }
 });
