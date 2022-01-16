@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 const enterForm = document.querySelector('.enter-form');
+const messageForm = document.querySelector('.message-form');
 
 const createUserList = (users) => {
   const userList = document.querySelector('.user-list');
@@ -16,24 +17,53 @@ const createUserList = (users) => {
   });
 };
 
+const createMessage = (message) => {
+  const messageList = document.querySelector('.message-list');
+
+  const li = document.createElement('li');
+
+  li.innerText = message;
+
+  messageList.appendChild(li);
+};
+
 enterForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
+  const socket = io();
+
   const nickname = enterForm.querySelector('input');
 
-  if (nickname.value) {
-    const socket = io();
+  socket.emit('enter', nickname.value);
 
-    socket.emit('enter', nickname.value);
+  nickname.value = '';
 
-    socket.on('enter', (users) => {
-      enterForm.hidden = true;
+  socket.on('enter', ({ users, user }) => {
+    const enteredContainer = document.querySelector('.entered-container');
 
-      createUserList(users);
-    });
+    enterForm.hidden = true;
+    enteredContainer.hidden = false;
 
-    socket.on('leave', (users) => {
-      createUserList(users);
-    });
-  }
+    createUserList(users);
+    createMessage(`${user.nickname} 님이 들어왔습니다.`);
+  });
+
+  socket.on('leave', ({ users, user }) => {
+    createUserList(users);
+    createMessage(`${user.nickname} 님이 나갔습니다.`);
+  });
+
+  messageForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const message = messageForm.querySelector('input');
+
+    socket.emit('message', message.value);
+
+    message.value = '';
+  });
+
+  socket.on('message', ({ user, message }) => {
+    createMessage(`${user.nickname} : ${message}`);
+  });
 });

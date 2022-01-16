@@ -12,11 +12,20 @@
     <h1>Chat</h1>
 
     <form class="enter-form">
-      <input type="text" placeholder="Please enter your nickname." />
+      <input type="text" required placeholder="Please enter nickname." />
       <button>Enter</button>
     </form>
 
-    <ul class="user-list"></ul>
+    <div class="entered-container" hidden>
+      <ul class="user-list"></ul>
+
+      <form class="message-form">
+        <input type="text" required placeholder="Please enter message." />
+        <button>Send</button>
+      </form>
+
+      <ul class="message-list"></ul>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./script/app.js"></script>

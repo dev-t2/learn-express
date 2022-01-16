@@ -33,21 +33,27 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 io.on('connection', (socket) => {
   socket.on('enter', (nickname: string) => {
-    if (nickname) {
-      users.push({ id: socket.id, nickname });
+    const user = { id: socket.id, nickname };
 
-      io.emit('enter', users);
-    }
+    users.push(user);
+
+    io.emit('enter', { users, user });
   });
 
   socket.on('disconnect', () => {
     const index = users.findIndex((user) => user.id === socket.id);
 
     if (index >= 0) {
-      users.splice(index, 1);
+      const [user] = users.splice(index, 1);
 
-      io.emit('leave', users);
+      io.emit('leave', { users, user });
     }
+  });
+
+  socket.on('message', (message: string) => {
+    const user = users.find((user) => user.id === socket.id);
+
+    io.emit('message', { user, message });
   });
 
   socket.on('error', (err) => {
