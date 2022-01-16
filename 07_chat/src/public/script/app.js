@@ -1,20 +1,32 @@
 /* eslint-disable no-undef */
 
-const socket = io();
+let users = [];
 
-const form = document.querySelector('form');
-const input = form.querySelector('input');
+const loginForm = document.querySelector('.login-form');
+const nickname = loginForm.querySelector('input');
+const userList = document.querySelector('.user-list');
 
-form.addEventListener('submit', (event) => {
+loginForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  if (input.value) {
-    socket.emit('message', input.value);
+  if (nickname.value) {
+    const socket = io();
 
-    input.value = '';
+    socket.emit('enter', nickname.value);
+
+    socket.on('enter', (enteredUsers) => {
+      users = enteredUsers;
+
+      loginForm.hidden = true;
+      nickname.value = '';
+      userList.innerHTML = '';
+
+      users.forEach((user) => {
+        const li = document.createElement('li');
+
+        li.innerText = user.nickname;
+        userList.appendChild(li);
+      });
+    });
   }
-});
-
-socket.on('message', (message) => {
-  console.log(message);
 });

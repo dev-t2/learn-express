@@ -5,19 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Socket</title>
+    <title>Chat</title>
   </head>
 
   <body>
-    <form>
-      <input type="text" />
-      <button>Enter</button>
+    <h1>Chat</h1>
+
+    <form class="login-form">
+      <input type="text" placeholder="Username" />
+      <button>Login</button>
     </form>
 
-    <form>
-      <input type="text" />
-      <button>Send</button>
-    </form>
+    <ul class="user-list"></ul>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./script/app.js"></script>

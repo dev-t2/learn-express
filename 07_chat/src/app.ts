@@ -1,8 +1,15 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { createServer } from 'http';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 import morgan from 'morgan';
 import path from 'path';
+
+interface IUser {
+  id: string;
+  nickname: string;
+}
+
+const users: IUser[] = [];
 
 const app = express();
 const server = createServer(app);
@@ -24,29 +31,15 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
-interface ISocket extends Socket {
-  name?: string;
-}
+io.on('connection', (socket) => {
+  socket.on('enter', (nickname: string) => {
+    users.push({ id: socket.id, nickname });
 
-io.on('connection', (socket: ISocket) => {
-  console.log(`Connected User: ${socket.id}`);
-
-  socket.on('enter', (name) => {
-    socket.name = name;
-
-    io.emit('enter', { name });
-  });
-
-  socket.on('message', (message) => {
-    io.emit('message', message);
+    io.emit('enter', users);
   });
 
   socket.on('error', (err) => {
     console.error(err);
-  });
-
-  socket.on('disconnect', () => {
-    console.log(`Disconnected User: ${socket.id}`);
   });
 });
 
