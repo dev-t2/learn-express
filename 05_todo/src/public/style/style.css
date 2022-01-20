@@ -13,6 +13,10 @@ form {
   margin-top: 10px;
 }
 
+div > button {
+  margin-top: 10px;
+}
+
 ul {
   margin-top: 10px;
 }

@@ -4,32 +4,36 @@ const todos = [];
 
 const form = document.querySelector('form');
 const input = form.querySelector('input');
+const div = document.querySelector('div');
+const deleteAll = div.querySelector('button');
+const ul = document.querySelector('ul');
 
 const createTodo = (todo) => {
   todos.push(todo);
 
-  const ul = document.querySelector('ul');
-
   const li = document.createElement('li');
-  const input = document.createElement('input');
+  const checkbox = document.createElement('input');
   const span = document.createElement('span');
   const button = document.createElement('button');
 
-  input.type = 'checkbox';
-  input.checked = todo.isComplete;
+  div.hidden = false;
+  checkbox.type = 'checkbox';
+  checkbox.checked = todo.isComplete;
   span.innerText = todo.content;
   button.innerText = 'Delete';
 
-  input.addEventListener('click', async (event) => {
+  checkbox.addEventListener('click', async (event) => {
     try {
       const isComplete = event.target.checked;
 
       const { data } = await axios.put(`/api/todos/${todo.id}`, { isComplete });
 
-      if (data.isSuccess) {
-        const index = todos.findIndex(({ id }) => id === todo.id);
+      const index = todos.findIndex(({ id }) => id === todo.id);
 
+      if (data.isSuccess) {
         todos[index].isComplete = isComplete;
+      } else {
+        checkbox.checked = todos[index].isComplete;
       }
     } catch (err) {
       console.error(err);
@@ -45,6 +49,8 @@ const createTodo = (todo) => {
 
         todos.splice(index, 1);
 
+        div.hidden = todos.length === 0;
+
         ul.removeChild(li);
       }
     } catch (err) {
@@ -52,7 +58,7 @@ const createTodo = (todo) => {
     }
   });
 
-  li.appendChild(input);
+  li.appendChild(checkbox);
   li.appendChild(span);
   li.appendChild(button);
   ul.appendChild(li);
@@ -68,6 +74,19 @@ form.addEventListener('submit', async (event) => {
       createTodo(data.todo);
 
       input.value = '';
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+deleteAll.addEventListener('click', async () => {
+  try {
+    const { data } = await axios.delete('/api/todos');
+
+    if (data.isSuccess) {
+      div.hidden = true;
+      ul.innerHTML = '';
     }
   } catch (err) {
     console.error(err);

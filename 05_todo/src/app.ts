@@ -9,7 +9,7 @@ interface ITodo {
   isComplete: boolean;
 }
 
-const todos: ITodo[] = [];
+let todos: ITodo[] = [];
 
 const app = express();
 
@@ -97,6 +97,12 @@ app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   }
 
   todos.splice(index, 1);
+
+  return res.json({ isSuccess: true });
+});
+
+app.delete('/api/todos', (req, res) => {
+  todos = [];
 
   return res.json({ isSuccess: true });
 });
