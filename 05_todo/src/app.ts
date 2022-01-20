@@ -34,7 +34,7 @@ interface ICreateTodoRequest extends Request {
 app.post('/api/todos', (req: ICreateTodoRequest, res) => {
   const { content } = req.body;
 
-  if (typeof content !== 'string' || !content.trim()) {
+  if (content === undefined || typeof content !== 'string' || !content.trim()) {
     return res.json({ isSuccess: false });
   }
 
@@ -58,11 +58,11 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   const { id } = req.params;
   const { isComplete } = req.body;
 
-  if (typeof id !== 'string' || !id.trim()) {
+  if (!id.trim()) {
     return res.json({ isSuccess: false });
   }
 
-  if (typeof isComplete !== 'boolean' || isComplete === undefined) {
+  if (isComplete === undefined || typeof isComplete !== 'boolean') {
     return res.json({ isSuccess: false });
   }
 
@@ -86,7 +86,7 @@ interface IDeleteTodoRequest extends Request {
 app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   const { id } = req.params;
 
-  if (typeof id !== 'string' || !id.trim()) {
+  if (!id.trim()) {
     return res.json({ isSuccess: false });
   }
 
