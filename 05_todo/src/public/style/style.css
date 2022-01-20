@@ -27,6 +27,7 @@ ul > li {
 
 li > span {
   margin-left: 5px;
+  cursor: default;
 }
 
 li > button {

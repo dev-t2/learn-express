@@ -1,26 +1,26 @@
 /* eslint-disable no-undef */
 
-const todos = [];
-
 const form = document.querySelector('form');
 const input = form.querySelector('input');
-const div = document.querySelector('div');
-const deleteAll = div.querySelector('button');
-const ul = document.querySelector('ul');
+const button = form.querySelector('button');
+const deleteAllContainer = document.querySelector('div');
+const deleteAllButton = deleteAllContainer.querySelector('button');
+const todoList = document.querySelector('ul');
+
+let updateTodoId = '';
+let updateTodoContent = null;
 
 const createTodo = (todo) => {
-  todos.push(todo);
-
-  const li = document.createElement('li');
+  const todoItem = document.createElement('li');
   const checkbox = document.createElement('input');
-  const span = document.createElement('span');
-  const button = document.createElement('button');
+  const content = document.createElement('span');
+  const deleteButton = document.createElement('button');
 
-  div.hidden = false;
+  deleteAllContainer.hidden = false;
   checkbox.type = 'checkbox';
   checkbox.checked = todo.isComplete;
-  span.innerText = todo.content;
-  button.innerText = 'Delete';
+  content.innerText = todo.content;
+  deleteButton.innerText = 'Delete';
 
   checkbox.addEventListener('click', async (event) => {
     try {
@@ -28,65 +28,85 @@ const createTodo = (todo) => {
 
       const { data } = await axios.put(`/api/todos/${todo.id}`, { isComplete });
 
-      const index = todos.findIndex(({ id }) => id === todo.id);
-
-      if (data.isSuccess) {
-        todos[index].isComplete = isComplete;
-      } else {
-        checkbox.checked = todos[index].isComplete;
+      if (!data.isSuccess) {
+        checkbox.checked = !event.target.checked;
       }
     } catch (err) {
       console.error(err);
     }
   });
 
-  button.addEventListener('click', async () => {
+  content.addEventListener('click', async (event) => {
+    updateTodoId = todo.id;
+    updateTodoContent = content;
+
+    input.value = event.target.innerText;
+    button.innerText = 'Update';
+  });
+
+  deleteButton.addEventListener('click', async () => {
     try {
       const { data } = await axios.delete(`/api/todos/${todo.id}`);
 
       if (data.isSuccess) {
-        const index = todos.findIndex(({ id }) => id === todo.id);
+        todoList.removeChild(todoItem);
 
-        todos.splice(index, 1);
-
-        div.hidden = todos.length === 0;
-
-        ul.removeChild(li);
+        deleteAllContainer.hidden = todoList.childElementCount === 0;
       }
     } catch (err) {
       console.error(err);
     }
   });
 
-  li.appendChild(checkbox);
-  li.appendChild(span);
-  li.appendChild(button);
-  ul.appendChild(li);
+  todoItem.appendChild(checkbox);
+  todoItem.appendChild(content);
+  todoItem.appendChild(deleteButton);
+  todoList.appendChild(todoItem);
 };
 
 form.addEventListener('submit', async (event) => {
   try {
     event.preventDefault();
 
-    const { data } = await axios.post('/api/todos', { content: input.value });
+    if (button.innerText === 'Create') {
+      const { data } = await axios.post('/api/todos', {
+        content: input.value,
+      });
 
-    if (data.isSuccess) {
-      createTodo(data.todo);
+      if (data.isSuccess) {
+        createTodo(data.todo);
 
-      input.value = '';
+        input.value = '';
+      }
+    }
+
+    if (button.innerText === 'Update') {
+      const { data } = await axios.put(`/api/todos/${updateTodoId}`, {
+        content: input.value,
+      });
+
+      if (data.isSuccess) {
+        updateTodoContent.innerText = input.value;
+
+        updateTodoId = '';
+        updateTodoContent = null;
+
+        input.value = '';
+        button.innerText = 'Create';
+      }
     }
   } catch (err) {
     console.error(err);
   }
 });
 
-deleteAll.addEventListener('click', async () => {
+deleteAllButton.addEventListener('click', async () => {
   try {
     const { data } = await axios.delete('/api/todos');
 
     if (data.isSuccess) {
-      div.hidden = true;
-      ul.innerHTML = '';
+      deleteAllContainer.hidden = true;
+      todoList.innerHTML = '';
     }
   } catch (err) {
     console.error(err);

@@ -15,6 +15,7 @@
     "no-console": "off",
     "comma-dangle": "off",
     "no-shadow": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "operator-linebreak": "off"
   }
 }

@@ -51,18 +51,26 @@ interface IUpdateTodoRequest extends Request {
   };
   body: {
     isComplete: boolean;
+    content: string;
   };
 }
 
 app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   const { id } = req.params;
-  const { isComplete } = req.body;
+  const { content, isComplete } = req.body;
 
   if (!id.trim()) {
     return res.json({ isSuccess: false });
   }
 
-  if (isComplete === undefined || typeof isComplete !== 'boolean') {
+  if (
+    content !== undefined &&
+    (typeof content !== 'string' || !content.trim())
+  ) {
+    return res.json({ isSuccess: false });
+  }
+
+  if (isComplete !== undefined && typeof isComplete !== 'boolean') {
     return res.json({ isSuccess: false });
   }
 
@@ -72,7 +80,11 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
     return res.json({ isSuccess: false });
   }
 
-  todos[index].isComplete = isComplete;
+  todos[index] = {
+    ...todos[index],
+    content: content ?? todos[index].content,
+    isComplete: isComplete ?? todos[index].isComplete,
+  };
 
   return res.json({ isSuccess: true });
 });
