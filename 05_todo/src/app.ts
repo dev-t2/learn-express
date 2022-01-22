@@ -45,32 +45,24 @@ app.post('/api/todos', (req: ICreateTodoRequest, res) => {
   return res.json({ isSuccess: true, todo });
 });
 
-interface IUpdateTodoRequest extends Request {
+interface IUpdateIsCompleteRequest extends Request {
   params: {
     id: string;
   };
   body: {
     isComplete: boolean;
-    content: string;
   };
 }
 
-app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
+app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
   const { id } = req.params;
-  const { content, isComplete } = req.body;
+  const { isComplete } = req.body;
 
   if (!id.trim()) {
     return res.json({ isSuccess: false });
   }
 
-  if (
-    content !== undefined &&
-    (typeof content !== 'string' || !content.trim())
-  ) {
-    return res.json({ isSuccess: false });
-  }
-
-  if (isComplete !== undefined && typeof isComplete !== 'boolean') {
+  if (isComplete === undefined || typeof isComplete !== 'boolean') {
     return res.json({ isSuccess: false });
   }
 
@@ -80,11 +72,39 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
     return res.json({ isSuccess: false });
   }
 
-  todos[index] = {
-    ...todos[index],
-    content: content ?? todos[index].content,
-    isComplete: isComplete ?? todos[index].isComplete,
+  todos[index].isComplete = isComplete;
+
+  return res.json({ isSuccess: true });
+});
+
+interface IUpdateContentRequest extends Request {
+  params: {
+    id: string;
   };
+  body: {
+    content: string;
+  };
+}
+
+app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
+
+  if (!id.trim()) {
+    return res.json({ isSuccess: false });
+  }
+
+  if (content === undefined || typeof content !== 'string' || !content.trim()) {
+    return res.json({ isSuccess: false });
+  }
+
+  const index = todos.findIndex((todo) => todo.id === id);
+
+  if (index === -1) {
+    return res.json({ isSuccess: false });
+  }
+
+  todos[index].content = content;
 
   return res.json({ isSuccess: true });
 });
