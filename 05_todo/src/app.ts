@@ -40,7 +40,7 @@ app.post('/api/todos', (req: ICreateTodoRequest, res) => {
 
   const todo: ITodo = { id: nanoid(), content, isComplete: false };
 
-  todos.push(todo);
+  todos = [...todos, todo];
 
   return res.json({ isSuccess: true, todo });
 });
@@ -58,21 +58,17 @@ app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
   const { id } = req.params;
   const { isComplete } = req.body;
 
-  if (!id.trim()) {
-    return res.json({ isSuccess: false });
-  }
-
   if (isComplete === undefined || typeof isComplete !== 'boolean') {
     return res.json({ isSuccess: false });
   }
 
-  const index = todos.findIndex((todo) => todo.id === id);
+  todos = todos.map((todo) => {
+    if (todo.id === id) {
+      return { ...todo, isComplete };
+    }
 
-  if (index === -1) {
-    return res.json({ isSuccess: false });
-  }
-
-  todos[index].isComplete = isComplete;
+    return todo;
+  });
 
   return res.json({ isSuccess: true });
 });
@@ -90,21 +86,17 @@ app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
   const { id } = req.params;
   const { content } = req.body;
 
-  if (!id.trim()) {
-    return res.json({ isSuccess: false });
-  }
-
   if (content === undefined || typeof content !== 'string' || !content.trim()) {
     return res.json({ isSuccess: false });
   }
 
-  const index = todos.findIndex((todo) => todo.id === id);
+  todos = todos.map((todo) => {
+    if (todo.id === id) {
+      return { ...todo, content };
+    }
 
-  if (index === -1) {
-    return res.json({ isSuccess: false });
-  }
-
-  todos[index].content = content;
+    return todo;
+  });
 
   return res.json({ isSuccess: true });
 });
@@ -118,17 +110,7 @@ interface IDeleteTodoRequest extends Request {
 app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   const { id } = req.params;
 
-  if (!id.trim()) {
-    return res.json({ isSuccess: false });
-  }
-
-  const index = todos.findIndex((todo) => todo.id === id);
-
-  if (index === -1) {
-    return res.json({ isSuccess: false });
-  }
-
-  todos.splice(index, 1);
+  todos = todos.filter((todo) => todo.id !== id);
 
   return res.json({ isSuccess: true });
 });

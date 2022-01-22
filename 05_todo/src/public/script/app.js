@@ -5,12 +5,11 @@ const todos = [];
 const form = document.querySelector('form');
 const input = form.querySelector('input');
 const div = document.querySelector('div');
-const selected = div.querySelector('.selected');
 const all = div.querySelector('.all');
 const ul = document.querySelector('ul');
 
 const createTodo = (todo) => {
-  todos.push(todo);
+  todos.push({ ...todo, isUpdate: false });
 
   const li = document.createElement('li');
   const checkbox = document.createElement('input');
@@ -39,6 +38,14 @@ const createTodo = (todo) => {
     } catch (err) {
       console.error(err);
     }
+  });
+
+  span.addEventListener('click', async (event) => {
+    const index = todos.findIndex(({ id }) => id === todo.id);
+
+    todos[index].isUpdate = true;
+
+    input.value = event.target.innerText;
   });
 
   button.addEventListener('click', async () => {
@@ -80,16 +87,6 @@ form.addEventListener('submit', async (event) => {
         input.value = '';
       }
     }
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-selected.addEventListener('click', async () => {
-  try {
-    const selectedTodos = todos.filter((todo) => todo.isComplete);
-
-    console.log(selectedTodos);
   } catch (err) {
     console.error(err);
   }
