@@ -58,6 +58,12 @@ app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
   const { id } = req.params;
   const { isComplete } = req.body;
 
+  const todo = todos.find((todo) => todo.id === id);
+
+  if (!todo) {
+    return res.json({ isSuccess: false });
+  }
+
   if (isComplete === undefined || typeof isComplete !== 'boolean') {
     return res.json({ isSuccess: false });
   }
@@ -86,6 +92,12 @@ app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
   const { id } = req.params;
   const { content } = req.body;
 
+  const todo = todos.find((todo) => todo.id === id);
+
+  if (!todo) {
+    return res.json({ isSuccess: false });
+  }
+
   if (content === undefined || typeof content !== 'string' || !content.trim()) {
     return res.json({ isSuccess: false });
   }
@@ -109,6 +121,12 @@ interface IDeleteTodoRequest extends Request {
 
 app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   const { id } = req.params;
+
+  const todo = todos.find((todo) => todo.id === id);
+
+  if (!todo) {
+    return res.json({ isSuccess: false });
+  }
 
   todos = todos.filter((todo) => todo.id !== id);
 
