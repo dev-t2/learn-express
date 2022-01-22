@@ -103,28 +103,38 @@ app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
   return res.json({ isSuccess: true });
 });
 
-app.delete('/api/todos', (req, res) => {
-  todos = [];
-
-  return res.json({ isSuccess: true });
-});
-
-interface IDeleteTodoRequest extends Request {
-  params: { id: string };
+interface IDeleteTodosRequest extends Request {
+  query: { id: string | string[] | undefined };
 }
 
-app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
-  const { id } = req.params;
+app.delete('/api/todos', (req: IDeleteTodosRequest, res) => {
+  const { id } = req.query;
 
-  const todo = todos.find((todo) => todo.id === id);
+  if (id === undefined) {
+    todos = [];
 
-  if (!todo) {
-    return res.json({ isSuccess: false });
+    return res.json({ isSuccess: true });
   }
 
-  todos = todos.filter((todo) => todo.id !== id);
+  if (typeof id === 'string') {
+    const todo = todos.find((todo) => todo.id === id);
 
-  return res.json({ isSuccess: true });
+    if (!todo) {
+      return res.json({ isSuccess: false });
+    }
+
+    todos = todos.filter((todo) => todo.id !== id);
+
+    return res.json({ isSuccess: true });
+  }
+
+  if (typeof id === 'object') {
+    todos = todos.filter((todo) => !id.includes(todo.id));
+
+    return res.json({ isSuccess: true });
+  }
+
+  return res.json({ isSuccess: false });
 });
 
 app.use((req, res) => {

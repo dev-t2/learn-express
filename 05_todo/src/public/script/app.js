@@ -5,8 +5,8 @@ let todos = [];
 const form = document.querySelector('form');
 const input = form.querySelector('input');
 const button = form.querySelector('button');
-const div = document.querySelector('div');
-const all = div.querySelector('.all');
+const selected = document.querySelector('.selected');
+const all = document.querySelector('.all');
 const ul = document.querySelector('ul');
 
 const createTodo = ({ id, content, isComplete }) => {
@@ -17,7 +17,7 @@ const createTodo = ({ id, content, isComplete }) => {
   const span = document.createElement('span');
   const deleteButton = document.createElement('button');
 
-  div.hidden = false;
+  all.hidden = false;
   checkbox.type = 'checkbox';
   checkbox.checked = isComplete;
   span.innerText = content;
@@ -37,6 +37,8 @@ const createTodo = ({ id, content, isComplete }) => {
 
           return todo;
         });
+
+        selected.hidden = !todos.some((todo) => todo.isComplete);
       }
     } catch (err) {
       console.error(err);
@@ -54,12 +56,13 @@ const createTodo = ({ id, content, isComplete }) => {
 
   deleteButton.addEventListener('click', async () => {
     try {
-      const { data } = await axios.delete(`/api/todos/${id}`);
+      const { data } = await axios.delete(`/api/todos?id=${id}`);
 
       if (data.isSuccess) {
         todos = todos.filter((todo) => todo.id !== id);
 
-        div.hidden = todos.length === 0;
+        selected.hidden = !todos.some((todo) => todo.isComplete);
+        all.hidden = todos.length === 0;
 
         ul.removeChild(li);
       }
@@ -119,6 +122,37 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
+selected.addEventListener('click', async () => {
+  try {
+    const ids = todos.reduce((id, todo) => {
+      if (todo.isComplete) {
+        return [...id, todo.id];
+      }
+
+      return id;
+    }, []);
+
+    const { data } = await axios.delete(`/api/todos?id=${ids.join('&id=')}`);
+
+    if (data.isSuccess) {
+      todos = todos.filter((todo) => !ids.includes(todo.id));
+
+      selected.hidden = !todos.some((todo) => todo.isComplete);
+      all.hidden = todos.length === 0;
+
+      const list = [...ul.childNodes].filter((li) => {
+        const checkbox = li.querySelector('input');
+
+        return checkbox.checked;
+      });
+
+      list.forEach((li) => li.remove());
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 all.addEventListener('click', async () => {
   try {
     const { data } = await axios.delete('/api/todos');
@@ -126,7 +160,8 @@ all.addEventListener('click', async () => {
     if (data.isSuccess) {
       todos = [];
 
-      div.hidden = true;
+      selected.hidden = true;
+      all.hidden = true;
       ul.innerHTML = '';
     }
   } catch (err) {
