@@ -1,65 +1,65 @@
 /* eslint-disable no-undef */
 
-const todos = [];
+let todos = [];
 
 const form = document.querySelector('form');
 const input = form.querySelector('input');
+const button = form.querySelector('button');
 const div = document.querySelector('div');
 const all = div.querySelector('.all');
 const ul = document.querySelector('ul');
 
-const createTodo = (todo) => {
-  todos.push({ ...todo, isUpdate: false });
+const createTodo = ({ id, content, isComplete }) => {
+  todos = [...todos, { id, content, isComplete, isUpdate: false }];
 
   const li = document.createElement('li');
   const checkbox = document.createElement('input');
   const span = document.createElement('span');
-  const button = document.createElement('button');
+  const deleteButton = document.createElement('button');
 
   div.hidden = false;
   checkbox.type = 'checkbox';
-  checkbox.checked = todo.isComplete;
-  span.innerText = todo.content;
-  button.innerText = 'Delete';
+  checkbox.checked = isComplete;
+  span.innerText = content;
+  deleteButton.innerText = 'Delete';
 
-  checkbox.addEventListener('click', async () => {
+  checkbox.addEventListener('click', async (event) => {
     try {
-      const isComplete = checkbox.checked;
-
-      const { data } = await axios.put(`/api/todos/${todo.id}/isComplete`, {
-        isComplete,
+      const { data } = await axios.put(`/api/todos/${id}/isComplete`, {
+        isComplete: event.target.checked,
       });
 
       if (data.isSuccess) {
-        const index = todos.findIndex(({ id }) => id === todo.id);
+        todos = todos.map((todo) => {
+          if (todo.id === id) {
+            return { ...todo, isComplete: event.target.checked };
+          }
 
-        todos[index].isComplete = checkbox.checked;
+          return todo;
+        });
       }
     } catch (err) {
       console.error(err);
     }
   });
 
-  span.addEventListener('click', async (event) => {
-    const index = todos.findIndex(({ id }) => id === todo.id);
-
-    todos[index].isUpdate = true;
+  span.addEventListener('click', (event) => {
+    todos = todos.map((todo) => {
+      return { ...todo, isUpdate: todo.id === id };
+    });
 
     input.value = event.target.innerText;
+    button.innerText = 'Update';
   });
 
-  button.addEventListener('click', async () => {
+  deleteButton.addEventListener('click', async () => {
     try {
-      const { data } = await axios.delete(`/api/todos/${todo.id}`);
+      const { data } = await axios.delete(`/api/todos/${id}`);
 
       if (data.isSuccess) {
-        const index = todos.findIndex(({ id }) => id === todo.id);
+        todos = todos.filter((todo) => todo.id !== id);
 
-        todos.splice(index, 1);
-
-        if (todos.length === 0) {
-          div.hidden = true;
-        }
+        div.hidden = todos.length === 0;
 
         ul.removeChild(li);
       }
@@ -70,7 +70,7 @@ const createTodo = (todo) => {
 
   li.appendChild(checkbox);
   li.appendChild(span);
-  li.appendChild(button);
+  li.appendChild(deleteButton);
   ul.appendChild(li);
 };
 
@@ -78,12 +78,39 @@ form.addEventListener('submit', async (event) => {
   try {
     event.preventDefault();
 
-    if (input.value.trim()) {
-      const { data } = await axios.post('/api/todos', { content: input.value });
+    const status = button.innerText;
+    const content = input.value.trim();
+
+    if (status === 'Create' && content) {
+      const { data } = await axios.post('/api/todos', { content });
 
       if (data.isSuccess) {
         createTodo(data.todo);
 
+        input.value = '';
+      }
+    }
+
+    if (status === 'Update' && content) {
+      const index = todos.findIndex((todo) => todo.isUpdate);
+      const { id } = todos[index];
+
+      const { data } = await axios.put(`/api/todos/${id}/content`, { content });
+
+      if (data.isSuccess) {
+        todos = todos.map((todo) => {
+          if (todo.id === id) {
+            const span = ul.childNodes[index].querySelector('span');
+
+            span.innerText = content;
+
+            return { ...todo, content, isUpdate: false };
+          }
+
+          return todo;
+        });
+
+        button.innerText = 'Create';
         input.value = '';
       }
     }
@@ -97,6 +124,8 @@ all.addEventListener('click', async () => {
     const { data } = await axios.delete('/api/todos');
 
     if (data.isSuccess) {
+      todos = [];
+
       div.hidden = true;
       ul.innerHTML = '';
     }

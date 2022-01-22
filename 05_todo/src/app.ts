@@ -26,9 +26,7 @@ app.get('/api/todos', (req, res) => {
 });
 
 interface ICreateTodoRequest extends Request {
-  body: {
-    content: string;
-  };
+  body: { content: string };
 }
 
 app.post('/api/todos', (req: ICreateTodoRequest, res) => {
@@ -46,12 +44,8 @@ app.post('/api/todos', (req: ICreateTodoRequest, res) => {
 });
 
 interface IUpdateIsCompleteRequest extends Request {
-  params: {
-    id: string;
-  };
-  body: {
-    isComplete: boolean;
-  };
+  params: { id: string };
+  body: { isComplete: boolean };
 }
 
 app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
@@ -80,12 +74,8 @@ app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
 });
 
 interface IUpdateContentRequest extends Request {
-  params: {
-    id: string;
-  };
-  body: {
-    content: string;
-  };
+  params: { id: string };
+  body: { content: string };
 }
 
 app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
@@ -113,10 +103,14 @@ app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
   return res.json({ isSuccess: true });
 });
 
+app.delete('/api/todos', (req, res) => {
+  todos = [];
+
+  return res.json({ isSuccess: true });
+});
+
 interface IDeleteTodoRequest extends Request {
-  params: {
-    id: string;
-  };
+  params: { id: string };
 }
 
 app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
@@ -129,12 +123,6 @@ app.delete('/api/todos/:id', (req: IDeleteTodoRequest, res) => {
   }
 
   todos = todos.filter((todo) => todo.id !== id);
-
-  return res.json({ isSuccess: true });
-});
-
-app.delete('/api/todos', (req, res) => {
-  todos = [];
 
   return res.json({ isSuccess: true });
 });
