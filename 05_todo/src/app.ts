@@ -9,7 +9,7 @@ interface ITodo {
   isComplete: boolean;
 }
 
-let todos: ITodo[] = [];
+const todos: ITodo[] = [];
 
 const app = express();
 
@@ -38,103 +38,81 @@ app.post('/api/todos', (req: ICreateTodoRequest, res) => {
 
   const todo: ITodo = { id: nanoid(), content, isComplete: false };
 
-  todos = [...todos, todo];
+  todos.push(todo);
 
   return res.json({ isSuccess: true, todo });
 });
 
-interface IUpdateIsCompleteRequest extends Request {
+interface IUpdateTodoRequest extends Request {
   params: { id: string };
-  body: { isComplete: boolean };
+  body: {
+    content: string;
+    isComplete: boolean;
+  };
 }
 
-app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
+app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   const { id } = req.params;
-  const { isComplete } = req.body;
+  const { content, isComplete } = req.body;
 
-  const todo = todos.find((todo) => todo.id === id);
+  const index = todos.findIndex((todo) => todo.id === id);
 
-  if (!todo) {
+  if (index === -1) {
     return res.json({ isSuccess: false });
   }
 
-  if (isComplete === undefined || typeof isComplete !== 'boolean') {
+  if (
+    content !== undefined &&
+    (typeof content !== 'string' || !content.trim())
+  ) {
     return res.json({ isSuccess: false });
   }
 
-  todos = todos.map((todo) => {
-    if (todo.id === id) {
-      return { ...todo, isComplete };
-    }
+  if (isComplete !== undefined && typeof isComplete !== 'boolean') {
+    return res.json({ isSuccess: false });
+  }
 
-    return todo;
-  });
+  todos[index] = {
+    ...todos[index],
+    content: content ?? todos[index].content,
+    isComplete: isComplete ?? todos[index].isComplete,
+  };
 
   return res.json({ isSuccess: true });
 });
 
-interface IUpdateContentRequest extends Request {
-  params: { id: string };
-  body: { content: string };
-}
-
-app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
-  const { id } = req.params;
-  const { content } = req.body;
-
-  const todo = todos.find((todo) => todo.id === id);
-
-  if (!todo) {
-    return res.json({ isSuccess: false });
-  }
-
-  if (content === undefined || typeof content !== 'string' || !content.trim()) {
-    return res.json({ isSuccess: false });
-  }
-
-  todos = todos.map((todo) => {
-    if (todo.id === id) {
-      return { ...todo, content };
-    }
-
-    return todo;
-  });
+app.delete('/api/todos', (req, res) => {
+  todos.length = 0;
 
   return res.json({ isSuccess: true });
 });
 
 interface IDeleteTodosRequest extends Request {
-  query: { id: string | string[] | undefined };
+  params: { id: string };
 }
 
-app.delete('/api/todos', (req: IDeleteTodosRequest, res) => {
-  const { id } = req.query;
+app.delete('/api/todos/:id', (req: IDeleteTodosRequest, res) => {
+  const { id } = req.params;
 
-  if (id === undefined) {
-    todos = [];
+  const ids = id.split(',');
 
-    return res.json({ isSuccess: true });
-  }
-
-  if (typeof id === 'string') {
-    const todo = todos.find((todo) => todo.id === id);
-
-    if (!todo) {
-      return res.json({ isSuccess: false });
+  const reverseIndexes = todos.reduceRight((indexes: number[], todo, index) => {
+    if (ids.includes(todo.id)) {
+      return [...indexes, index];
     }
 
-    todos = todos.filter((todo) => todo.id !== id);
+    return indexes;
+  }, []);
 
-    return res.json({ isSuccess: true });
+  if (ids.length !== reverseIndexes.length) {
+    return res.json({ isSuccess: false });
   }
 
-  if (typeof id === 'object') {
-    todos = todos.filter((todo) => !id.includes(todo.id));
+  reverseIndexes.forEach((reverseIndex) => {
+    todos.splice(reverseIndex, 1);
+  });
 
-    return res.json({ isSuccess: true });
-  }
-
-  return res.json({ isSuccess: false });
+  return res.json({ isSuccess: true });
 });
 
 app.use((req, res) => {
