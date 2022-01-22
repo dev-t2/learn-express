@@ -54,7 +54,7 @@ interface IUpdateIsCompleteRequest extends Request {
   };
 }
 
-app.patch('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
+app.put('/api/todos/:id/isComplete', (req: IUpdateIsCompleteRequest, res) => {
   const { id } = req.params;
   const { isComplete } = req.body;
 
@@ -86,7 +86,7 @@ interface IUpdateContentRequest extends Request {
   };
 }
 
-app.patch('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
+app.put('/api/todos/:id/content', (req: IUpdateContentRequest, res) => {
   const { id } = req.params;
   const { content } = req.body;
 
