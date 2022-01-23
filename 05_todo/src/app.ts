@@ -61,6 +61,10 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
     return res.json({ isSuccess: false });
   }
 
+  if (content === undefined && isComplete === undefined) {
+    return res.json({ isSuccess: false });
+  }
+
   if (
     content !== undefined &&
     (typeof content !== 'string' || !content.trim())
@@ -81,36 +85,32 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
   return res.json({ isSuccess: true });
 });
 
-app.delete('/api/todos', (req, res) => {
-  todos.length = 0;
-
-  return res.json({ isSuccess: true });
-});
-
 interface IDeleteTodosRequest extends Request {
-  params: { id: string };
+  query: { ids: string };
 }
 
-app.delete('/api/todos/:id', (req: IDeleteTodosRequest, res) => {
-  const { id } = req.params;
+app.delete('/api/todos', (req: IDeleteTodosRequest, res) => {
+  const ids = req.query.ids?.split(',');
 
-  const ids = id.split(',');
+  if (ids) {
+    const indexes = todos.reduce((indexes: number[], todo, index) => {
+      if (ids.includes(todo.id)) {
+        return [index, ...indexes];
+      }
 
-  const reverseIndexes = todos.reduceRight((indexes: number[], todo, index) => {
-    if (ids.includes(todo.id)) {
-      return [...indexes, index];
+      return indexes;
+    }, []);
+
+    if (ids.length !== indexes.length) {
+      return res.json({ isSuccess: false });
     }
 
-    return indexes;
-  }, []);
-
-  if (ids.length !== reverseIndexes.length) {
-    return res.json({ isSuccess: false });
+    indexes.forEach((index) => {
+      todos.splice(index, 1);
+    });
+  } else {
+    todos.length = 0;
   }
-
-  reverseIndexes.forEach((reverseIndex) => {
-    todos.splice(reverseIndex, 1);
-  });
 
   return res.json({ isSuccess: true });
 });
