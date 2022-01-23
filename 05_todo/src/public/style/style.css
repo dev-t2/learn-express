@@ -5,31 +5,39 @@ body {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
 }
 
 form {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
-div {
-  margin-top: 10px;
+form > button {
+  margin-left: 10px;
+}
+
+.delete-container {
+  margin-top: 20px;
+}
+
+.delete-container > .selection {
+  margin-right: 10px;
 }
 
 ul {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 ul > li {
-  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 li > span {
-  margin-left: 5px;
+  margin-left: 10px;
   cursor: default;
 }
 
 li > button {
-  margin-left: 5px;
+  margin-left: 10px;
 }
