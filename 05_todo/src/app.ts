@@ -61,7 +61,7 @@ app.put('/api/todos/:id', (req: IUpdateTodoRequest, res) => {
     return res.json({ isSuccess: false });
   }
 
-  if (content === undefined && isComplete === undefined) {
+  if (Object.keys(req.body).length === 0) {
     return res.json({ isSuccess: false });
   }
 
