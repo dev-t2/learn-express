@@ -12,7 +12,6 @@ const todoList = document.querySelector('ul');
 const createTodo = (todo) => {
   todos.push({ ...todo, isUpdate: false });
 
-  deleteSelectionButton.hidden = !todos.some((todo) => todo.isComplete);
   deleteAllButton.hidden = false;
 
   const li = document.createElement('li');
@@ -178,6 +177,8 @@ const app = async () => {
       data.todos.forEach((todo) => {
         createTodo(todo);
       });
+
+      deleteSelectionButton.hidden = !todos.some((todo) => todo.isComplete);
     }
   } catch (err) {
     console.error(err);
