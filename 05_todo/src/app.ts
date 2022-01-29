@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import path from 'path';
+import cors from 'cors';
 import { nanoid } from 'nanoid';
 
 interface ITodo {
@@ -20,6 +21,7 @@ app.use(
   express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
 );
 app.use(express.json());
+app.use(cors());
 
 app.get('/api/todos', (req, res) => {
   return res.json({ isSuccess: true, todos });
