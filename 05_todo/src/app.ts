@@ -13,7 +13,7 @@ const todos: ITodo[] = [];
 
 const app = express();
 
-app.set('port', 3000);
+app.set('port', 8080);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(
