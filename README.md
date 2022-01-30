@@ -5,20 +5,20 @@
 - TSNode: https://typestrong.org/ts-node
 - ESLint: https://eslint.org
 - Express: https://expressjs.com/ko
-  - NPM: https://www.npmjs.com/package/express
+  - npm: https://www.npmjs.com/package/express
 - Nodemon: https://nodemon.io
-  - NPM: https://www.npmjs.com/package/nodemon
+  - npm: https://www.npmjs.com/package/nodemon
 - Morgan: https://www.npmjs.com/package/morgan
 - ResetCSS: https://meyerweb.com/eric/tools/css/reset
 - Axios: https://axios-http.com
-  - NPM: https://www.npmjs.com/package/axios
+  - npm: https://www.npmjs.com/package/axios
 - NanoID: https://www.npmjs.com/package/nanoid
 - CORS: https://github.com/expressjs/cors
-  - NPM: https://www.npmjs.com/package/cors
+  - npm: https://www.npmjs.com/package/cors
 - SocketIO: https://socket.io
-  - NPM: https://www.npmjs.com/package/socket.io
+  - npm: https://www.npmjs.com/package/socket.io
 - MongoDB: https://www.mongodb.com/kr
 - Mongoose: https://mongoosejs.com
-  - NPM: https://www.npmjs.com/package/mongoose
+  - npm: https://www.npmjs.com/package/mongoose
 - Dotenv: https://www.npmjs.com/package/dotenv
 - Puppeteer: https://www.npmjs.com/package/puppeteer
