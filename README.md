@@ -13,8 +13,7 @@
 - Axios: https://axios-http.com
   - npm: https://www.npmjs.com/package/axios
 - NanoID: https://www.npmjs.com/package/nanoid
-- CORS: https://github.com/expressjs/cors
-  - npm: https://www.npmjs.com/package/cors
+- CORS: https://www.npmjs.com/package/cors
 - SocketIO: https://socket.io
   - npm: https://www.npmjs.com/package/socket.io
 - MongoDB: https://www.mongodb.com/kr
