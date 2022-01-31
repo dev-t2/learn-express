@@ -1,5 +1,5 @@
 {
-  "name": "06_socket",
+  "name": "07_socket",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
