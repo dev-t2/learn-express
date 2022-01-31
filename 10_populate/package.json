@@ -1,5 +1,5 @@
 {
-  "name": "09_populate",
+  "name": "10_populate",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
