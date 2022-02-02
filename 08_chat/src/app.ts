@@ -1,12 +1,11 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import morgan from 'morgan';
 import path from 'path';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server);
 
 app.set('port', 3000);
 
@@ -26,9 +25,26 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('Internal Server Error');
 });
 
+const server = createServer(app);
+
 server.listen(app.get('port'), () => {
   console.log(`Server running at http://localhost:${app.get('port')}`);
 });
+
+interface IClientToServerEvents extends DefaultEventsMap {}
+
+interface IServerToClientEvents extends DefaultEventsMap {}
+
+interface IInterServerEvents extends DefaultEventsMap {}
+
+interface ISocketData {}
+
+const io = new Server<
+  IClientToServerEvents,
+  IServerToClientEvents,
+  IInterServerEvents,
+  ISocketData
+>(server);
 
 io.on('connection', (socket) => {
   console.log(socket);
