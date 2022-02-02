@@ -3,7 +3,6 @@ import morgan from 'morgan';
 import path from 'path';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 
 const app = express();
 
@@ -18,7 +17,6 @@ app.use((req, res) => {
   res.status(404).send('Not Found');
 });
 
-// eslint-disable-next-line no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
@@ -31,11 +29,17 @@ server.listen(app.get('port'), () => {
   console.log(`Server running at http://localhost:${app.get('port')}`);
 });
 
-interface IClientToServerEvents extends DefaultEventsMap {}
+interface IEnterRoom {
+  name: string;
+}
 
-interface IServerToClientEvents extends DefaultEventsMap {}
+interface IClientToServerEvents {
+  enterRoom: (data: IEnterRoom) => void;
+}
 
-interface IInterServerEvents extends DefaultEventsMap {}
+interface IServerToClientEvents {}
+
+interface IInterServerEvents {}
 
 interface ISocketData {}
 
@@ -47,5 +51,7 @@ const io = new Server<
 >(server);
 
 io.on('connection', (socket) => {
-  console.log(socket);
+  socket.on('enterRoom', ({ name }) => {
+    console.log(name);
+  });
 });

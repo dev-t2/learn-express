@@ -1,0 +1,16 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+}
+
+.enter-container {
+  margin-top: 10px;
+}
+
+.enter-container > form > input {
+  width: 200px;
+}
