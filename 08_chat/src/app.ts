@@ -11,7 +11,6 @@ const io = new Server(server);
 app.set('port', 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-
 app.use(
   express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
 );
