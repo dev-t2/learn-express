@@ -30,7 +30,7 @@ server.listen(app.get('port'), () => {
 });
 
 interface IClientToServerEvents {
-  enterRoom: (name: string) => void;
+  enterRoom: (roomName: string, callback: () => void) => void;
 }
 
 interface IServerToClientEvents {}
@@ -47,7 +47,13 @@ const io = new Server<
 >(server);
 
 io.on('connection', (socket) => {
-  socket.on('enterRoom', (name) => {
-    console.log(name);
+  socket.onAny((event, ...args) => {
+    console.log(`Socket Event: ${event}`);
+  });
+
+  socket.on('enterRoom', (roomName, callback) => {
+    socket.join(roomName);
+
+    callback();
   });
 });

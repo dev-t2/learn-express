@@ -23,7 +23,7 @@
     </header>
 
     <main>
-      <section class="enter-container">
+      <div class="enter-container">
         <form>
           <input
             type="text"
@@ -33,7 +33,19 @@
 
           <button>Enter</button>
         </form>
-      </section>
+      </div>
+
+      <div class="room-container" hidden>
+        <form>
+          <input type="text" placeholder="Please enter the message" required />
+
+          <button>Send</button>
+        </form>
+
+        <h2></h2>
+
+        <ul></ul>
+      </div>
     </main>
 
     <script src="./socket.io/socket.io.js"></script>

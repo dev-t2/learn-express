@@ -7,10 +7,19 @@ body {
   padding: 20px;
 }
 
-.enter-container {
+header > h1 {
+  font-size: 24px;
+}
+
+div {
   margin-top: 10px;
 }
 
-.enter-container > form > input {
+div > form > input {
   width: 200px;
+}
+
+div > h2 {
+  font-size: 16px;
+  margin-top: 10px;
 }
