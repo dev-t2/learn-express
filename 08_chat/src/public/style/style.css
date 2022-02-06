@@ -15,15 +15,15 @@ div {
   margin-top: 10px;
 }
 
-.room-container > .message-form {
-  margin-top: 10px;
-}
-
-.room-container > h2 {
+div > h2 {
   font-size: 24px;
   margin-top: 10px;
 }
 
-.room-container > ul > li {
+div > ul > li {
+  margin-top: 10px;
+}
+
+.room-container > .message-form {
   margin-top: 10px;
 }

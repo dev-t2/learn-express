@@ -40,6 +40,7 @@ interface IClientToServerEvents {
 
 interface IServerToClientEvents {
   enterRoom: (nickname: string) => void;
+  updateRooms: (rooms: string[]) => void;
   leaveRoom: (nickname: string) => void;
   createMessage: (nickname: string, message: string) => void;
 }
@@ -57,9 +58,21 @@ const io = new Server<
   ISocketData
 >(server);
 
-io.on('connection', (socket) => {
-  console.log(`Connected Socket: ${socket.id}`);
+const getRooms = () => {
+  const { rooms, sids } = io.sockets.adapter;
 
+  const publicRooms: string[] = [];
+
+  rooms.forEach((_, key) => {
+    if (!sids.get(key)) {
+      publicRooms.push(key);
+    }
+  });
+
+  return publicRooms;
+};
+
+io.on('connection', (socket) => {
   socket.onAny((event) => {
     console.log(`Socket Event: ${event}`);
   });
@@ -69,19 +82,27 @@ io.on('connection', (socket) => {
 
     socket.join(roomName);
 
-    console.log(socket.rooms);
-
     callback();
 
     socket.to(roomName).emit('enterRoom', nickname);
+
+    const rooms = getRooms();
+
+    io.sockets.emit('updateRooms', rooms);
   });
 
   socket.on('disconnecting', () => {
     socket.rooms.forEach((room) => {
-      socket
-        .to(room)
-        .emit('leaveRoom', socket.data.nickname ?? 'Anonymous User');
+      if (socket.data.nickname) {
+        socket.to(room).emit('leaveRoom', socket.data.nickname);
+      }
     });
+  });
+
+  socket.on('disconnect', () => {
+    const rooms = getRooms();
+
+    io.sockets.emit('updateRooms', rooms);
   });
 
   socket.on('createMessage', (roomName, message, callback) => {

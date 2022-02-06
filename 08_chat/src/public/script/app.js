@@ -57,6 +57,20 @@ socket.on('enterRoom', (nickname) => {
   createMessage(`${nickname} entered the room`);
 });
 
+socket.on('updateRooms', (rooms) => {
+  const ul = enterContainer.querySelector('ul');
+
+  ul.innerHTML = '';
+
+  rooms.forEach((room) => {
+    const li = document.createElement('li');
+
+    li.innerText = room;
+
+    ul.appendChild(li);
+  });
+});
+
 socket.on('leaveRoom', (nickname) => {
   createMessage(`${nickname} left the room`);
 });
