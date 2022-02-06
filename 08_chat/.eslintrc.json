@@ -15,6 +15,7 @@
     "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
     "linebreak-style": "off",
     "comma-dangle": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "no-shadow": "off"
   }
 }

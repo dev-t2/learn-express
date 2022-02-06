@@ -31,10 +31,17 @@ server.listen(app.get('port'), () => {
 
 interface IClientToServerEvents {
   enterRoom: (roomName: string, callback: () => void) => void;
+  createMessage: (
+    roomName: string,
+    message: string,
+    callback: (message: string) => void
+  ) => void;
 }
 
 interface IServerToClientEvents {
   enterRoom: () => void;
+  leaveRoom: () => void;
+  createMessage: (message: string) => void;
 }
 
 interface IInterServerEvents {}
@@ -63,5 +70,17 @@ io.on('connection', (socket) => {
     callback();
 
     socket.to(roomName).emit('enterRoom');
+  });
+
+  socket.on('disconnecting', () => {
+    socket.rooms.forEach((room) => {
+      socket.to(room).emit('leaveRoom');
+    });
+  });
+
+  socket.on('createMessage', (roomName, message, callback) => {
+    socket.to(roomName).emit('createMessage', message);
+
+    callback(message);
   });
 });
