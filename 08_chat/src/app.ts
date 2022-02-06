@@ -33,7 +33,9 @@ interface IClientToServerEvents {
   enterRoom: (roomName: string, callback: () => void) => void;
 }
 
-interface IServerToClientEvents {}
+interface IServerToClientEvents {
+  enterRoom: () => void;
+}
 
 interface IInterServerEvents {}
 
@@ -47,13 +49,19 @@ const io = new Server<
 >(server);
 
 io.on('connection', (socket) => {
-  socket.onAny((event, ...args) => {
+  console.log(`Connected Socket: ${socket.id}`);
+
+  socket.onAny((event) => {
     console.log(`Socket Event: ${event}`);
   });
 
   socket.on('enterRoom', (roomName, callback) => {
     socket.join(roomName);
 
+    console.log(socket.rooms);
+
     callback();
+
+    socket.to(roomName).emit('enterRoom');
   });
 });

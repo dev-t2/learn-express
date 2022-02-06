@@ -11,17 +11,29 @@ enterForm.addEventListener('submit', (event) => {
 
   const input = enterForm.querySelector('input');
 
-  const name = input.value.trim();
+  const roomName = input.value.trim();
 
-  if (name) {
-    socket.emit('enterRoom', name, () => {
-      const roomName = roomContainer.querySelector('h2');
+  if (roomName) {
+    socket.emit('enterRoom', roomName, () => {
+      const h2 = roomContainer.querySelector('h2');
 
       enterContainer.hidden = true;
-      roomName.innerText = `Room Name: ${name}`;
+      input.value = '';
+      h2.innerText = `Room Name: ${roomName}`;
       roomContainer.hidden = false;
     });
-
-    input.value = '';
   }
+});
+
+const createMessage = (message) => {
+  const ul = roomContainer.querySelector('ul');
+  const li = document.createElement('li');
+
+  li.innerText = message;
+
+  ul.appendChild(li);
+};
+
+socket.on('enterRoom', () => {
+  createMessage('123465');
 });

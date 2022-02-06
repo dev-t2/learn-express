@@ -19,7 +19,11 @@ div > form > input {
   width: 200px;
 }
 
-div > h2 {
+.room-container > h2 {
   font-size: 16px;
+  margin-top: 10px;
+}
+
+.room-container > ul > li {
   margin-top: 10px;
 }
