@@ -16,6 +16,7 @@
     "linebreak-style": "off",
     "comma-dangle": "off",
     "no-console": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "no-param-reassign": ["error", { "props": false }]
   }
 }

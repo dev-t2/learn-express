@@ -30,7 +30,7 @@ server.listen(app.get('port'), () => {
 });
 
 interface IClientToServerEvents {
-  enterRoom: (roomName: string, callback: () => void) => void;
+  enterRoom: (nickname: string, roomName: string, callback: () => void) => void;
   createMessage: (
     roomName: string,
     message: string,
@@ -39,14 +39,16 @@ interface IClientToServerEvents {
 }
 
 interface IServerToClientEvents {
-  enterRoom: () => void;
-  leaveRoom: () => void;
-  createMessage: (message: string) => void;
+  enterRoom: (nickname: string) => void;
+  leaveRoom: (nickname: string) => void;
+  createMessage: (nickname: string, message: string) => void;
 }
 
 interface IInterServerEvents {}
 
-interface ISocketData {}
+interface ISocketData {
+  nickname: string;
+}
 
 const io = new Server<
   IClientToServerEvents,
@@ -62,25 +64,31 @@ io.on('connection', (socket) => {
     console.log(`Socket Event: ${event}`);
   });
 
-  socket.on('enterRoom', (roomName, callback) => {
+  socket.on('enterRoom', (nickname, roomName, callback) => {
+    socket.data.nickname = nickname;
+
     socket.join(roomName);
 
     console.log(socket.rooms);
 
     callback();
 
-    socket.to(roomName).emit('enterRoom');
+    socket.to(roomName).emit('enterRoom', nickname);
   });
 
   socket.on('disconnecting', () => {
     socket.rooms.forEach((room) => {
-      socket.to(room).emit('leaveRoom');
+      socket
+        .to(room)
+        .emit('leaveRoom', socket.data.nickname ?? 'Anonymous User');
     });
   });
 
   socket.on('createMessage', (roomName, message, callback) => {
-    socket.to(roomName).emit('createMessage', message);
+    if (socket.data.nickname) {
+      socket.to(roomName).emit('createMessage', socket.data.nickname, message);
 
-    callback(message);
+      callback(message);
+    }
   });
 });

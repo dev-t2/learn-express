@@ -8,19 +8,19 @@ body {
 }
 
 header > h1 {
-  font-size: 24px;
+  font-size: 32px;
 }
 
 div {
   margin-top: 10px;
 }
 
-div > form > input {
-  width: 200px;
+.room-container > .message-form {
+  margin-top: 10px;
 }
 
 .room-container > h2 {
-  font-size: 16px;
+  font-size: 24px;
   margin-top: 10px;
 }
 

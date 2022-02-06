@@ -25,9 +25,12 @@
     <main>
       <div class="enter-container">
         <form>
+          <input type="text" name="nickname" placeholder="Nickname" required />
+
           <input
             type="text"
-            placeholder="Please enter the room name"
+            name="room-name"
+            placeholder="Room Name"
             required
           />
 
@@ -37,7 +40,7 @@
 
       <div class="room-container" hidden>
         <form>
-          <input type="text" placeholder="Please enter the message" required />
+          <input type="text" placeholder="Message" required />
 
           <button>Send</button>
         </form>
