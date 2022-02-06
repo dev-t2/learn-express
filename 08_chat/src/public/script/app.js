@@ -10,7 +10,11 @@ enterForm.addEventListener('submit', (event) => {
 
   const input = enterForm.querySelector('input');
 
-  socket.emit('enterRoom', { name: input.value });
+  const name = input.value.trim();
 
-  input.value = '';
+  if (name) {
+    socket.emit('enterRoom', name);
+
+    input.value = '';
+  }
 });

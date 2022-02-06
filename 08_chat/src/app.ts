@@ -29,12 +29,8 @@ server.listen(app.get('port'), () => {
   console.log(`Server running at http://localhost:${app.get('port')}`);
 });
 
-interface IEnterRoom {
-  name: string;
-}
-
 interface IClientToServerEvents {
-  enterRoom: (data: IEnterRoom) => void;
+  enterRoom: (name: string) => void;
 }
 
 interface IServerToClientEvents {}
@@ -51,7 +47,7 @@ const io = new Server<
 >(server);
 
 io.on('connection', (socket) => {
-  socket.on('enterRoom', ({ name }) => {
+  socket.on('enterRoom', (name) => {
     console.log(name);
   });
 });
