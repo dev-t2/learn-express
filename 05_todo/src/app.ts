@@ -95,12 +95,12 @@ app.delete('/api/todos', (req: IDeleteTodosRequest, res) => {
   const ids = req.query.ids?.split(',');
 
   if (ids) {
-    const indexes = todos.reduce((indexes: number[], todo, index) => {
+    const indexes = todos.reduce((result: number[], todo, index) => {
       if (ids.includes(todo.id)) {
-        return [index, ...indexes];
+        return [index, ...result];
       }
 
-      return indexes;
+      return result;
     }, []);
 
     if (ids.length !== indexes.length) {

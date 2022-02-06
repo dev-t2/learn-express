@@ -11,13 +11,12 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
     "linebreak-style": "off",
     "comma-dangle": "off",
     "arrow-body-style": "off",
     "operator-linebreak": "off",
-    "no-shadow": "off",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
     "no-console": "off"
   }
 }
