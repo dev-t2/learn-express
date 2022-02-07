@@ -17,6 +17,7 @@
 - CORS: https://www.npmjs.com/package/cors
 - SocketIO: https://socket.io
   - npm: https://www.npmjs.com/package/socket.io
+- SocketIO Admin UI: https://www.npmjs.com/package/@socket.io/admin-ui
 - MongoDB: https://www.mongodb.com/kr
 - Mongoose: https://mongoosejs.com
   - npm: https://www.npmjs.com/package/mongoose
