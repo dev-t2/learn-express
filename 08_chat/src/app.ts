@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import path from 'path';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { instrument } from '@socket.io/admin-ui';
 
 const app = express();
 
@@ -60,7 +61,14 @@ const io = new Server<
   IServerToClientEvents,
   IInterServerEvents,
   ISocketData
->(server);
+>(server, {
+  cors: {
+    origin: ['https://admin.socket.io'],
+    credentials: true,
+  },
+});
+
+instrument(io, { auth: false });
 
 const getRooms = () => {
   const { rooms, sids } = io.sockets.adapter;
