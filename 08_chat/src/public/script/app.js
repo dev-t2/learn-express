@@ -5,9 +5,11 @@ const socket = io();
 const enterContainer = document.querySelector('.enter-container');
 const enterForm = enterContainer.querySelector('form');
 const roomContainer = document.querySelector('.room-container');
+const roomName = roomContainer.querySelector('h2');
 
 const createMessage = (message) => {
   const ul = roomContainer.querySelector('ul');
+
   const li = document.createElement('li');
 
   li.innerText = message;
@@ -19,42 +21,36 @@ enterForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const nicknameInput = enterForm.querySelector('input[name=nickname]');
-  const roomNameInput = enterForm.querySelector('input[name=room-name]');
+  const roomInput = enterForm.querySelector('input[name=room]');
 
   const nickname = nicknameInput.value.trim();
-  const roomName = roomNameInput.value.trim();
+  const room = roomInput.value.trim();
 
-  if (nickname && roomName) {
-    socket.emit('enterRoom', nickname, roomName, () => {
-      const form = roomContainer.querySelector('form');
-      const h2 = roomContainer.querySelector('h2');
-
+  if (nickname && room) {
+    socket.emit('enterRoom', room, nickname, (totalUsers) => {
       enterContainer.hidden = true;
+      roomName.innerText = `Room: ${room} (${totalUsers})`;
+      roomContainer.hidden = false;
+
+      const form = roomContainer.querySelector('form');
 
       form.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const input = form.querySelector('input');
+        const messageInput = form.querySelector('input');
 
-        const message = input.value.trim();
+        const message = messageInput.value.trim();
 
         if (message) {
-          socket.emit('createMessage', roomName, message, () => {
+          socket.emit('createMessage', room, message, () => {
             createMessage(`${nickname}: ${message}`);
 
-            input.value = '';
+            messageInput.value = '';
           });
         }
       });
-
-      h2.innerText = `Room: ${roomName}`;
-      roomContainer.hidden = false;
     });
   }
-});
-
-socket.on('enterRoom', (nickname) => {
-  createMessage(`${nickname} entered the room`);
 });
 
 socket.on('updateRooms', (rooms) => {
@@ -71,10 +67,18 @@ socket.on('updateRooms', (rooms) => {
   });
 });
 
-socket.on('leaveRoom', (nickname) => {
-  createMessage(`${nickname} left the room`);
+socket.on('enterRoom', (room, totalUsers, nickname) => {
+  roomName.innerText = `Room: ${room} (${totalUsers})`;
+
+  createMessage(`${nickname} entered the room`);
 });
 
 socket.on('createMessage', (nickname, message) => {
   createMessage(`${nickname}: ${message}`);
+});
+
+socket.on('leaveRoom', (room, totalUsers, nickname) => {
+  roomName.innerText = `Room: ${room} (${totalUsers})`;
+
+  createMessage(`${nickname} left the room`);
 });

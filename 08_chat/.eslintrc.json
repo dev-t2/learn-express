@@ -17,6 +17,7 @@
     "comma-dangle": "off",
     "no-console": "off",
     "no-shadow": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "arrow-body-style": "off"
   }
 }
