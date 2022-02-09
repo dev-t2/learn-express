@@ -4,7 +4,7 @@ import {
   memo,
   MouseEvent,
   useCallback,
-  useLayoutEffect,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -23,22 +23,18 @@ interface ITodo {
 const url = 'http://localhost:8080/api/todos';
 
 const App = () => {
-  const [content, setContent] = useState('');
   const [todos, setTodos] = useState<ITodo[]>([]);
-
-  const isSomeUpdate = useMemo(() => {
-    return todos.some((todo) => todo.isUpdate);
-  }, [todos]);
+  const [content, setContent] = useState('');
 
   const isSomeComplete = useMemo(() => {
     return todos.some((todo) => todo.isComplete);
   }, [todos]);
 
-  const isTodos = useMemo(() => {
-    return todos.length > 0;
-  }, [todos.length]);
+  const isSomeUpdate = useMemo(() => {
+    return todos.some((todo) => todo.isUpdate);
+  }, [todos]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       const { data } = await axios.get(url);
 
@@ -52,41 +48,39 @@ const App = () => {
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      const isUpdate = todos.some((todo) => todo.isUpdate);
-
-      if (content.trim() && !isUpdate) {
-        const { data } = await axios.post(url, { content });
+      if (content.trim() && !isSomeUpdate) {
+        const { data } = await axios.post(url, { content: content.trim() });
 
         if (data.isSuccess) {
-          setContent('');
           setTodos((prev) => [...prev, data.todo]);
+          setContent('');
         }
       }
 
-      if (content.trim() && isUpdate) {
+      if (content.trim() && isSomeUpdate) {
         const targetTodo = todos.find((todo) => todo.isUpdate);
 
         if (targetTodo) {
           const { data } = await axios.put(`${url}/${targetTodo.id}`, {
-            content,
+            content: content.trim(),
           });
 
           if (data.isSuccess) {
             const updatedTodos = todos.map((todo) => {
               if (todo.id === targetTodo.id) {
-                return { ...todo, content, isUpdate: false };
+                return { ...todo, content: content.trim(), isUpdate: false };
               }
 
               return todo;
             });
 
-            setContent('');
             setTodos(updatedTodos);
+            setContent('');
           }
         }
       }
     },
-    [content, todos]
+    [content, isSomeUpdate, todos]
   );
 
   const onContent = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -142,8 +136,8 @@ const App = () => {
         return { ...todo, isUpdate: todo.id === id };
       });
 
-      setContent(innerText);
       setTodos(updatedTodos);
+      setContent(innerText);
     },
     [todos]
   );
@@ -184,7 +178,7 @@ const App = () => {
           </button>
         )}
 
-        {isTodos && (
+        {todos.length > 0 && (
           <button className="all" onClick={onDeleteAll}>
             Delete All
           </button>
