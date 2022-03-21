@@ -70,34 +70,34 @@ const io = new Server<
 
 instrument(io, { auth: false });
 
-const getPublicRooms = () => {
-  const { rooms, sids } = io.sockets.adapter;
-
-  const publicRooms: string[] = [];
-
-  rooms.forEach((_, key) => {
-    if (!sids.get(key)) {
-      publicRooms.push(key);
-    }
-  });
-
-  return publicRooms;
-};
-
-const getTotalUsers = (room: string) => {
-  const totalUsers = io.sockets.adapter.rooms.get(room)?.size ?? 0;
-
-  return totalUsers;
-};
-
 io.on('connection', (socket) => {
-  const rooms = getPublicRooms();
+  const getRooms = () => {
+    const { rooms, sids } = io.sockets.adapter;
 
-  io.sockets.emit('updateRooms', rooms);
+    const publicRooms: string[] = [];
+
+    rooms.forEach((_, key) => {
+      if (!sids.get(key)) {
+        publicRooms.push(key);
+      }
+    });
+
+    return publicRooms;
+  };
+
+  const getTotalUsers = (room: string) => {
+    const totalUsers = io.sockets.adapter.rooms.get(room)?.size ?? 0;
+
+    return totalUsers;
+  };
 
   socket.onAny((event) => {
     console.log(`Socket Event: ${event}`);
   });
+
+  const rooms = getRooms();
+
+  io.sockets.emit('updateRooms', rooms);
 
   socket.on('enterRoom', (room, nickname, callback) => {
     socket.data.nickname = nickname;
@@ -110,17 +110,9 @@ io.on('connection', (socket) => {
 
     callback(totalUsers);
 
-    const rooms = getPublicRooms();
+    const rooms = getRooms();
 
     io.sockets.emit('updateRooms', rooms);
-  });
-
-  socket.on('createMessage', (room, message, callback) => {
-    if (socket.data.nickname) {
-      socket.to(room).emit('createMessage', socket.data.nickname, message);
-
-      callback(message);
-    }
   });
 
   socket.on('disconnecting', () => {
@@ -136,8 +128,16 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    const rooms = getPublicRooms();
+    const rooms = getRooms();
 
     io.sockets.emit('updateRooms', rooms);
+  });
+
+  socket.on('createMessage', (room, message, callback) => {
+    if (socket.data.nickname) {
+      socket.to(room).emit('createMessage', socket.data.nickname, message);
+
+      callback(message);
+    }
   });
 });

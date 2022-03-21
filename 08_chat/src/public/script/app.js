@@ -29,7 +29,7 @@ enterForm.addEventListener('submit', (event) => {
   if (nickname && room) {
     socket.emit('enterRoom', room, nickname, (totalUsers) => {
       enterContainer.hidden = true;
-      roomName.innerText = `Room: ${room} (${totalUsers})`;
+      roomName.innerText = `Room Name: ${room} / Total Users: ${totalUsers}`;
       roomContainer.hidden = false;
 
       const form = roomContainer.querySelector('form');
@@ -68,7 +68,7 @@ socket.on('updateRooms', (rooms) => {
 });
 
 socket.on('enterRoom', (room, totalUsers, nickname) => {
-  roomName.innerText = `Room: ${room} (${totalUsers})`;
+  roomName.innerText = `Room Name: ${room} / Total Users: ${totalUsers}`;
 
   createMessage(`${nickname} entered the room`);
 });
