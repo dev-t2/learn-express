@@ -15,9 +15,9 @@
     "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
     "linebreak-style": "off",
     "comma-dangle": "off",
+    "arrow-body-style": "off",
     "no-console": "off",
     "no-shadow": "off",
-    "no-param-reassign": ["error", { "props": false }],
-    "arrow-body-style": "off"
+    "no-param-reassign": ["error", { "props": false }]
   }
 }
