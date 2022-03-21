@@ -70,7 +70,7 @@ const io = new Server<
 
 instrument(io, { auth: false });
 
-const getRooms = () => {
+const getPublicRooms = () => {
   const { rooms, sids } = io.sockets.adapter;
 
   const publicRooms: string[] = [];
@@ -85,11 +85,13 @@ const getRooms = () => {
 };
 
 const getTotalUsers = (room: string) => {
-  return io.sockets.adapter.rooms.get(room)?.size ?? 0;
+  const totalUsers = io.sockets.adapter.rooms.get(room)?.size ?? 0;
+
+  return totalUsers;
 };
 
 io.on('connection', (socket) => {
-  const rooms = getRooms();
+  const rooms = getPublicRooms();
 
   io.sockets.emit('updateRooms', rooms);
 
@@ -108,7 +110,7 @@ io.on('connection', (socket) => {
 
     callback(totalUsers);
 
-    const rooms = getRooms();
+    const rooms = getPublicRooms();
 
     io.sockets.emit('updateRooms', rooms);
   });
@@ -134,7 +136,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    const rooms = getRooms();
+    const rooms = getPublicRooms();
 
     io.sockets.emit('updateRooms', rooms);
   });
