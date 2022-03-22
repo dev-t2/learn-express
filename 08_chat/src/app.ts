@@ -32,8 +32,8 @@ server.listen(app.get('port'), () => {
 
 interface IClientToServerEvents {
   enterRoom: (
-    room: string,
     nickname: string,
+    room: string,
     callback: (totalUsers: number) => void
   ) => void;
   createMessage: (
@@ -99,7 +99,7 @@ io.on('connection', (socket) => {
 
   io.sockets.emit('updateRooms', rooms);
 
-  socket.on('enterRoom', (room, nickname, callback) => {
+  socket.on('enterRoom', (nickname, room, callback) => {
     socket.data.nickname = nickname;
 
     socket.join(room);

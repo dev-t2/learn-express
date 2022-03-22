@@ -4,8 +4,9 @@ const socket = io();
 
 const enterContainer = document.querySelector('.enter-container');
 const enterForm = enterContainer.querySelector('form');
+
 const roomContainer = document.querySelector('.room-container');
-const roomName = roomContainer.querySelector('h2');
+const roomH2 = roomContainer.querySelector('h2');
 
 const createMessage = (message) => {
   const ul = roomContainer.querySelector('ul');
@@ -21,28 +22,29 @@ enterForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const nicknameInput = enterForm.querySelector('input[name=nickname]');
-  const roomInput = enterForm.querySelector('input[name=room]');
+  const roomNameInput = enterForm.querySelector('input[name=room-name]');
 
   const nickname = nicknameInput.value.trim();
-  const room = roomInput.value.trim();
+  const roomName = roomNameInput.value.trim();
 
-  if (nickname && room) {
-    socket.emit('enterRoom', room, nickname, (totalUsers) => {
+  if (nickname && roomName) {
+    socket.emit('enterRoom', nickname, roomName, (totalUsers) => {
       enterContainer.hidden = true;
-      roomName.innerText = `Room Name: ${room} / Total Users: ${totalUsers}`;
+
+      roomH2.innerText = `Room Name: ${roomName} / Total Users: ${totalUsers}`;
       roomContainer.hidden = false;
 
-      const form = roomContainer.querySelector('form');
+      const roomForm = roomContainer.querySelector('form');
 
-      form.addEventListener('submit', (event) => {
+      roomForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const messageInput = form.querySelector('input');
+        const messageInput = roomForm.querySelector('input');
 
         const message = messageInput.value.trim();
 
         if (message) {
-          socket.emit('createMessage', room, message, () => {
+          socket.emit('createMessage', roomName, message, () => {
             createMessage(`${nickname}: ${message}`);
 
             messageInput.value = '';
