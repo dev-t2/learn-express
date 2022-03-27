@@ -6,7 +6,7 @@ const enterContainer = document.querySelector('.enter-container');
 const enterForm = enterContainer.querySelector('form');
 
 const roomContainer = document.querySelector('.room-container');
-const roomH2 = roomContainer.querySelector('h2');
+const roomInfo = roomContainer.querySelector('h2');
 
 const createMessage = (message) => {
   const ul = roomContainer.querySelector('ul');
@@ -29,9 +29,9 @@ enterForm.addEventListener('submit', (event) => {
 
   if (nickname && roomName) {
     socket.emit('enterRoom', nickname, roomName, (totalUsers) => {
-      enterContainer.hidden = true;
+      roomInfo.innerText = `Room Name: ${roomName} / Total Users: ${totalUsers}`;
 
-      roomH2.innerText = `Room Name: ${roomName} / Total Users: ${totalUsers}`;
+      enterContainer.hidden = true;
       roomContainer.hidden = false;
 
       const roomForm = roomContainer.querySelector('form');
@@ -45,11 +45,27 @@ enterForm.addEventListener('submit', (event) => {
 
         if (message) {
           socket.emit('createMessage', roomName, message, () => {
-            createMessage(`${nickname}: ${message}`);
-
             messageInput.value = '';
+
+            createMessage(`${nickname}(Me): ${message}`);
           });
         }
+      });
+
+      socket.on('enterRoom', (nickname, totalUsers) => {
+        roomInfo.innerText = `Room Name: ${roomName} / Total Users: ${totalUsers}`;
+
+        createMessage(`---------- '${nickname}' entered the room ----------`);
+      });
+
+      socket.on('leaveRoom', (nickname, totalUsers) => {
+        roomInfo.innerText = `Room Name: ${roomName} / Total Users: ${totalUsers}`;
+
+        createMessage(`---------- '${nickname}' left the room ----------`);
+      });
+
+      socket.on('createMessage', (nickname, message) => {
+        createMessage(`${nickname}: ${message}`);
       });
     });
   }
@@ -67,20 +83,4 @@ socket.on('updateRooms', (rooms) => {
 
     ul.appendChild(li);
   });
-});
-
-socket.on('enterRoom', (room, totalUsers, nickname) => {
-  roomName.innerText = `Room Name: ${room} / Total Users: ${totalUsers}`;
-
-  createMessage(`${nickname} entered the room`);
-});
-
-socket.on('createMessage', (nickname, message) => {
-  createMessage(`${nickname}: ${message}`);
-});
-
-socket.on('leaveRoom', (room, totalUsers, nickname) => {
-  roomName.innerText = `Room: ${room} (${totalUsers})`;
-
-  createMessage(`${nickname} left the room`);
 });

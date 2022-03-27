@@ -33,11 +33,11 @@ server.listen(app.get('port'), () => {
 interface IClientToServerEvents {
   enterRoom: (
     nickname: string,
-    room: string,
+    roomName: string,
     callback: (totalUsers: number) => void
   ) => void;
   createMessage: (
-    room: string,
+    roomName: string,
     message: string,
     callback: (message: string) => void
   ) => void;
@@ -45,9 +45,9 @@ interface IClientToServerEvents {
 
 interface IServerToClientEvents {
   updateRooms: (rooms: string[]) => void;
-  enterRoom: (room: string, totalUsers: number, nickname: string) => void;
+  enterRoom: (nickname: string, totalUsers: number) => void;
+  leaveRoom: (nickname: string, totalUsers: number) => void;
   createMessage: (nickname: string, message: string) => void;
-  leaveRoom: (room: string, totalUsers: number, nickname: string) => void;
 }
 
 interface IInterServerEvents {}
@@ -85,8 +85,8 @@ io.on('connection', (socket) => {
     return publicRooms;
   };
 
-  const getTotalUsers = (room: string) => {
-    const totalUsers = io.sockets.adapter.rooms.get(room)?.size ?? 0;
+  const getTotalUsers = (roomName: string) => {
+    const totalUsers = io.sockets.adapter.rooms.get(roomName)?.size ?? 0;
 
     return totalUsers;
   };
@@ -99,30 +99,28 @@ io.on('connection', (socket) => {
 
   io.sockets.emit('updateRooms', rooms);
 
-  socket.on('enterRoom', (nickname, room, callback) => {
+  socket.on('enterRoom', (nickname, roomName, callback) => {
     socket.data.nickname = nickname;
 
-    socket.join(room);
+    socket.join(roomName);
 
-    const totalUsers = getTotalUsers(room);
+    const totalUsers = getTotalUsers(roomName);
 
-    socket.to(room).emit('enterRoom', room, totalUsers, nickname);
-
-    callback(totalUsers);
+    socket.to(roomName).emit('enterRoom', nickname, totalUsers);
 
     const rooms = getRooms();
 
     io.sockets.emit('updateRooms', rooms);
+
+    callback(totalUsers);
   });
 
   socket.on('disconnecting', () => {
-    socket.rooms.forEach((room) => {
+    socket.rooms.forEach((roomName) => {
       if (socket.data.nickname) {
-        const totalUsers = getTotalUsers(room) - 1;
+        const totalUsers = getTotalUsers(roomName) - 1;
 
-        socket
-          .to(room)
-          .emit('leaveRoom', room, totalUsers, socket.data.nickname);
+        socket.to(roomName).emit('leaveRoom', socket.data.nickname, totalUsers);
       }
     });
   });
@@ -133,9 +131,9 @@ io.on('connection', (socket) => {
     io.sockets.emit('updateRooms', rooms);
   });
 
-  socket.on('createMessage', (room, message, callback) => {
+  socket.on('createMessage', (roomName, message, callback) => {
     if (socket.data.nickname) {
-      socket.to(room).emit('createMessage', socket.data.nickname, message);
+      socket.to(roomName).emit('createMessage', socket.data.nickname, message);
 
       callback(message);
     }
