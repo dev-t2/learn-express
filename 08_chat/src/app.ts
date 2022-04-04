@@ -10,9 +10,7 @@ const app = express();
 app.set('port', 3000);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(
-  express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
-);
+app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');
@@ -31,16 +29,8 @@ server.listen(app.get('port'), () => {
 });
 
 interface IClientToServerEvents {
-  enterRoom: (
-    nickname: string,
-    roomName: string,
-    callback: (totalUsers: number) => void
-  ) => void;
-  createMessage: (
-    roomName: string,
-    message: string,
-    callback: (message: string) => void
-  ) => void;
+  enterRoom: (nickname: string, roomName: string, callback: (totalUsers: number) => void) => void;
+  createMessage: (roomName: string, message: string, callback: (message: string) => void) => void;
 }
 
 interface IServerToClientEvents {
