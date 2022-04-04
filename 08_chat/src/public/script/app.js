@@ -8,16 +8,6 @@ const enterForm = enterContainer.querySelector('form');
 const roomContainer = document.querySelector('.room-container');
 const roomInfo = roomContainer.querySelector('h2');
 
-const createMessage = (message) => {
-  const ul = roomContainer.querySelector('ul');
-
-  const li = document.createElement('li');
-
-  li.innerText = message;
-
-  ul.appendChild(li);
-};
-
 enterForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -35,6 +25,16 @@ enterForm.addEventListener('submit', (event) => {
       roomContainer.hidden = false;
 
       const roomForm = roomContainer.querySelector('form');
+
+      const createMessage = (message) => {
+        const ul = roomContainer.querySelector('ul');
+
+        const li = document.createElement('li');
+
+        li.innerText = message;
+
+        ul.appendChild(li);
+      };
 
       roomForm.addEventListener('submit', (event) => {
         event.preventDefault();
