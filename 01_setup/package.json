@@ -1,5 +1,5 @@
 {
-  "name": "02_setup",
+  "name": "01_setup",
   "version": "1.0.0",
   "scripts": {
     "dev": "ts-node src/index.ts"
