@@ -24,8 +24,6 @@ enterForm.addEventListener('submit', (event) => {
       enterContainer.hidden = true;
       roomContainer.hidden = false;
 
-      const roomForm = roomContainer.querySelector('form');
-
       const createMessage = (message) => {
         const ul = roomContainer.querySelector('ul');
 
@@ -35,6 +33,8 @@ enterForm.addEventListener('submit', (event) => {
 
         ul.appendChild(li);
       };
+
+      const roomForm = roomContainer.querySelector('form');
 
       roomForm.addEventListener('submit', (event) => {
         event.preventDefault();
