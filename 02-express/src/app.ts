@@ -2,7 +2,7 @@ import express from 'express';
 
 const app = express();
 
-app.set('port', 8080);
+const port = 8080;
 
 // app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
@@ -20,6 +20,6 @@ app.get('/', (req, res) => {
 //   return res.status(500).send('Internal Server Error');
 // });
 
-app.listen(app.get('port'), () => {
-  console.log(`Server running at http://localhost:${app.get('port')}`);
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
