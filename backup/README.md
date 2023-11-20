@@ -1,10 +1,5 @@
 # References
 
-- Express: https://expressjs.com/ko
-  - npm: https://www.npmjs.com/package/express
-- Nodemon: https://nodemon.io
-  - npm: https://www.npmjs.com/package/nodemon
-- Morgan: https://www.npmjs.com/package/morgan
 - ResetCSS: https://meyerweb.com/eric/tools/css/reset
 - Axios: https://axios-http.com
   - npm: https://www.npmjs.com/package/axios
