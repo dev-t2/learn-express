@@ -5,3 +5,4 @@
 - [ESLint](https://eslint.org)
 - [Express](https://github.com/expressjs/express)
 - [Nodemon](https://github.com/remy/nodemon)
+- [Morgan](https://github.com/expressjs/morgan)
