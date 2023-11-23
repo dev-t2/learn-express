@@ -1,5 +1,5 @@
 {
-  "name": "03-static",
+  "name": "03-template",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/app.ts"
