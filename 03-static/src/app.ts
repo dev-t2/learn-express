@@ -6,7 +6,7 @@ const app = express();
 
 const port = 8080;
 
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
