@@ -1,5 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
-import morgan from 'morgan';
+import { Request, Router } from 'express';
 
 interface IUser {
   id: number;
@@ -8,15 +7,9 @@ interface IUser {
 
 let users: IUser[] = [];
 
-const app = express();
+const UsersController = Router();
 
-const port = 8080;
-
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-
-app.use(express.json());
-
-app.get('/users', (req, res) => {
+UsersController.get('/', (req, res) => {
   return res.json({ users });
 });
 
@@ -24,7 +17,7 @@ interface IRequestUser extends Request {
   params: { id: string };
 }
 
-app.get('/users/:id', (req: IRequestUser, res) => {
+UsersController.get('/:id', (req: IRequestUser, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) {
@@ -44,7 +37,7 @@ interface IRequestCreateUser extends Request {
   body: { nickname?: string };
 }
 
-app.post('/users', (req: IRequestCreateUser, res) => {
+UsersController.post('/', (req: IRequestCreateUser, res) => {
   const { nickname } = req.body;
 
   if (!nickname) {
@@ -64,7 +57,7 @@ interface IRequestUpdateUser extends Request {
   body: { nickname?: string };
 }
 
-app.put('/users/:id', (req: IRequestUpdateUser, res) => {
+UsersController.put('/:id', (req: IRequestUpdateUser, res) => {
   const id = Number(req.params.id);
   const { nickname } = req.body;
 
@@ -89,7 +82,7 @@ interface IRequestDeleteUser extends Request {
   params: { id: string };
 }
 
-app.delete('/users/:id', (req: IRequestDeleteUser, res) => {
+UsersController.delete('/:id', (req: IRequestDeleteUser, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) {
@@ -107,16 +100,4 @@ app.delete('/users/:id', (req: IRequestDeleteUser, res) => {
   return res.status(204).json({});
 });
 
-app.use((req, res) => {
-  return res.status(404).send('Not Found');
-});
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
-
-  return res.status(500).send('Internal Server Error');
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+export default UsersController;
