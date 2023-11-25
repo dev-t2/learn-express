@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request } from 'express';
 import morgan from 'morgan';
 
 interface IUser {
@@ -21,7 +21,7 @@ app.get('/users', (req, res) => {
 });
 
 interface IRequestCreateUser extends Request {
-  body: { nickname: string };
+  body: { nickname?: string };
 }
 
 app.post('/users', (req: IRequestCreateUser, res) => {
@@ -41,7 +41,7 @@ app.post('/users', (req: IRequestCreateUser, res) => {
 
 interface IRequestUpdateUser extends Request {
   params: { id: string };
-  body: { nickname: string };
+  body: { nickname?: string };
 }
 
 app.put('/users/:id', (req: IRequestUpdateUser, res) => {
@@ -85,12 +85,6 @@ app.delete('/users/:id', (req: IRequestDeleteUser, res) => {
   users = users.filter((user) => user.id !== id);
 
   return res.status(204).json({});
-});
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
-
-  return res.status(500).send('Internal Server Error');
 });
 
 app.listen(port, () => {
