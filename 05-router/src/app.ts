@@ -20,6 +20,26 @@ app.get('/users', (req, res) => {
   return res.json({ users });
 });
 
+interface IRequestUser extends Request {
+  params: { id: string };
+}
+
+app.get('/users/:id', (req: IRequestUser, res) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index < 0) {
+    return res.status(404).send('Not Found');
+  }
+
+  return res.json({ user: users[index] });
+});
+
 interface IRequestCreateUser extends Request {
   body: { nickname?: string };
 }
