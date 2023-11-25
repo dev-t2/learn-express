@@ -3,10 +3,10 @@ import morgan from 'morgan';
 
 interface IUser {
   id: number;
-  name: string;
+  nickname: string;
 }
 
-const users: IUser[] = [];
+let users: IUser[] = [];
 
 const app = express();
 
@@ -21,16 +21,71 @@ app.get('/users', (req, res) => {
 });
 
 interface IRequestCreateUser extends Request {
-  body: { name: string };
+  body: { nickname: string };
 }
 
 app.post('/users', (req: IRequestCreateUser, res) => {
-  return res.json();
+  const { nickname } = req.body;
+
+  if (!nickname) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const id = users.length > 0 ? users[users.length - 1].id + 1 : 1;
+  const user: IUser = { id, nickname };
+
+  users = [...users, user];
+
+  return res.status(201).json({ user });
 });
 
-app.put('/users', (req, res) => {});
+interface IRequestUpdateUser extends Request {
+  params: { id: string };
+  body: { nickname: string };
+}
 
-app.delete('/users', (req, res) => {});
+app.put('/users/:id', (req: IRequestUpdateUser, res) => {
+  const id = Number(req.params.id);
+  const { nickname } = req.body;
+
+  if (isNaN(id) || !nickname) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index < 0) {
+    return res.status(404).send('Not Found');
+  }
+
+  const user = { ...users[index], nickname };
+
+  users[index] = user;
+
+  return res.status(204).json({});
+});
+
+interface IRequestDeleteUser extends Request {
+  params: { id: string };
+}
+
+app.delete('/users/:id', (req: IRequestDeleteUser, res) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index < 0) {
+    return res.status(404).send('Not Found');
+  }
+
+  users = users.filter((user) => user.id !== id);
+
+  return res.status(204).json({});
+});
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');
