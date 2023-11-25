@@ -11,10 +11,6 @@ app.get('/', (req, res) => {
   return res.send('Hello Express');
 });
 
-app.use((req, res) => {
-  return res.status(404).send('Not Found');
-});
-
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 

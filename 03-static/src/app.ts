@@ -8,11 +8,7 @@ const port = 8080;
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use((req, res) => {
-  return res.status(404).send('Not Found');
-});
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);

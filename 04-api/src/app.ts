@@ -87,10 +87,6 @@ app.delete('/users/:id', (req: IRequestDeleteUser, res) => {
   return res.status(204).json({});
 });
 
-app.use((req, res) => {
-  return res.status(404).send('Not Found');
-});
-
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
