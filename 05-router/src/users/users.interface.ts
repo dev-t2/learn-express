@@ -1,5 +1,10 @@
 import { Request } from 'express';
 
+export interface IUser {
+  id: number;
+  nickname: string;
+}
+
 export interface IRequestFindUser extends Request {
   params: { id: string };
 }
