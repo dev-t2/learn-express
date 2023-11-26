@@ -20,11 +20,11 @@ app.get('/users', (req, res) => {
   return res.json({ users });
 });
 
-interface IRequestUser extends Request {
+interface IRequestFindUser extends Request {
   params: { id: string };
 }
 
-app.get('/users/:id', (req: IRequestUser, res) => {
+app.get('/users/:id', (req: IRequestFindUser, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) {
