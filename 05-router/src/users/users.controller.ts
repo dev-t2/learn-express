@@ -1,4 +1,11 @@
-import { Request, Router } from 'express';
+import { Router } from 'express';
+
+import {
+  IRequestCreateUser,
+  IRequestDeleteUser,
+  IRequestFindUser,
+  IRequestUpdateUser,
+} from './users.interface';
 
 interface IUser {
   id: number;
@@ -12,10 +19,6 @@ const UsersController = Router();
 UsersController.get('/', (req, res) => {
   return res.json({ users });
 });
-
-interface IRequestFindUser extends Request {
-  params: { id: string };
-}
 
 UsersController.get('/:id', (req: IRequestFindUser, res) => {
   const id = Number(req.params.id);
@@ -33,10 +36,6 @@ UsersController.get('/:id', (req: IRequestFindUser, res) => {
   return res.json(users[index]);
 });
 
-interface IRequestCreateUser extends Request {
-  body: { nickname?: string };
-}
-
 UsersController.post('/', (req: IRequestCreateUser, res) => {
   const { nickname } = req.body;
 
@@ -51,11 +50,6 @@ UsersController.post('/', (req: IRequestCreateUser, res) => {
 
   return res.status(201).json(user);
 });
-
-interface IRequestUpdateUser extends Request {
-  params: { id: string };
-  body: { nickname?: string };
-}
 
 UsersController.put('/:id', (req: IRequestUpdateUser, res) => {
   const id = Number(req.params.id);
@@ -77,10 +71,6 @@ UsersController.put('/:id', (req: IRequestUpdateUser, res) => {
 
   return res.status(204).json({});
 });
-
-interface IRequestDeleteUser extends Request {
-  params: { id: string };
-}
 
 UsersController.delete('/:id', (req: IRequestDeleteUser, res) => {
   const id = Number(req.params.id);
