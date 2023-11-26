@@ -13,11 +13,11 @@ UsersController.get('/', (req, res) => {
   return res.json({ users });
 });
 
-interface IRequestUser extends Request {
+interface IRequestFindUser extends Request {
   params: { id: string };
 }
 
-UsersController.get('/:id', (req: IRequestUser, res) => {
+UsersController.get('/:id', (req: IRequestFindUser, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) {
