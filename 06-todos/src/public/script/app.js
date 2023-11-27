@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 const todos = [];
 
 const todoForm = document.querySelector('form');

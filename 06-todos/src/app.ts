@@ -1,5 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+import path from 'path';
+
+import TodosController from './todos/todos.controller';
 
 const app = express();
 
@@ -8,6 +11,10 @@ const port = 8080;
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/todos', TodosController);
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');
