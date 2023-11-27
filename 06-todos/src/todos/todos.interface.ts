@@ -16,5 +16,5 @@ export interface IRequestUpdateTodo extends Request {
 }
 
 export interface IRequestDeleteTodos extends Request {
-  query: { ids: string };
+  query: { ids?: string };
 }

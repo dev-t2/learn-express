@@ -69,10 +69,12 @@ export const deleteTodos = (req: IRequestDeleteTodos, res: Response) => {
       return res.status(400).send('Bad Request');
     }
 
-    todos = todos.filter((todo) => ids.includes(todo.id));
-  } else {
-    todos.length = 0;
+    todos = todos.filter((todo) => !ids.includes(todo.id));
+
+    return res.status(204).json({});
   }
+
+  todos.length = 0;
 
   return res.status(204).json({});
 };
