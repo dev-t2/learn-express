@@ -7,6 +7,10 @@ const port = 8080;
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
+app.get('/', (req, res) => {
+  return res.send('Hello Express');
+});
+
 app.use((req, res) => {
   return res.status(404).send('Not Found');
 });
