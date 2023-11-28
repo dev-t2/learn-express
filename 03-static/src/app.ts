@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import path from 'path';
 import morgan from 'morgan';
+import path from 'path';
 
 const app = express();
 
