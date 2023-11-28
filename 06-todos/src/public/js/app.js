@@ -167,20 +167,16 @@ deleteAllButton.addEventListener('click', async () => {
   }
 });
 
-const app = async () => {
-  try {
-    const { data } = await axios.get('/api/todos');
+try {
+  const { data } = await axios.get('/api/todos');
 
-    if (data.isSuccess) {
-      data.todos.forEach((todo) => {
-        createTodo(todo);
-      });
+  if (data.isSuccess) {
+    data.todos.forEach((todo) => {
+      createTodo(todo);
+    });
 
-      deleteSelectionButton.hidden = !todos.some((todo) => todo.isComplete);
-    }
-  } catch (err) {
-    console.error(err);
+    deleteSelectionButton.hidden = !todos.some((todo) => todo.isComplete);
   }
-};
-
-app();
+} catch (err) {
+  console.error(err);
+}
