@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Router } from 'express';
 
 import {
   IRequestCreateUser,
@@ -8,17 +8,19 @@ import {
   IUser,
 } from './users.interface';
 
+const UsersRouter = Router();
+
 let users: IUser[] = [];
 
-export const findUserIndex = (id: number) => {
+const findUserIndex = (id: number) => {
   return users.findIndex((user) => user.id === id);
 };
 
-export const findUsers = (req: Request, res: Response) => {
+UsersRouter.get('/', (req, res) => {
   return res.json({ users });
-};
+});
 
-export const findUser = (req: IRequestFindUser, res: Response) => {
+UsersRouter.get('/:id', (req: IRequestFindUser, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) {
@@ -32,9 +34,9 @@ export const findUser = (req: IRequestFindUser, res: Response) => {
   }
 
   return res.json(users[index]);
-};
+});
 
-export const createUser = (req: IRequestCreateUser, res: Response) => {
+UsersRouter.post('/', (req: IRequestCreateUser, res) => {
   const { nickname } = req.body;
 
   if (!nickname) {
@@ -47,9 +49,9 @@ export const createUser = (req: IRequestCreateUser, res: Response) => {
   users = [...users, user];
 
   return res.status(201).json(user);
-};
+});
 
-export const updateUser = (req: IRequestUpdateUser, res: Response) => {
+UsersRouter.put('/:id', (req: IRequestUpdateUser, res) => {
   const id = Number(req.params.id);
   const { nickname } = req.body;
 
@@ -68,9 +70,9 @@ export const updateUser = (req: IRequestUpdateUser, res: Response) => {
   users[index] = user;
 
   return res.status(204).json({});
-};
+});
 
-export const deleteUser = (req: IRequestDeleteUser, res: Response) => {
+UsersRouter.delete('/:id', (req: IRequestDeleteUser, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) {
@@ -86,4 +88,6 @@ export const deleteUser = (req: IRequestDeleteUser, res: Response) => {
   users = users.filter((user) => user.id !== id);
 
   return res.status(204).json({});
-};
+});
+
+export default UsersRouter;

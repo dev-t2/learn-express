@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 
-import UsersController from './users/users.controller';
+import UsersRouter from './users/users.router';
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.use(express.json());
 
-app.use('/users', UsersController);
+app.use('/users', UsersRouter);
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');
