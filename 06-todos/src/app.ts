@@ -10,9 +10,9 @@ const port = 8080;
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-app.use(express.json());
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.json());
 
 app.use('/todos', TodosRouter);
 
