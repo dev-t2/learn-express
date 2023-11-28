@@ -65,7 +65,7 @@ UsersRouter.put('/:id', (req: IRequestUpdateUser, res) => {
     return res.status(404).send('Not Found');
   }
 
-  const user = { ...users[index], nickname };
+  const user: IUser = { ...users[index], nickname };
 
   users[index] = user;
 
