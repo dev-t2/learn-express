@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import path from 'path';
 
-import TodosController from './todos/todos.controller';
+import TodosRouter from './todos/todos.router';
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/todos', TodosController);
+app.use('/todos', TodosRouter);
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');

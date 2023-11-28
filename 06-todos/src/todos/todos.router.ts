@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Router } from 'express';
 
 import {
   IRequestCreateTodo,
@@ -7,17 +7,19 @@ import {
   ITodo,
 } from './todos.interface';
 
+const TodosRouter = Router();
+
 let todos: ITodo[] = [];
 
-export const findTodoIndex = (id: number) => {
+const findTodoIndex = (id: number) => {
   return todos.findIndex((todo) => todo.id === id);
 };
 
-export const findTodos = (req: Request, res: Response) => {
+TodosRouter.get('/', (req, res) => {
   return res.json({ todos });
-};
+});
 
-export const createTodo = (req: IRequestCreateTodo, res: Response) => {
+TodosRouter.post('/', (req: IRequestCreateTodo, res) => {
   const { content } = req.body;
 
   if (!content) {
@@ -30,9 +32,9 @@ export const createTodo = (req: IRequestCreateTodo, res: Response) => {
   todos = [...todos, todo];
 
   return res.status(201).json(todo);
-};
+});
 
-export const updateTodo = (req: IRequestUpdateTodo, res: Response) => {
+TodosRouter.put('/:id', (req: IRequestUpdateTodo, res) => {
   const id = Number(req.params.id);
   const { content, isComplete } = req.body;
 
@@ -46,7 +48,7 @@ export const updateTodo = (req: IRequestUpdateTodo, res: Response) => {
     return res.status(404).send('Not Found');
   }
 
-  const todo = {
+  const todo: ITodo = {
     ...todos[index],
     content: content ?? todos[index].content,
     isComplete: isComplete ?? todos[index].isComplete,
@@ -55,9 +57,9 @@ export const updateTodo = (req: IRequestUpdateTodo, res: Response) => {
   todos[index] = todo;
 
   return res.status(204).json({});
-};
+});
 
-export const deleteTodos = (req: IRequestDeleteTodos, res: Response) => {
+TodosRouter.delete('/', (req: IRequestDeleteTodos, res) => {
   const queryIds = req.query.ids?.split(',');
 
   if (queryIds) {
@@ -77,4 +79,6 @@ export const deleteTodos = (req: IRequestDeleteTodos, res: Response) => {
   todos.length = 0;
 
   return res.status(204).json({});
-};
+});
+
+export default TodosRouter;
