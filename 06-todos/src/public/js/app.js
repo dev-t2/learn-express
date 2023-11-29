@@ -26,7 +26,7 @@ const createTodo = (todo) => {
     try {
       const isComplete = event.target.checked;
 
-      const { data } = await axios.put(`/api/todos/${todo.id}`, { isComplete });
+      const { data } = await axios.put(`/todos/${todo.id}`, { isComplete });
 
       if (data.isSuccess) {
         const index = todos.findIndex(({ id }) => id === todo.id);
@@ -53,7 +53,7 @@ const createTodo = (todo) => {
 
   button.addEventListener('click', async () => {
     try {
-      const { data } = await axios.delete(`/api/todos?ids=${todo.id}`);
+      const { data } = await axios.delete(`/todos?ids=${todo.id}`);
 
       if (data.isSuccess) {
         const index = todos.findIndex(({ id }) => id === todo.id);
@@ -85,7 +85,7 @@ todoForm.addEventListener('submit', async (event) => {
     const todo = todos.find((todo) => todo.isUpdate);
 
     if (content && !todo) {
-      const { data } = await axios.post('/api/todos', { content });
+      const { data } = await axios.post('/todos', { content });
 
       if (data.isSuccess) {
         createTodo(data.todo);
@@ -95,7 +95,7 @@ todoForm.addEventListener('submit', async (event) => {
     }
 
     if (content && todo) {
-      const { data } = await axios.put(`/api/todos/${todo.id}`, { content });
+      const { data } = await axios.put(`/todos/${todo.id}`, { content });
 
       if (data.isSuccess) {
         const index = todos.findIndex(({ id }) => id === todo.id);
@@ -125,7 +125,7 @@ deleteSelectionButton.addEventListener('click', async () => {
       return ids;
     }, []);
 
-    const { data } = await axios.delete(`/api/todos?ids=${ids.join(',')}`);
+    const { data } = await axios.delete(`/todos?ids=${ids.join(',')}`);
 
     if (data.isSuccess) {
       const indexes = todos.reduce((indexes, todo, index) => {
@@ -152,7 +152,7 @@ deleteSelectionButton.addEventListener('click', async () => {
 
 deleteAllButton.addEventListener('click', async () => {
   try {
-    const { data } = await axios.delete('/api/todos');
+    const { data } = await axios.delete('/todos');
 
     if (data.isSuccess) {
       todos.length = 0;
@@ -167,16 +167,18 @@ deleteAllButton.addEventListener('click', async () => {
   }
 });
 
-try {
-  const { data } = await axios.get('/api/todos');
+const app = async () => {
+  try {
+    const { data } = await axios.get('/todos');
 
-  if (data.isSuccess) {
     data.todos.forEach((todo) => {
       createTodo(todo);
     });
 
     deleteSelectionButton.hidden = !todos.some((todo) => todo.isComplete);
+  } catch (err) {
+    console.error(err);
   }
-} catch (err) {
-  console.error(err);
-}
+};
+
+app();
