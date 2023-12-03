@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 
-import UsersRouter from './users/users.router';
+import UsersRouter from './users/router';
 
 const port = 8080;
 

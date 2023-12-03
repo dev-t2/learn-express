@@ -1,20 +1,30 @@
-import { Router } from 'express';
+import { Request, Router } from 'express';
 
-import {
-  IRequestCreateUser,
-  IRequestDeleteUser,
-  IRequestFindUser,
-  IRequestUpdateUser,
-  IUser,
-} from './users.interface';
-
-const UsersRouter = Router();
+interface IUser {
+  id: number;
+  nickname: string;
+}
 
 let users: IUser[] = [];
 
-const findUserIndex = (id: number) => {
-  return users.findIndex((user) => user.id === id);
-};
+interface IRequestFindUser extends Request {
+  params: { id: string };
+}
+
+interface IRequestCreateUser extends Request {
+  body: { nickname?: string };
+}
+
+interface IRequestUpdateUser extends Request {
+  params: { id: string };
+  body: { nickname?: string };
+}
+
+interface IRequestDeleteUser extends Request {
+  params: { id: string };
+}
+
+const UsersRouter = Router();
 
 UsersRouter.get('/', (req, res) => {
   return res.json({ users });
@@ -27,7 +37,7 @@ UsersRouter.get('/:id', (req: IRequestFindUser, res) => {
     return res.status(400).send('Bad Request');
   }
 
-  const index = findUserIndex(id);
+  const index = users.findIndex((user) => user.id === id);
 
   if (index < 0) {
     return res.status(404).send('Not Found');
@@ -59,7 +69,7 @@ UsersRouter.put('/:id', (req: IRequestUpdateUser, res) => {
     return res.status(400).send('Bad Request');
   }
 
-  const index = findUserIndex(id);
+  const index = users.findIndex((user) => user.id === id);
 
   if (index < 0) {
     return res.status(404).send('Not Found');
@@ -79,7 +89,7 @@ UsersRouter.delete('/:id', (req: IRequestDeleteUser, res) => {
     return res.status(400).send('Bad Request');
   }
 
-  const index = findUserIndex(id);
+  const index = users.findIndex((user) => user.id === id);
 
   if (index < 0) {
     return res.status(404).send('Not Found');
