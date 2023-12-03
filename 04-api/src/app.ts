@@ -6,11 +6,11 @@ interface IUser {
   nickname: string;
 }
 
-const app = express();
+let users: IUser[] = [];
 
 const port = 8080;
 
-let users: IUser[] = [];
+const app = express();
 
 app.use(morgan('dev'));
 
