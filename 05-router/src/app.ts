@@ -3,9 +3,9 @@ import morgan from 'morgan';
 
 import UsersRouter from './users/users.router';
 
-const app = express();
-
 const port = 8080;
+
+const app = express();
 
 app.use(morgan('dev'));
 
