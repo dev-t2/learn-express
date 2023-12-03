@@ -7,8 +7,6 @@ const port = 8080;
 
 const app = express();
 
-app.set('trust proxy', true);
-
 app.use(morgan('dev'));
 
 app.use(express.json());
