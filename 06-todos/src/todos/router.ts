@@ -1,19 +1,27 @@
-import { Router } from 'express';
+import { Request, Router } from 'express';
 
-import {
-  IRequestCreateTodo,
-  IRequestDeleteTodos,
-  IRequestUpdateTodo,
-  ITodo,
-} from './todos.interface';
-
-const TodosRouter = Router();
+interface ITodo {
+  id: number;
+  content: string;
+  isComplete: boolean;
+}
 
 let todos: ITodo[] = [];
 
-const findTodoIndex = (id: number) => {
-  return todos.findIndex((todo) => todo.id === id);
-};
+interface IRequestCreateTodo extends Request {
+  body: { content?: string };
+}
+
+interface IRequestUpdateTodo extends Request {
+  params: { id: string };
+  body: { content?: string; isComplete?: boolean };
+}
+
+interface IRequestDeleteTodos extends Request {
+  query: { ids?: string };
+}
+
+const TodosRouter = Router();
 
 TodosRouter.get('/', (req, res) => {
   return res.json({ todos });
@@ -42,7 +50,7 @@ TodosRouter.put('/:id', (req: IRequestUpdateTodo, res) => {
     return res.status(400).send('Bad Request');
   }
 
-  const index = findTodoIndex(id);
+  const index = todos.findIndex((todo) => todo.id === id);
 
   if (index < 0) {
     return res.status(404).send('Not Found');

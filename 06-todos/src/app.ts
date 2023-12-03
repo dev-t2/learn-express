@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import path from 'path';
 
-import TodosRouter from './todos/todos.router';
+import TodosRouter from './todos/router';
 
 const port = 8080;
 
