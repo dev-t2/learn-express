@@ -2,9 +2,9 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import path from 'path';
 
-const app = express();
-
 const port = 8080;
+
+const app = express();
 
 app.use(morgan('dev'));
 
