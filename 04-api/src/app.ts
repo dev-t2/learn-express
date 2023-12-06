@@ -80,11 +80,9 @@ app.put('/users/:id', (req: IRequestUpdateUser, res) => {
     return res.status(404).send('Not Found');
   }
 
-  const index = users.findIndex((user) => user.id === findUser.id);
-
-  const user = { ...findUser, nickname };
-
-  users[index] = user;
+  users = users.map((user) => {
+    return user.id === findUser.id ? { ...user, nickname } : user;
+  });
 
   return res.status(204).json({});
 });
