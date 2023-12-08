@@ -12,9 +12,9 @@ const port = 8080;
 
 const app = express();
 
-app.use(morgan('dev'));
-
 app.use(express.json());
+
+app.use(morgan('dev'));
 
 app.get('/users', (req, res) => {
   return res.json({ users });
@@ -51,8 +51,13 @@ app.post('/users', (req: IRequestCreateUser, res) => {
     return res.status(400).send('Bad Request');
   }
 
-  const id = users.length ? users[users.length - 1].id + 1 : 1;
+  const isExistsNickname = users.find((user) => user.nickname === nickname);
 
+  if (isExistsNickname) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const id = users.length ? users[users.length - 1].id + 1 : 1;
   const user: IUser = { id, nickname };
 
   users = [...users, user];
@@ -68,9 +73,19 @@ interface IRequestUpdateUser extends Request {
 app.put('/users/:id', (req: IRequestUpdateUser, res) => {
   const id = parseInt(req.params.id);
 
+  if (isNaN(id)) {
+    return res.status(400).send('Bad Request');
+  }
+
   const { nickname } = req.body;
 
-  if (isNaN(id) || !nickname?.trim()) {
+  if (!nickname?.trim()) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const isExistsNickname = users.find((user) => user.nickname === nickname);
+
+  if (isExistsNickname) {
     return res.status(400).send('Bad Request');
   }
 
