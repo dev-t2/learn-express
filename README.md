@@ -6,4 +6,5 @@
 - [Express](https://github.com/expressjs/express)
 - [Nodemon](https://github.com/remy/nodemon)
 - [Morgan](https://github.com/expressjs/morgan)
-- [Express Handlebars](https://github.com/express-handlebars/express-handlebars)
+- [Handlebars](https://handlebarsjs.com)
+  - [Express Handlebars](https://github.com/express-handlebars/express-handlebars)
