@@ -1,28 +1,14 @@
-import { Request, Router } from 'express';
+import { Router } from 'express';
 
-interface IUser {
-  id: number;
-  nickname: string;
-}
+import {
+  IRequestCreateUser,
+  IRequestDeleteUser,
+  IRequestFindUser,
+  IRequestUpdateUser,
+  IUser,
+} from './interface';
 
 let users: IUser[] = [];
-
-interface IRequestFindUser extends Request {
-  params: { id: string };
-}
-
-interface IRequestCreateUser extends Request {
-  body: { nickname?: string };
-}
-
-interface IRequestUpdateUser extends Request {
-  params: { id: string };
-  body: { nickname?: string };
-}
-
-interface IRequestDeleteUser extends Request {
-  params: { id: string };
-}
 
 const UsersRouter = Router();
 
@@ -31,29 +17,36 @@ UsersRouter.get('/', (req, res) => {
 });
 
 UsersRouter.get('/:id', (req: IRequestFindUser, res) => {
-  const id = Number(req.params.id);
+  const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
     return res.status(400).send('Bad Request');
   }
 
-  const index = users.findIndex((user) => user.id === id);
+  const findUser = users.find((user) => user.id === id);
 
-  if (index < 0) {
+  if (!findUser) {
     return res.status(404).send('Not Found');
   }
 
-  return res.json(users[index]);
+  return res.json(findUser);
 });
 
 UsersRouter.post('/', (req: IRequestCreateUser, res) => {
-  const { nickname } = req.body;
+  const nickname = req.body.nickname?.trim();
 
   if (!nickname) {
     return res.status(400).send('Bad Request');
   }
 
-  const id = users.length > 0 ? users[users.length - 1].id + 1 : 1;
+  const isExistsNickname = users.find((user) => user.nickname === nickname);
+
+  if (isExistsNickname) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const id = users.length ? users[users.length - 1].id + 1 : 1;
+
   const user: IUser = { id, nickname };
 
   users = [...users, user];
@@ -62,40 +55,51 @@ UsersRouter.post('/', (req: IRequestCreateUser, res) => {
 });
 
 UsersRouter.put('/:id', (req: IRequestUpdateUser, res) => {
-  const id = Number(req.params.id);
-  const { nickname } = req.body;
-
-  if (isNaN(id) || !nickname) {
-    return res.status(400).send('Bad Request');
-  }
-
-  const index = users.findIndex((user) => user.id === id);
-
-  if (index < 0) {
-    return res.status(404).send('Not Found');
-  }
-
-  const user: IUser = { ...users[index], nickname };
-
-  users[index] = user;
-
-  return res.status(204).json({});
-});
-
-UsersRouter.delete('/:id', (req: IRequestDeleteUser, res) => {
-  const id = Number(req.params.id);
+  const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
     return res.status(400).send('Bad Request');
   }
 
-  const index = users.findIndex((user) => user.id === id);
+  const nickname = req.body.nickname?.trim();
 
-  if (index < 0) {
+  if (!nickname) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const isExistsNickname = users.find((user) => user.nickname === nickname);
+
+  if (isExistsNickname) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const findUser = users.find((user) => user.id === id);
+
+  if (!findUser) {
     return res.status(404).send('Not Found');
   }
 
-  users = users.filter((user) => user.id !== id);
+  users = users.map((user) => {
+    return user.id === findUser.id ? { ...user, nickname } : user;
+  });
+
+  return res.status(204).json({});
+});
+
+UsersRouter.delete('/:id', (req: IRequestDeleteUser, res) => {
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const findUser = users.find((user) => user.id === id);
+
+  if (!findUser) {
+    return res.status(404).send('Not Found');
+  }
+
+  users = users.filter((user) => user.id !== findUser.id);
 
   return res.status(204).json({});
 });
