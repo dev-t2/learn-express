@@ -20,31 +20,11 @@ app.get('/users', (req, res) => {
   return res.json({ users });
 });
 
-interface IRequestFindUser extends Request {
-  params: { id: string };
-}
-
-app.get('/users/:id', (req: IRequestFindUser, res) => {
-  const id = parseInt(req.params.id);
-
-  if (isNaN(id)) {
-    return res.status(400).send('Bad Request');
-  }
-
-  const findUser = users.find((user) => user.id === id);
-
-  if (!findUser) {
-    return res.status(404).send('Not Found');
-  }
-
-  return res.json(findUser);
-});
-
-interface IRequestCreateUser extends Request {
+interface ICreateUser extends Request {
   body: { nickname?: string };
 }
 
-app.post('/users', (req: IRequestCreateUser, res) => {
+app.post('/users', (req: ICreateUser, res) => {
   const nickname = req.body.nickname?.trim();
 
   if (!nickname) {
@@ -66,12 +46,32 @@ app.post('/users', (req: IRequestCreateUser, res) => {
   return res.status(201).json(user);
 });
 
-interface IRequestUpdateUser extends Request {
+interface IFindUser extends Request {
+  params: { id: string };
+}
+
+app.get('/users/:id', (req: IFindUser, res) => {
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const findUser = users.find((user) => user.id === id);
+
+  if (!findUser) {
+    return res.status(404).send('Not Found');
+  }
+
+  return res.json(findUser);
+});
+
+interface IUpdateUser extends Request {
   params: { id: string };
   body: { nickname?: string };
 }
 
-app.put('/users/:id', (req: IRequestUpdateUser, res) => {
+app.put('/users/:id', (req: IUpdateUser, res) => {
   const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
@@ -103,11 +103,11 @@ app.put('/users/:id', (req: IRequestUpdateUser, res) => {
   return res.status(204).json({});
 });
 
-interface IRequestDeleteUser extends Request {
+interface IDeleteUser extends Request {
   params: { id: string };
 }
 
-app.delete('/users/:id', (req: IRequestDeleteUser, res) => {
+app.delete('/users/:id', (req: IDeleteUser, res) => {
   const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
