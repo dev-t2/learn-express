@@ -5,19 +5,19 @@ export interface IUser {
   nickname: string;
 }
 
-export interface IRequestFindUser extends Request {
-  params: { id: string };
-}
-
-export interface IRequestCreateUser extends Request {
+export interface ICreateUser extends Request {
   body: { nickname?: string };
 }
 
-export interface IRequestUpdateUser extends Request {
+export interface IFindUser extends Request {
+  params: { id: string };
+}
+
+export interface IUpdateUser extends Request {
   params: { id: string };
   body: { nickname?: string };
 }
 
-export interface IRequestDeleteUser extends Request {
+export interface IDeleteUser extends Request {
   params: { id: string };
 }
