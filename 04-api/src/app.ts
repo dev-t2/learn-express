@@ -78,9 +78,9 @@ app.put('/users/:id', (req: IRequestUpdateUser, res) => {
     return res.status(400).send('Bad Request');
   }
 
-  const { nickname } = req.body;
+  const nickname = req.body.nickname?.trim();
 
-  if (!nickname?.trim()) {
+  if (!nickname) {
     return res.status(400).send('Bad Request');
   }
 
