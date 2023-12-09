@@ -45,9 +45,9 @@ interface IRequestCreateUser extends Request {
 }
 
 app.post('/users', (req: IRequestCreateUser, res) => {
-  const { nickname } = req.body;
+  const nickname = req.body.nickname?.trim();
 
-  if (!nickname?.trim()) {
+  if (!nickname) {
     return res.status(400).send('Bad Request');
   }
 
@@ -58,6 +58,7 @@ app.post('/users', (req: IRequestCreateUser, res) => {
   }
 
   const id = users.length ? users[users.length - 1].id + 1 : 1;
+
   const user: IUser = { id, nickname };
 
   users = [...users, user];
