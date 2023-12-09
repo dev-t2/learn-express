@@ -9,13 +9,14 @@ export const findTodos = (req: Request, res: Response) => {
 };
 
 export const createTodo = (req: ICreateTodo, res: Response) => {
-  const { content } = req.body;
+  const content = req.body.content?.trim();
 
   if (!content) {
     return res.status(400).send('Bad Request');
   }
 
-  const id = todos.length > 0 ? todos[todos.length - 1].id + 1 : 1;
+  const id = todos.length ? todos[todos.length - 1].id + 1 : 1;
+
   const todo: ITodo = { id, content, isComplete: false };
 
   todos = [...todos, todo];
