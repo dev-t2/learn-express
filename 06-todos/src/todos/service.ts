@@ -9,7 +9,7 @@ export const findTodos = (req: Request, res: Response) => {
 };
 
 export const createTodo = (req: ICreateTodo, res: Response) => {
-  const content = req.body.content?.trim();
+  const { content } = req.body;
 
   if (!content) {
     return res.status(400).send('Bad Request');
@@ -17,7 +17,7 @@ export const createTodo = (req: ICreateTodo, res: Response) => {
 
   const id = todos.length ? todos[todos.length - 1].id + 1 : 1;
 
-  const todo: ITodo = { id, content, isComplete: false };
+  const todo: ITodo = { id, content: content.trim(), isComplete: false };
 
   todos = [...todos, todo];
 
@@ -47,26 +47,35 @@ export const deleteTodos = (req: IDeleteTodos, res: Response) => {
 };
 
 export const updateTodo = (req: IUpdateTodo, res: Response) => {
-  const id = Number(req.params.id);
-  const { content, isComplete } = req.body;
+  const id = parseInt(req.params.id);
 
-  if (isNaN(id) || (!content && !isComplete)) {
+  if (isNaN(id)) {
     return res.status(400).send('Bad Request');
   }
 
-  const index = todos.findIndex((todo) => todo.id === id);
+  const { content, isComplete } = req.body;
 
-  if (index < 0) {
+  if (!content && isComplete === undefined) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const findTodo = todos.find((todo) => todo.id === id);
+
+  if (!findTodo) {
     return res.status(404).send('Not Found');
   }
 
-  const todo: ITodo = {
-    ...todos[index],
-    content: content ?? todos[index].content,
-    isComplete: isComplete ?? todos[index].isComplete,
-  };
+  todos = todos.map((todo) => {
+    if (todo.id === findTodo.id) {
+      return {
+        ...todo,
+        content: content?.trim() ?? todo.content,
+        isComplete: isComplete ?? todo.isComplete,
+      };
+    }
 
-  todos[index] = todo;
+    return todo;
+  });
 
   return res.status(204).json({});
 };
