@@ -4,14 +4,24 @@ import { createUser, deleteUser, findUser, findUsers, updateUser } from './servi
 
 const UsersRouter = Router();
 
-UsersRouter.get('/', findUsers);
+UsersRouter.get('/', (req, res) => {
+  return findUsers(req, res);
+});
 
-UsersRouter.post('/', createUser);
+UsersRouter.post('/', (req, res) => {
+  return createUser(req, res);
+});
 
-UsersRouter.get('/:id', findUser);
+UsersRouter.get('/:id', (req, res) => {
+  return findUser(req, res);
+});
 
-UsersRouter.put('/:id', updateUser);
+UsersRouter.put('/:id', (req, res) => {
+  return updateUser(req, res);
+});
 
-UsersRouter.delete('/:id', deleteUser);
+UsersRouter.delete('/:id', (req, res) => {
+  return deleteUser(req, res);
+});
 
 export default UsersRouter;
