@@ -1,14 +1,14 @@
 import express, { NextFunction, Request, Response } from 'express';
-import path from 'path';
 import morgan from 'morgan';
+import path from 'path';
 
 const port = 8080;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(morgan('dev'));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');
