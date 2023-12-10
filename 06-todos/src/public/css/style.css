@@ -1,5 +1,4 @@
 body {
-  font-family: 'Pretendard';
   padding: 20px;
 }
 
@@ -33,8 +32,8 @@ ul > li {
 }
 
 li > span {
-  margin-left: 10px;
   cursor: default;
+  margin-left: 10px;
 }
 
 li > button {

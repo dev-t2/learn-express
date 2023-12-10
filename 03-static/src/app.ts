@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import morgan from 'morgan';
 import path from 'path';
+import morgan from 'morgan';
 
 const port = 8080;
 

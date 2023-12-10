@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import morgan from 'morgan';
 import path from 'path';
+import morgan from 'morgan';
 
 import TodosRouter from './todos/router';
 
@@ -8,11 +8,11 @@ const port = 8080;
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 
 app.use(morgan('dev'));
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/todos', TodosRouter);
 
