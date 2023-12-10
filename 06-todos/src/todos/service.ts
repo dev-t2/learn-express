@@ -11,7 +11,7 @@ export const findTodos = (req: Request, res: Response) => {
 export const createTodo = (req: ICreateTodo, res: Response) => {
   const { content } = req.body;
 
-  if (!content) {
+  if (content === undefined) {
     return res.status(400).send('Bad Request');
   }
 
@@ -55,7 +55,7 @@ export const updateTodo = (req: IUpdateTodo, res: Response) => {
 
   const { content, isComplete } = req.body;
 
-  if (!content && isComplete === undefined) {
+  if (content === undefined && isComplete === undefined) {
     return res.status(400).send('Bad Request');
   }
 
