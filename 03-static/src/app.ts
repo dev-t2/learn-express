@@ -6,9 +6,9 @@ const port = 8080;
 
 const app = express();
 
-app.use(morgan('dev'));
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(morgan('dev'));
 
 app.use((req, res) => {
   return res.status(404).send('Not Found');
