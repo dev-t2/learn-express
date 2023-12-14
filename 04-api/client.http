@@ -1,0 +1,27 @@
+GET http://localhost:8080/users
+
+###
+
+POST http://localhost:8080/users
+content-type: application/json
+
+{
+  "nickname": "Nickname"
+}
+
+###
+
+GET http://localhost:8080/users/1
+
+###
+
+PUT http://localhost:8080/users/1
+content-type: application/json
+
+{
+  "nickname": "Updated Nickname"
+}
+
+###
+
+DELETE  http://localhost:8080/users/1
