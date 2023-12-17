@@ -7,3 +7,4 @@
 - [Nodemon](https://github.com/remy/nodemon)
 - [Morgan](https://github.com/expressjs/morgan)
 - [REST Client](https://github.com/Huachao/vscode-restclient)
+- [Axios](https://axios-http.com)
