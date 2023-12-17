@@ -1,0 +1,24 @@
+GET http://localhost:8080/todos
+
+###
+
+POST http://localhost:8080/todos
+content-type: application/json
+
+{
+  "content": "Created Todo"
+}
+
+###
+
+DELETE  http://localhost:8080/todos?ids=
+
+###
+
+PUT http://localhost:8080/todos/5
+content-type: application/json
+
+{
+  "content": "Updated Todo",
+  "isComplete": true
+}

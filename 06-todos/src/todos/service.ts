@@ -25,23 +25,23 @@ export const createTodo = (req: ICreateTodo, res: Response) => {
 };
 
 export const deleteTodos = (req: IDeleteTodos, res: Response) => {
-  const queryIds = req.query.ids?.split(',');
+  const ids = req.query.ids?.split(',');
 
-  if (queryIds) {
-    const ids = todos.reduce((result: number[], todo) => {
-      return queryIds.includes(`${todo.id}`) ? [...result, todo.id] : result;
-    }, []);
-
-    if (queryIds.length !== ids.length) {
-      return res.status(400).send('Bad Request');
-    }
-
-    todos = todos.filter((todo) => !ids.includes(todo.id));
+  if (ids === undefined || ids[0].trim() === '') {
+    todos = [];
 
     return res.status(204).json({});
   }
 
-  todos.length = 0;
+  const deleteIds = todos.reduce((result: number[], todo) => {
+    return ids.includes(`${todo.id}`) ? [...result, todo.id] : result;
+  }, []);
+
+  if (ids.length !== deleteIds.length) {
+    return res.status(400).send('Bad Request');
+  }
+
+  todos = todos.filter((todo) => !deleteIds.includes(todo.id));
 
   return res.status(204).json({});
 };
