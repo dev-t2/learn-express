@@ -11,14 +11,22 @@ content-type: application/json
 
 ###
 
-DELETE  http://localhost:8080/todos?ids=
+DELETE http://localhost:8080/todos?ids=
 
 ###
 
-PUT http://localhost:8080/todos/1
+PATCH http://localhost:8080/todos/1/content
 content-type: application/json
 
 {
-  "content": "Updated Todo",
+  "content": "Updated Todo"
+}
+
+###
+
+PATCH http://localhost:8080/todos/1/completion
+content-type: application/json
+
+{
   "isComplete": true
 }

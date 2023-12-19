@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ICreateTodo, IDeleteTodos, ITodo, IUpdateTodo } from './interface';
+import { ICreateTodo, IDeleteTodos, ITodo, IUpdateCompletion, IUpdateContent } from './interface';
 
 let todos: ITodo[] = [];
 
@@ -9,7 +9,7 @@ export const findTodos = (req: Request, res: Response) => {
 };
 
 export const createTodo = (req: ICreateTodo, res: Response) => {
-  const { content } = req.body;
+  const content = req.body.content?.trim();
 
   if (content === undefined) {
     return res.status(400).send('Bad Request');
@@ -17,7 +17,7 @@ export const createTodo = (req: ICreateTodo, res: Response) => {
 
   const id = todos.length ? todos[todos.length - 1].id + 1 : 1;
 
-  const todo: ITodo = { id, content: content.trim(), isComplete: false };
+  const todo: ITodo = { id, content, isComplete: false };
 
   todos = [...todos, todo];
 
@@ -46,16 +46,16 @@ export const deleteTodos = (req: IDeleteTodos, res: Response) => {
   return res.status(204).json({});
 };
 
-export const updateTodo = (req: IUpdateTodo, res: Response) => {
+export const updateContent = (req: IUpdateContent, res: Response) => {
   const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
     return res.status(400).send('Bad Request');
   }
 
-  const { content, isComplete } = req.body;
+  const content = req.body.content?.trim();
 
-  if (content === undefined || isComplete === undefined) {
+  if (content === undefined) {
     return res.status(400).send('Bad Request');
   }
 
@@ -66,7 +66,33 @@ export const updateTodo = (req: IUpdateTodo, res: Response) => {
   }
 
   todos = todos.map((todo) => {
-    return todo.id === findTodo.id ? { ...todo, content: content.trim(), isComplete } : todo;
+    return todo.id === findTodo.id ? { ...todo, content } : todo;
+  });
+
+  return res.status(204).json({});
+};
+
+export const updateCompletion = (req: IUpdateCompletion, res: Response) => {
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const { isComplete } = req.body;
+
+  if (isComplete === undefined) {
+    return res.status(400).send('Bad Request');
+  }
+
+  const findTodo = todos.find((todo) => todo.id === id);
+
+  if (!findTodo) {
+    return res.status(404).send('Not Found');
+  }
+
+  todos = todos.map((todo) => {
+    return todo.id === findTodo.id ? { ...todo, isComplete } : todo;
   });
 
   return res.status(204).json({});

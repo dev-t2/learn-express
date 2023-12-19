@@ -14,7 +14,12 @@ export interface IDeleteTodos extends Request {
   query: { ids?: string };
 }
 
-export interface IUpdateTodo extends Request {
+export interface IUpdateContent extends Request {
   params: { id: string };
-  body: { content?: string; isComplete?: boolean };
+  body: { content?: string };
+}
+
+export interface IUpdateCompletion extends Request {
+  params: { id: string };
+  body: { isComplete?: boolean };
 }
