@@ -28,7 +28,9 @@ ul {
 }
 
 ul > li {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 
 li > span {
@@ -37,5 +39,5 @@ li > span {
 }
 
 li > button {
-  margin-left: 10px;
+  margin-left: 20px;
 }
