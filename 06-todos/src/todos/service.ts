@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ICreateTodo, IDeleteTodos, ITodo, IUpdateCompletion, IUpdateContent } from './interface';
+import { ICreateTodo, IDeleteTodos, ITodo, IUpdateContent, IUpdateIsComplete } from './interface';
 
 let todos: ITodo[] = [];
 
@@ -72,7 +72,7 @@ export const updateContent = (req: IUpdateContent, res: Response) => {
   return res.status(204).json({});
 };
 
-export const updateCompletion = (req: IUpdateCompletion, res: Response) => {
+export const updateIsComplete = (req: IUpdateIsComplete, res: Response) => {
   const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
