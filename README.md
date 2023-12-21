@@ -8,3 +8,4 @@
 - [Morgan](https://github.com/expressjs/morgan)
 - [REST Client](https://github.com/Huachao/vscode-restclient)
 - [Axios](https://axios-http.com)
+- [Prisma](https://www.prisma.io)
