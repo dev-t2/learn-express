@@ -2,6 +2,7 @@
   "name": "01-setup",
   "version": "1.0.0",
   "scripts": {
+    "typecheck": "npx tsc",
     "dev": "ts-node src/app.ts"
   },
   "license": "MIT",
