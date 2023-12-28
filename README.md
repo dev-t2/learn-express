@@ -2,6 +2,7 @@
 
 - [Node.js](https://nodejs.org)
 - [TSNode](https://typestrong.org/ts-node)
+  - [TSConfig](https://www.typescriptlang.org/tsconfig)
 - [ESLint](https://eslint.org)
 - [Express](https://github.com/expressjs/express)
 - [Nodemon](https://github.com/remy/nodemon)
