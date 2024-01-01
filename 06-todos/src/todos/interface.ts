@@ -2,8 +2,8 @@ import { Request } from 'express';
 
 export interface ITodo {
   id: number;
-  content: string;
   isComplete: boolean;
+  content: string;
 }
 
 export interface ICreateTodo extends Request {

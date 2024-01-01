@@ -17,7 +17,7 @@ export const createTodo = (req: ICreateTodo, res: Response) => {
 
   const id = todos.length ? todos[todos.length - 1].id + 1 : 1;
 
-  const todo: ITodo = { id, content, isComplete: false };
+  const todo: ITodo = { id, isComplete: false, content };
 
   todos = [...todos, todo];
 
