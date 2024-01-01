@@ -19,7 +19,7 @@ export interface IUpdateContent extends Request {
   body: { content?: string };
 }
 
-export interface IUpdateIsComplete extends Request {
+export interface IUpdateCompletion extends Request {
   params: { id: string };
   body: { isComplete?: boolean };
 }

@@ -15,18 +15,18 @@ DELETE http://localhost:8080/todos?ids=
 
 ###
 
-PATCH http://localhost:8080/todos/1/content
-content-type: application/json
-
-{
-  "content": "Updated Todo"
-}
-
-###
-
 PATCH http://localhost:8080/todos/1/completion
 content-type: application/json
 
 {
   "isComplete": true
+}
+
+###
+
+PATCH http://localhost:8080/todos/1/content
+content-type: application/json
+
+{
+  "content": "Updated Todo"
 }
