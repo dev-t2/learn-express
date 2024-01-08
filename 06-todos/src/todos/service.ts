@@ -12,7 +12,9 @@ import {
 let todos: ITodo[] = [];
 
 export const findTodos = (req: Request, res: Response) => {
-  return res.json({ todos });
+  const sortedTodos = [...todos].sort((t1, t2) => t1.order - t2.order);
+
+  return res.json({ todos: sortedTodos });
 };
 
 export const createTodo = (req: ICreateTodo, res: Response) => {
