@@ -30,3 +30,12 @@ content-type: application/json
 {
   "content": "Updated Todo"
 }
+
+###
+
+PATCH http://localhost:8080/todos/1/order
+content-type: application/json
+
+{
+  "direction": "down"
+}

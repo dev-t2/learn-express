@@ -1,6 +1,13 @@
 import { Router } from 'express';
 
-import { createTodo, deleteTodos, findTodos, updateCompletion, updateContent } from './service';
+import {
+  createTodo,
+  deleteTodos,
+  findTodos,
+  updateComplete,
+  updateContent,
+  updateOrder,
+} from './service';
 
 const TodosRouter = Router();
 
@@ -16,12 +23,16 @@ TodosRouter.delete('/', (req, res) => {
   return deleteTodos(req, res);
 });
 
-TodosRouter.patch('/:id/completion', (req, res) => {
-  return updateCompletion(req, res);
+TodosRouter.patch('/:id/complete', (req, res) => {
+  return updateComplete(req, res);
 });
 
 TodosRouter.patch('/:id/content', (req, res) => {
   return updateContent(req, res);
+});
+
+TodosRouter.patch('/:id/order', (req, res) => {
+  return updateOrder(req, res);
 });
 
 export default TodosRouter;
